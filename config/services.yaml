@@ -17,9 +17,18 @@ services:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
-            - '../src/Entity/'
+            - '../src/Infrastructure/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    App\UI\Http\Controller\:
+        resource: '../src/UI/Http/Controller'
+        tags: [ 'controller.service_arguments' ]
+
+    App\UI\Http\DataProvider\:
+        resource: '../src/UI/Http/DataProvider'
+        tags: [
+                'api_platform.action.get_item.service_arguments',
+                'api_platform.item_data_provider.service_arguments',
+                'api_platform.collection_data_provider.service_arguments'
+        ]
