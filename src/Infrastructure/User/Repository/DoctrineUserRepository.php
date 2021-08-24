@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\User\Repository;
 
+use App\Domain\Shared\Model\Uuid;
 use App\Domain\User\Entity\User;
-use App\Domain\User\Exception\WrongEmailAddressException;
+use App\Domain\User\Exception\InvalidEmailAddressException;
 use App\Domain\User\Repository\UserRepository;
 use App\Infrastructure\Shared\Repository\DoctrineRepository;
 use App\Infrastructure\User\Converter\UserConverter;
 use App\Infrastructure\User\Entity\DbUser;
 use Doctrine\Persistence\ManagerRegistry;
+use Ramsey\Uuid\Uuid as RamseyUuid;
 
 class DoctrineUserRepository extends DoctrineRepository implements UserRepository
 {
@@ -28,12 +30,17 @@ class DoctrineUserRepository extends DoctrineRepository implements UserRepositor
     }
 
     /**
-     * @throws WrongEmailAddressException
+     * @throws InvalidEmailAddressException
      */
     public function getByEmail(string $email): ?User
     {
         $dbUser = $this->getRepository()->findOneBy(['email' => $email]);
 
         return null === $dbUser ? null : $this->userConverter->convertDbModelToDomainObject($dbUser);
+    }
+
+    public function nextIdentity(): Uuid
+    {
+        return new Uuid(RamseyUuid::uuid4()->toString());
     }
 }

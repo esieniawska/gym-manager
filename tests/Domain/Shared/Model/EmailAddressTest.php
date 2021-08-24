@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\Domain\User\Entity;
+namespace App\Tests\Domain\Shared\Model;
 
-use App\Domain\User\Entity\EmailAddress;
-use App\Domain\User\Exception\WrongEmailAddressException;
+use App\Domain\Shared\Exception\InvalidEmailAddressException;
+use App\Domain\Shared\Model\EmailAddress;
 use PHPUnit\Framework\TestCase;
 
 class EmailAddressTest extends TestCase
@@ -18,7 +18,7 @@ class EmailAddressTest extends TestCase
     public function testWrongEmailAddress(): void
     {
         $email = 'joeexample.com';
-        $this->expectException(WrongEmailAddressException::class);
+        $this->expectException(InvalidEmailAddressException::class);
         new EmailAddress($email);
     }
 }

@@ -9,9 +9,9 @@ use App\Application\User\Exception\InvalidUserPasswordException;
 use App\Application\User\Exception\UserNotFoundException;
 use App\Application\User\Service\LoginService;
 use App\Application\User\Service\PasswordEncoder;
-use App\Domain\Shared\Model\StringValueObject;
-use App\Domain\User\Entity\EmailAddress;
-use App\Domain\User\Entity\Enum\UserRole;
+use App\Domain\Shared\Model\EmailAddress;
+use App\Domain\Shared\Model\PersonalName;
+use App\Domain\Shared\Model\Uuid;
 use App\Domain\User\Entity\Password;
 use App\Domain\User\Entity\PasswordHash;
 use App\Domain\User\Entity\Roles;
@@ -77,11 +77,11 @@ class LoginServiceTest extends TestCase
     private function getUser(): User
     {
         return new User(
-            new StringValueObject('Joe'),
-            new StringValueObject('Smith'),
+            new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
+            new PersonalName('Joe', 'Smith'),
             new EmailAddress('joe@example.com'),
             new PasswordHash('hash'),
-            new Roles([UserRole::ROLE_USER])
+            new Roles([Roles::ROLE_USER])
         );
     }
 }

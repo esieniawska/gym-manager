@@ -5,9 +5,9 @@ namespace App\Tests\Application\User\Service;
 use App\Application\User\Dto\RegisterUserDto;
 use App\Application\User\Service\PasswordEncoder;
 use App\Application\User\Service\RegistrationService;
-use App\Domain\Shared\Model\StringValueObject;
-use App\Domain\User\Entity\EmailAddress;
-use App\Domain\User\Entity\Enum\UserRole;
+use App\Domain\Shared\Model\EmailAddress;
+use App\Domain\Shared\Model\PersonalName;
+use App\Domain\Shared\Model\Uuid;
 use App\Domain\User\Entity\Password;
 use App\Domain\User\Entity\PasswordHash;
 use App\Domain\User\Entity\Roles;
@@ -43,12 +43,16 @@ class RegistrationServiceTest extends TestCase
             ->willReturn(new PasswordHash('hash'));
 
         $this->userRepositoryMock->getByEmail('joe.wilsh@example.com')->willReturn(null);
+        $this->userRepositoryMock
+            ->nextIdentity()
+            ->willReturn(new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'));
+
         $this->userRepositoryMock->addUser(new User(
-            new StringValueObject('Joe'),
-            new StringValueObject('Wilsh'),
+            new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
+            new PersonalName('Joe', 'Wilsh'),
             new EmailAddress('joe.wilsh@example.com'),
             new PasswordHash('hash'),
-            new Roles([UserRole::ROLE_ADMIN, UserRole::ROLE_USER])
+            new Roles([Roles::ROLE_ADMIN, Roles::ROLE_USER])
         ))->shouldBeCalled();
 
         $dto = new RegisterUserDto(
@@ -109,6 +113,9 @@ class RegistrationServiceTest extends TestCase
             ->willReturn(new PasswordHash('hash'));
 
         $this->userRepositoryMock->getByEmail('example.com')->willReturn(null);
+        $this->userRepositoryMock
+            ->nextIdentity()
+            ->willReturn(new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'));
         $this->userRepositoryMock->addUser(Argument::type(User::class))->shouldNotBeCalled();
 
         $dto = new RegisterUserDto(

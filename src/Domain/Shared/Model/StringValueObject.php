@@ -6,15 +6,18 @@ namespace App\Domain\Shared\Model;
 
 use App\Domain\Shared\Exception\StringIsToLongException;
 
-class StringValueObject
+abstract class StringValueObject
 {
     /**
      * @throws StringIsToLongException
      */
-    public function __construct(protected string $value, int $maxLength = 255)
+    public function __construct(protected string $value, ?int $maxLength = null)
     {
         $this->value = trim($value);
-        $this->validateValue($maxLength);
+
+        if (null !== $maxLength) {
+            $this->validateValue($maxLength);
+        }
     }
 
     private function validateValue(int $maxLength)

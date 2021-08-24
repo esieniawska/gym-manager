@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\User\Entity;
 
-use App\Domain\User\Entity\Enum\UserRole;
+use App\Domain\User\Entity\Roles;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -48,8 +48,9 @@ class DbUser implements UserInterface
      */
     private string $lastName;
 
-    public function __construct(string $email, string $passwordHash, string $firstName, string $lastName, array $roles)
+    public function __construct(UuidInterface $id, string $email, string $passwordHash, string $firstName, string $lastName, array $roles)
     {
+        $this->id = $id;
         $this->email = $email;
         $this->passwordHash = $passwordHash;
         $this->firstName = $firstName;
@@ -57,10 +58,15 @@ class DbUser implements UserInterface
         $this->roles = $roles;
     }
 
+    public function getId(): UuidInterface
+    {
+        return $this->id;
+    }
+
     public function getRoles()
     {
         $roles = $this->roles;
-        $roles[] = UserRole::ROLE_USER;
+        $roles[] = Roles::ROLE_USER;
 
         return array_unique($roles);
     }
@@ -102,5 +108,6 @@ class DbUser implements UserInterface
 
     public function getUserIdentifier()
     {
+        return $this->getId();
     }
 }

@@ -2,6 +2,6 @@
 
 namespace App\Domain\User\Exception;
 
-class WrongRoleException extends UserException
+class InvalidRoleException extends UserException
 {
 }

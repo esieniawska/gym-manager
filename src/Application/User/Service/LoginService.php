@@ -68,7 +68,7 @@ class LoginService
     private function createAccessToken(User $user): string
     {
         $payload = [
-            'sub' => $user->getEmail()->getValue(),
+            'sub' => $user->getUuid()->getValue(),
             'exp' => new DateTimeImmutable('+ '.$this->tokenLifetime.'minutes'),
             'username' => $user->getEmail()->getValue(),
         ];

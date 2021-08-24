@@ -6,14 +6,13 @@ namespace App\Application\User\Service;
 
 use App\Application\User\Dto\RegisterUserDto;
 use App\Application\User\Exception\RegistrationFailedException;
+use App\Domain\Shared\Exception\InvalidEmailAddressException;
 use App\Domain\Shared\Exception\StringIsToLongException;
-use App\Domain\Shared\Model\StringValueObject;
-use App\Domain\User\Entity\EmailAddress;
-use App\Domain\User\Entity\Enum\UserRole;
+use App\Domain\Shared\Model\EmailAddress;
+use App\Domain\Shared\Model\PersonalName;
 use App\Domain\User\Entity\Password;
 use App\Domain\User\Entity\Roles;
 use App\Domain\User\Entity\User;
-use App\Domain\User\Exception\WrongEmailAddressException;
 use App\Domain\User\Repository\UserRepository;
 use App\Domain\User\Specification\EmailIsUniqueSpecification;
 use App\Domain\User\Specification\PasswordMinLengthSpecification;
@@ -37,13 +36,13 @@ class RegistrationService
 
         try {
             $user = new User(
-                new StringValueObject($registerUserDto->getFirstName()),
-                new StringValueObject($registerUserDto->getLastName()),
+                $this->userRepository->nextIdentity(),
+                new PersonalName($registerUserDto->getFirstName(), $registerUserDto->getLastName()),
                 new EmailAddress($registerUserDto->getEmail()),
                 $this->passwordEncoder->encode(new Password($registerUserDto->getPassword())),
-                new Roles([UserRole::ROLE_ADMIN, UserRole::ROLE_USER]),
+                new Roles([Roles::ROLE_ADMIN, Roles::ROLE_USER]),
             );
-        } catch (WrongEmailAddressException|StringIsToLongException $exception) {
+        } catch (InvalidEmailAddressException|StringIsToLongException $exception) {
             throw new RegistrationFailedException($exception->getMessage());
         }
 

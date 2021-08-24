@@ -2,9 +2,9 @@
 
 namespace App\Tests\Infrastructure\User\Repository;
 
-use App\Domain\Shared\Model\StringValueObject;
-use App\Domain\User\Entity\EmailAddress;
-use App\Domain\User\Entity\Enum\UserRole;
+use App\Domain\Shared\Model\EmailAddress;
+use App\Domain\Shared\Model\PersonalName;
+use App\Domain\Shared\Model\Uuid;
 use App\Domain\User\Entity\PasswordHash;
 use App\Domain\User\Entity\Roles;
 use App\Domain\User\Entity\User;
@@ -18,6 +18,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
+use Ramsey\Uuid\Uuid as RamseyUuid;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 
 class DoctrineUserRepositoryTest extends TestCase
@@ -53,16 +54,25 @@ class DoctrineUserRepositoryTest extends TestCase
         $this->entityManagerMock->flush()->shouldBeCalled();
 
         $user = new User(
-            new StringValueObject('Joe'),
-            new StringValueObject('Smith'),
+            new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
+            new PersonalName('Joe', 'Smith'),
             new EmailAddress('test@example.com'),
             new PasswordHash('hash'),
-            new Roles([UserRole::ROLE_USER])
+            new Roles([Roles::ROLE_USER])
         );
 
         $this->converterMock
             ->convertDomainObjectToDbModel($user)
-            ->willReturn(new DbUser('test@example.com', 'hash', 'Joe', 'Smith', [UserRole::ROLE_USER]));
+            ->willReturn(
+                new DbUser(
+                    RamseyUuid::fromString('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
+                    'test@example.com',
+                    'hash',
+                    'Joe',
+                    'Smith',
+                    [Roles::ROLE_USER]
+                )
+            );
 
         $this->repository->addUser($user);
     }
@@ -72,15 +82,24 @@ class DoctrineUserRepositoryTest extends TestCase
         $entityRepository = $this->prophesize(EntityRepository::class);
         $entityRepository
             ->findOneBy(['email' => 'test@example.com'])
-            ->willReturn(new DbUser('test@example.com', 'hash', 'Joe', 'Smith', [UserRole::ROLE_USER]));
+            ->willReturn(
+                new DbUser(
+                    RamseyUuid::fromString('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
+                    'test@example.com',
+                    'hash',
+                    'Joe',
+                    'Smith',
+                    [Roles::ROLE_USER]
+                )
+            );
         $this->entityManagerMock->getRepository(Argument::type('string'))->willReturn($entityRepository->reveal());
 
         $user = new User(
-            new StringValueObject('Joe'),
-            new StringValueObject('Smith'),
+            new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
+            new PersonalName('Joe', 'Smith'),
             new EmailAddress('test@example.com'),
             new PasswordHash('hash'),
-            new Roles([UserRole::ROLE_USER])
+            new Roles([Roles::ROLE_USER])
         );
 
         $this->converterMock->convertDbModelToDomainObject(Argument::type(DbUser::class))->willReturn($user);

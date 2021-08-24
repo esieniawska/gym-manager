@@ -2,6 +2,6 @@
 
 namespace App\Domain\Shared\Exception;
 
-class StringIsToLongException extends DomainException
+class StringIsToLongException extends InvalidValueException
 {
 }
