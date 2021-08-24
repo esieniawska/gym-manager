@@ -4,7 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-
+    jtw_access_token_lifetime: '%env(resolve:JWT_ACCESS_TOKEN_LIFETIME)%'
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -21,14 +21,21 @@ services:
             - '../src/Kernel.php'
             - '../src/Tests/'
 
-    App\UI\Http\Controller\:
-        resource: '../src/UI/Http/Controller'
+    App\UI\User\Http\Controller\:
+        resource: '../src/UI/User/Http/Controller'
         tags: [ 'controller.service_arguments' ]
 
-    App\UI\Http\DataProvider\:
-        resource: '../src/UI/Http/DataProvider'
+    App\UI\User\Http\DataProvider\:
+        resource: '../src/UI/User/Http/DataProvider'
         tags: [
                 'api_platform.action.get_item.service_arguments',
                 'api_platform.item_data_provider.service_arguments',
                 'api_platform.collection_data_provider.service_arguments'
-        ]
+              ]
+
+    app.jwt_token_authenticator:
+        class: App\Infrastructure\Shared\Security\Service\JWTTokenAuthenticator
+
+    App\Application\User\Service\LoginService:
+        arguments:
+            $tokenLifetime: '%jtw_access_token_lifetime%'

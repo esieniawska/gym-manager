@@ -2,7 +2,10 @@ api_platform:
     title: Gym Manager
     version: 1.0.0
     mapping:
-        paths: ['%kernel.project_dir%/src/Infrastructure/User/Entity']
+        paths: [
+                '%kernel.project_dir%/src/Infrastructure/User/Entity',
+                '%kernel.project_dir%/src/UI/User/Http/Dto'
+        ]
     patch_formats:
         json: ['application/merge-patch+json']
     swagger:

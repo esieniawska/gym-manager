@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Command\User;
+namespace App\UI\User\Command;
 
 use App\Application\User\Dto\RegisterUserDto;
+use App\Application\User\Exception\RegistrationFailedException;
 use App\Application\User\Service\RegistrationService;
-use App\Domain\User\Exception\RegistrationFailedException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

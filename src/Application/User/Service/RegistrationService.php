@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\User\Service;
 
 use App\Application\User\Dto\RegisterUserDto;
+use App\Application\User\Exception\RegistrationFailedException;
 use App\Domain\Shared\Exception\StringIsToLongException;
 use App\Domain\Shared\Model\StringValueObject;
 use App\Domain\User\Entity\EmailAddress;
@@ -12,7 +13,6 @@ use App\Domain\User\Entity\Enum\UserRole;
 use App\Domain\User\Entity\Password;
 use App\Domain\User\Entity\Roles;
 use App\Domain\User\Entity\User;
-use App\Domain\User\Exception\RegistrationFailedException;
 use App\Domain\User\Exception\WrongEmailAddressException;
 use App\Domain\User\Repository\UserRepository;
 use App\Domain\User\Specification\EmailIsUniqueSpecification;

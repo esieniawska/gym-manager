@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\User\Exception;
+namespace App\Application\User\Exception;
 
 class RegistrationFailedException extends UserException
 {

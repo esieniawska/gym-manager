@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Tests\UI\Command\User;
+namespace App\Tests\UI\User\Command;
 
 use App\Application\User\Dto\RegisterUserDto;
+use App\Application\User\Exception\RegistrationFailedException;
 use App\Application\User\Service\RegistrationService;
-use App\Domain\User\Exception\RegistrationFailedException;
-use App\UI\Command\User\CreateAdminCommand;
+use App\UI\User\Command\CreateAdminCommand;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
