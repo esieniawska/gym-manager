@@ -12,6 +12,7 @@ use App\Domain\Shared\Model\PersonalName;
 use App\Domain\Shared\Model\Uuid;
 use App\Infrastructure\Client\Converter\ClientDbConverter;
 use App\Infrastructure\Client\Entity\DbClient;
+use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid as RamseyUuid;
 
@@ -49,5 +50,23 @@ class ClientDbConverterTest extends TestCase
         $result = $converter->convertDbModelToDomainObject($dbClient);
         $this->assertInstanceOf(Client::class, $result);
         $this->assertEmpty($result->getPhoneNumber());
+    }
+
+    public function testConvertAllDbModelToDomainObject(): void
+    {
+        $dbClient = new DbClient(
+            RamseyUuid::fromString('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
+            'Joe',
+            'Smith',
+            '3da8b78de7732860e770d2a0a17b7b82',
+            Gender::FEMALE,
+            ClientStatus::NOT_ACTIVE,
+            'test@example.com',
+            null
+        );
+        $converter = new ClientDbConverter();
+        $result = $converter->convertAllDbModelToDomainObject([$dbClient]);
+        $this->assertInstanceOf(ArrayCollection::class, $result);
+        $this->assertInstanceOf(Client::class, $result->first());
     }
 }

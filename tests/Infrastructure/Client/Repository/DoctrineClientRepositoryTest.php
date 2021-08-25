@@ -13,6 +13,7 @@ use App\Domain\Shared\Model\Uuid;
 use App\Infrastructure\Client\Converter\ClientDbConverter;
 use App\Infrastructure\Client\Entity\DbClient;
 use App\Infrastructure\Client\Repository\DoctrineClientRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
@@ -150,5 +151,39 @@ class DoctrineClientRepositoryTest extends TestCase
 
         $result = $this->repository->getClientById(new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'));
         $this->assertEquals($client, $result);
+    }
+
+    public function testGetAll(): void
+    {
+        $entityRepository = $this->prophesize(EntityRepository::class);
+        $entityRepository->findAll()->willReturn([
+            new DbClient(
+                RamseyUuid::fromString('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
+                'Joe',
+                'Smith',
+                '3da8b78de7732860e770d2a0a17b7b82',
+                Gender::FEMALE,
+                ClientStatus::NOT_ACTIVE,
+                'test@example.com',
+                '123456789'
+            ),
+        ]);
+        $this->entityManagerMock->getRepository(Argument::type('string'))->willReturn($entityRepository->reveal());
+
+        $client = new Client(
+            new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
+            new PersonalName('Joe', 'Smith'),
+            new CardNumber('3da8b78de7732860e770d2a0a17b7b82'),
+            new Gender(Gender::FEMALE),
+            new ClientStatus(ClientStatus::NOT_ACTIVE),
+            new EmailAddress('test@example.com'),
+            new PhoneNumber('123456789')
+        );
+        $this->converterMock->convertAllDbModelToDomainObject(Argument::type('array'))
+            ->willReturn(new ArrayCollection([$client]));
+
+        $result = $this->repository->getAll();
+        $this->assertEquals(1, $result->count());
+        $this->assertEquals($client, $result->first());
     }
 }

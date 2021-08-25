@@ -33,6 +33,9 @@ class ClientItemDataProvider implements ItemDataProviderInterface, RestrictedDat
         }
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
     {
         return ClientDto::class === $resourceClass;

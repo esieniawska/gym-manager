@@ -37,12 +37,34 @@ use Symfony\Component\Validator\Constraints as Assert;
                 ],
             ],
         ],
+        'get' => [
+            'method' => 'GET',
+            'path' => '/clients',
+            'normalization_context' => ['groups' => self::GROUP_READ],
+            'security' => "is_granted('ROLE_ADMIN')",
+            'openapi_context' => [
+                'tags' => ['Client'],
+                'summary' => 'Get client collection',
+                'responses' => [
+                    '400' => [
+                        'description' => 'Invalid input.',
+                    ],
+                    '401' => [
+                        'description' => 'Missing authentication parameters.',
+                    ],
+                    '403' => [
+                        'description' => 'Access Denied.',
+                    ],
+                ],
+            ],
+        ],
     ],
     itemOperations: [
         'get' => [
             'method' => 'GET',
             'path' => '/clients/{id}',
             'normalization_context' => ['groups' => self::GROUP_READ],
+            'security' => "is_granted('ROLE_ADMIN')",
             'openapi_context' => [
                 'tags' => ['Client'],
                 'summary' => 'Get client',

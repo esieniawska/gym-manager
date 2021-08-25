@@ -10,6 +10,7 @@ use App\Domain\Shared\Model\Uuid;
 use App\Infrastructure\Client\Converter\ClientDbConverter;
 use App\Infrastructure\Client\Entity\DbClient;
 use App\Infrastructure\Shared\Repository\DoctrineRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 
 class DoctrineClientRepository extends DoctrineRepository implements ClientRepository
@@ -36,5 +37,12 @@ class DoctrineClientRepository extends DoctrineRepository implements ClientRepos
         $dbClient = $this->getRepository()->find((string) $id);
 
         return null === $dbClient ? null : $this->converter->convertDbModelToDomainObject($dbClient);
+    }
+
+    public function getAll(): ArrayCollection
+    {
+        $dbClients = $this->getRepository()->findAll();
+
+        return $this->converter->convertAllDbModelToDomainObject($dbClients);
     }
 }

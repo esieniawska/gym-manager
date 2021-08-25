@@ -9,6 +9,7 @@ use App\Application\Client\Dto\ClientDto;
 use App\Application\Client\Exception\ClientNotFoundException;
 use App\Domain\Client\Repository\ClientRepository;
 use App\Domain\Shared\Model\Uuid;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class GetClientService
 {
@@ -30,5 +31,12 @@ class GetClientService
         }
 
         return $this->clientDtoAssembler->assembleDomainObjectToDto($client);
+    }
+
+    public function getAllClients(): ArrayCollection
+    {
+        $clients = $this->clientRepository->getAll();
+
+        return $this->clientDtoAssembler->assembleAll($clients);
     }
 }

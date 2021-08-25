@@ -15,7 +15,9 @@ use App\Domain\Shared\Model\EmailAddress;
 use App\Domain\Shared\Model\Gender;
 use App\Domain\Shared\Model\PersonalName;
 use App\Domain\Shared\Model\Uuid;
+use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
@@ -76,5 +78,39 @@ class GetClientServiceTest extends TestCase
 
         $result = $this->clientService->getClientById('7d24cece-b0c6-4657-95d5-31180ebfc8e1');
         $this->assertEquals($dto, $result);
+    }
+
+    public function testGetAllClients(): void
+    {
+        $client = new Client(
+            new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
+            new PersonalName('Joe', 'Smith'),
+            new CardNumber('3da8b78de7732860e770d2a0a17b7b82'),
+            new Gender(Gender::MALE),
+            new ClientStatus(ClientStatus::ACTIVE),
+            new EmailAddress('test@example.com'),
+            new PhoneNumber('123456789')
+        );
+        $this->clientRepositoryMock
+            ->getAll()
+            ->willReturn(new ArrayCollection([$client]));
+
+        $dto = new ClientDto(
+            '7d24cece-b0c6-4657-95d5-31180ebfc8e1',
+            '3da8b78de7732860e770d2a0a17b7b82',
+            ClientStatus::ACTIVE,
+            'Joe',
+            'Smith',
+            Gender::MALE,
+            '123456789',
+            'test@example.com'
+        );
+        $this->clientDtoAssemblerMock
+            ->assembleAll(Argument::type(ArrayCollection::class))
+            ->willReturn(new ArrayCollection([$dto]));
+
+        $result = $this->clientService->getAllClients();
+        $this->assertEquals(1, $result->count());
+        $this->assertEquals($dto, $result->first());
     }
 }
