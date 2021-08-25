@@ -8,12 +8,12 @@ use App\Domain\Shared\Model\Uuid;
 use App\Domain\User\Entity\PasswordHash;
 use App\Domain\User\Entity\Roles;
 use App\Domain\User\Entity\User;
-use App\Infrastructure\User\Converter\UserConverter;
+use App\Infrastructure\User\Converter\UserDbConverter;
 use App\Infrastructure\User\Entity\DbUser;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid as RamseyUuid;
 
-class UserConverterTest extends TestCase
+class UserDbConverterTest extends TestCase
 {
     public function testConvertDomainObjectToDbModel(): void
     {
@@ -33,7 +33,7 @@ class UserConverterTest extends TestCase
             'Smith',
             [Roles::ROLE_USER]
         );
-        $converter = new UserConverter();
+        $converter = new UserDbConverter();
         $result = $converter->convertDomainObjectToDbModel($user);
 
         $this->assertEquals($dbUser, $result);
@@ -57,7 +57,7 @@ class UserConverterTest extends TestCase
             'Smith',
             [Roles::ROLE_USER]
         );
-        $converter = new UserConverter();
+        $converter = new UserDbConverter();
         $result = $converter->convertDbModelToDomainObject($dbUser);
 
         $this->assertEquals($user, $result);

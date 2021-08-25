@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\User\Entity;
 
 use App\Domain\User\Entity\Roles;
+use App\Infrastructure\Shared\Entity\DbEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -14,13 +15,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table(name="`user`")
  * @codeCoverageIgnore
  */
-class DbUser implements UserInterface
+class DbUser implements UserInterface, DbEntity
 {
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid")
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
     private UuidInterface $id;
 

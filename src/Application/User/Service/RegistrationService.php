@@ -7,7 +7,6 @@ namespace App\Application\User\Service;
 use App\Application\User\Dto\RegisterUserDto;
 use App\Application\User\Exception\RegistrationFailedException;
 use App\Domain\Shared\Exception\InvalidEmailAddressException;
-use App\Domain\Shared\Exception\StringIsToLongException;
 use App\Domain\Shared\Model\EmailAddress;
 use App\Domain\Shared\Model\PersonalName;
 use App\Domain\User\Entity\Password;
@@ -42,7 +41,7 @@ class RegistrationService
                 $this->passwordEncoder->encode(new Password($registerUserDto->getPassword())),
                 new Roles([Roles::ROLE_ADMIN, Roles::ROLE_USER]),
             );
-        } catch (InvalidEmailAddressException|StringIsToLongException $exception) {
+        } catch (InvalidEmailAddressException $exception) {
             throw new RegistrationFailedException($exception->getMessage());
         }
 

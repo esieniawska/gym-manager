@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Domain\User\Entity;
 
+use App\Domain\Shared\Model\DomainModel;
 use App\Domain\Shared\Model\EmailAddress;
 use App\Domain\Shared\Model\PersonalName;
 use App\Domain\Shared\Model\Uuid;
 
-class User
+class User implements DomainModel
 {
     public function __construct(
         private Uuid $uuid,

@@ -8,7 +8,7 @@ use App\Domain\Shared\Model\Uuid;
 use App\Domain\User\Entity\PasswordHash;
 use App\Domain\User\Entity\Roles;
 use App\Domain\User\Entity\User;
-use App\Infrastructure\User\Converter\UserConverter;
+use App\Infrastructure\User\Converter\UserDbConverter;
 use App\Infrastructure\User\Entity\DbUser;
 use App\Infrastructure\User\Repository\DoctrineUserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,7 +25,7 @@ class DoctrineUserRepositoryTest extends TestCase
 {
     use ProphecyTrait;
 
-    private ObjectProphecy|UserConverter $converterMock;
+    private ObjectProphecy|UserDbConverter $converterMock;
     private ObjectProphecy|EntityManagerInterface $entityManagerMock;
     private DoctrineUserRepository $repository;
 
@@ -41,7 +41,7 @@ class DoctrineUserRepositoryTest extends TestCase
             ->willReturn($this->entityManagerMock->reveal())
             ->shouldBeCalled();
 
-        $this->converterMock = $this->prophesize(UserConverter::class);
+        $this->converterMock = $this->prophesize(UserDbConverter::class);
         $this->repository = new DoctrineUserRepository(
             $managerRegistryMock->reveal(),
             $this->converterMock->reveal()

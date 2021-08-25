@@ -17,7 +17,7 @@ class Uuid extends StringValueObject
 
     private function validateUuid(string $uuid): void
     {
-        if ((1 !== preg_match(self::VALID_PATTERN, $uuid))) {
+        if (1 !== preg_match(self::VALID_PATTERN, $uuid)) {
             throw new InvalidUuidException('Invalid uuid');
         }
     }

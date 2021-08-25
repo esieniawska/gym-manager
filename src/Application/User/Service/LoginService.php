@@ -8,7 +8,6 @@ use App\Application\User\Dto\AuthToken;
 use App\Application\User\Dto\LoginData;
 use App\Application\User\Exception\InvalidUserPasswordException;
 use App\Application\User\Exception\UserNotFoundException;
-use App\Domain\Shared\Exception\StringIsToLongException;
 use App\Domain\User\Entity\Password;
 use App\Domain\User\Entity\PasswordHash;
 use App\Domain\User\Entity\User;
@@ -27,7 +26,7 @@ class LoginService
 
     /**
      * @throws InvalidUserPasswordException
-     * @throws UserNotFoundException|StringIsToLongException
+     * @throws UserNotFoundException
      * @throws JtwEncodeException
      */
     public function login(LoginData $dto): AuthToken
