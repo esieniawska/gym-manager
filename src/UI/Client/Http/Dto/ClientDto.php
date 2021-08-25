@@ -32,7 +32,32 @@ use Symfony\Component\Validator\Constraints as Assert;
                         'description' => 'Missing authentication parameters.',
                     ],
                     '403' => [
-                        'description' => 'Access Denied',
+                        'description' => 'Access Denied.',
+                    ],
+                ],
+            ],
+        ],
+    ],
+    itemOperations: [
+        'get' => [
+            'method' => 'GET',
+            'path' => '/clients/{id}',
+            'normalization_context' => ['groups' => self::GROUP_READ],
+            'openapi_context' => [
+                'tags' => ['Client'],
+                'summary' => 'Get client',
+                'responses' => [
+                    '400' => [
+                        'description' => 'Invalid input.',
+                    ],
+                    '401' => [
+                        'description' => 'Missing authentication parameters.',
+                    ],
+                    '403' => [
+                        'description' => 'Access Denied.',
+                    ],
+                    '404' => [
+                        'description' => 'Client not found.',
                     ],
                 ],
             ],

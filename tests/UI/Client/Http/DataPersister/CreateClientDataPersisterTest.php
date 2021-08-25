@@ -20,16 +20,16 @@ class CreateClientDataPersisterTest extends TestCase
     use ProphecyTrait;
 
     private ObjectProphecy|CreateClientService $clientServiceMock;
-    private ObjectProphecy|ClientDtoConverter $assemblerMock;
+    private ObjectProphecy|ClientDtoConverter $converterMock;
     private CreateClientDataPersister $persister;
 
     protected function setUp(): void
     {
         $this->clientServiceMock = $this->prophesize(CreateClientService::class);
-        $this->assemblerMock = $this->prophesize(ClientDtoConverter::class);
+        $this->converterMock = $this->prophesize(ClientDtoConverter::class);
         $this->persister = new CreateClientDataPersister(
             $this->clientServiceMock->reveal(),
-            $this->assemblerMock->reveal()
+            $this->converterMock->reveal()
         );
     }
 
@@ -61,7 +61,7 @@ class CreateClientDataPersisterTest extends TestCase
             ->setId('7d24cece-b0c6-4657-95d5-31180ebfc8e1')
             ->setCardNumber('3da8b78de7732860e770d2a0a17b7b82');
 
-        $this->assemblerMock
+        $this->converterMock
             ->createHttpFromApplicationDto($clientDto)
             ->willReturn($httpDto);
 

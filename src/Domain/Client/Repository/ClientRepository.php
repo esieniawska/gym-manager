@@ -12,4 +12,6 @@ interface ClientRepository
     public function nextIdentity(): Uuid;
 
     public function getClientByCardNumber(string $cardNumber): ?Client;
+
+    public function getClientById(Uuid $id): ?Client;
 }

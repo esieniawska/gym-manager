@@ -109,4 +109,46 @@ class DoctrineClientRepositoryTest extends TestCase
         $result = $this->repository->getClientByCardNumber('test-card-number');
         $this->assertInstanceOf(Client::class, $result);
     }
+
+    public function testGetClientByIdWhenClientNotFound(): void
+    {
+        $entityRepository = $this->prophesize(EntityRepository::class);
+        $entityRepository->find('7d24cece-b0c6-4657-95d5-31180ebfc8e1')->willReturn(null);
+        $this->entityManagerMock->getRepository(Argument::type('string'))->willReturn($entityRepository->reveal());
+        $this->converterMock->convertDbModelToDomainObject(Argument::type(DbClient::class))->shouldNotBeCalled();
+
+        $this->assertEmpty($this->repository->getClientById(new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1')));
+    }
+
+    public function testGetClientByIdWhenClientExist(): void
+    {
+        $entityRepository = $this->prophesize(EntityRepository::class);
+        $entityRepository->find('7d24cece-b0c6-4657-95d5-31180ebfc8e1')->willReturn(
+            new DbClient(
+                RamseyUuid::fromString('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
+                'Joe',
+                'Smith',
+                '3da8b78de7732860e770d2a0a17b7b82',
+                Gender::FEMALE,
+                ClientStatus::NOT_ACTIVE,
+                'test@example.com',
+                '123456789'
+            )
+        );
+        $this->entityManagerMock->getRepository(Argument::type('string'))->willReturn($entityRepository->reveal());
+        $client = new Client(
+            new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
+            new PersonalName('Joe', 'Smith'),
+            new CardNumber('3da8b78de7732860e770d2a0a17b7b82'),
+            new Gender(Gender::FEMALE),
+            new ClientStatus(ClientStatus::NOT_ACTIVE),
+            new EmailAddress('test@example.com'),
+            new PhoneNumber('123456789')
+        );
+        $this->converterMock->convertDbModelToDomainObject(Argument::type(DbClient::class))
+            ->willReturn($client);
+
+        $result = $this->repository->getClientById(new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'));
+        $this->assertEquals($client, $result);
+    }
 }

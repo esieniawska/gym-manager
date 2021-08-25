@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class CreateClientDataPersister implements ContextAwareDataPersisterInterface
 {
-    public function __construct(private CreateClientService $clientService, private ClientDtoConverter $assembler)
+    public function __construct(private CreateClientService $clientService, private ClientDtoConverter $converter)
     {
     }
 
@@ -36,7 +36,7 @@ class CreateClientDataPersister implements ContextAwareDataPersisterInterface
         );
         $clientDto = $this->clientService->createClient($dto);
 
-        return $this->assembler->createHttpFromApplicationDto($clientDto);
+        return $this->converter->createHttpFromApplicationDto($clientDto);
     }
 
     /**
