@@ -84,6 +84,30 @@ use Symfony\Component\Validator\Constraints as Assert;
                 ],
             ],
         ],
+        'put' => [
+            'method' => 'PUT',
+            'path' => '/clients/{id}',
+            'denormalization_context' => ['groups' => self::GROUP_UPDATE],
+            'security' => "is_granted('ROLE_ADMIN')",
+            'openapi_context' => [
+                'tags' => ['Client'],
+                'summary' => 'Update client',
+                'responses' => [
+                    '400' => [
+                        'description' => 'Invalid input.',
+                    ],
+                    '401' => [
+                        'description' => 'Missing authentication parameters.',
+                    ],
+                    '403' => [
+                        'description' => 'Access Denied.',
+                    ],
+                    '404' => [
+                        'description' => 'Client not found.',
+                    ],
+                ],
+            ],
+        ],
     ],
 )]
 class ClientDto implements BaseDto
@@ -167,21 +191,7 @@ class ClientDto implements BaseDto
     #[Assert\Length(max: 180)]
     #[Assert\Email()]
     #[Groups([self::GROUP_WRITE, self::GROUP_UPDATE, self::GROUP_READ])]
-    public ?string $email;
-
-    public function __construct(
-        string $firstName,
-        string $lastName,
-        string $gender,
-        ?string $phoneNumber,
-        ?string $email
-    ) {
-        $this->email = $email;
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
-        $this->gender = $gender;
-        $this->phoneNumber = $phoneNumber;
-    }
+    private ?string $email;
 
     public function getEmail(): ?string
     {
@@ -240,6 +250,41 @@ class ClientDto implements BaseDto
     public function setStatus(string $status): ClientDto
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function setFirstName(string $firstName): ClientDto
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function setLastName(string $lastName): ClientDto
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function setGender(string $gender): ClientDto
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function setPhoneNumber(?string $phoneNumber): ClientDto
+    {
+        $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    public function setEmail(?string $email): ClientDto
+    {
+        $this->email = $email;
 
         return $this;
     }

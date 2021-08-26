@@ -57,4 +57,39 @@ class Client implements DomainModel
     {
         return $this->phoneNumber;
     }
+
+    public function setPersonalName(PersonalName $personalName): self
+    {
+        $this->personalName = $personalName;
+
+        return $this;
+    }
+
+    public function setGender(Gender $gender): self
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function setClientStatus(ClientStatus $clientStatus): Client
+    {
+        $this->clientStatus = $clientStatus;
+
+        return $this;
+    }
+
+    public function setEmailAddress(?EmailAddress $emailAddress): Client
+    {
+        $this->emailAddress = $emailAddress;
+
+        return $this;
+    }
+
+    public function setPhoneNumber(?PhoneNumber $phoneNumber): Client
+    {
+        $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
 }

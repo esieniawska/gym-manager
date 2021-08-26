@@ -113,4 +113,46 @@ class DbClient implements DbEntity
     {
         return $this->phoneNumber;
     }
+
+    public function setFirstName(string $firstName): DbClient
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function setLastName(string $lastName): DbClient
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function setGender(string $gender): DbClient
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function setStatus(string $status): DbClient
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function setEmail(?string $email): DbClient
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function setPhoneNumber(?string $phoneNumber): DbClient
+    {
+        $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
 }

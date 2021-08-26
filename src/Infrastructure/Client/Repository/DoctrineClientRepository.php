@@ -9,6 +9,7 @@ use App\Domain\Client\Repository\ClientRepository;
 use App\Domain\Shared\Model\Uuid;
 use App\Infrastructure\Client\Converter\ClientDbConverter;
 use App\Infrastructure\Client\Entity\DbClient;
+use App\Infrastructure\Exception\ClientNotFoundException;
 use App\Infrastructure\Shared\Repository\DoctrineRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
@@ -44,5 +45,29 @@ class DoctrineClientRepository extends DoctrineRepository implements ClientRepos
         $dbClients = $this->getRepository()->findAll();
 
         return $this->converter->convertAllDbModelToDomainObject($dbClients);
+    }
+
+    public function updateClient(Client $client): void
+    {
+        $dbClient = $this->getRepository()->find((string) $client->getId());
+
+        if (null === $dbClient) {
+            throw new ClientNotFoundException();
+        }
+
+        $this->updateDbClientFields($client, $dbClient);
+        $entityManager = $this->getEntityManager();
+        $entityManager->flush();
+    }
+
+    private function updateDbClientFields(Client $client, DbClient $dbClient): void
+    {
+        $dbClient
+            ->setFirstName($client->getPersonalName()->getFirstName())
+            ->setLastName($client->getPersonalName()->getLastName())
+            ->setStatus((string) $client->getClientStatus())
+            ->setGender((string) $client->getGender())
+            ->setPhoneNumber($client->getPhoneNumber()?->getValue())
+            ->setEmail($client->getEmailAddress()?->getValue());
     }
 }

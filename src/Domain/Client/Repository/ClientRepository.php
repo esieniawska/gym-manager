@@ -17,4 +17,6 @@ interface ClientRepository
     public function getClientById(Uuid $id): ?Client;
 
     public function getAll(): ArrayCollection;
+
+    public function updateClient(Client $client): void;
 }

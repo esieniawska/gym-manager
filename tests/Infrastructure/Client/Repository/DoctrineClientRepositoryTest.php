@@ -13,6 +13,7 @@ use App\Domain\Shared\Model\Uuid;
 use App\Infrastructure\Client\Converter\ClientDbConverter;
 use App\Infrastructure\Client\Entity\DbClient;
 use App\Infrastructure\Client\Repository\DoctrineClientRepository;
+use App\Infrastructure\Exception\ClientNotFoundException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -185,5 +186,83 @@ class DoctrineClientRepositoryTest extends TestCase
         $result = $this->repository->getAll();
         $this->assertEquals(1, $result->count());
         $this->assertEquals($client, $result->first());
+    }
+
+    public function testUpdateClientWhenClientExist(): void
+    {
+        $entityRepository = $this->prophesize(EntityRepository::class);
+
+        $dbClient = $this->prophesize(DbClient::class);
+        $dbClient
+            ->setFirstName('Joe')
+            ->willReturn($dbClient)
+            ->shouldBeCalled();
+
+        $dbClient
+            ->setLastName('Smith')
+            ->willReturn($dbClient)
+            ->shouldBeCalled();
+
+        $dbClient
+            ->setStatus(ClientStatus::ACTIVE)
+            ->willReturn($dbClient)
+            ->shouldBeCalled();
+
+        $dbClient
+            ->setGender(Gender::MALE)
+            ->willReturn($dbClient)
+            ->shouldBeCalled();
+
+        $dbClient
+            ->setPhoneNumber(null)
+            ->willReturn($dbClient)
+            ->shouldBeCalled();
+
+        $dbClient
+            ->setEmail('test123@example.com')
+            ->willReturn($dbClient)
+            ->shouldBeCalled();
+
+        $entityRepository->find('7d24cece-b0c6-4657-95d5-31180ebfc8e1')->willReturn($dbClient->reveal());
+
+        $this->entityManagerMock
+            ->getRepository(Argument::type('string'))
+            ->willReturn($entityRepository->reveal());
+        $this->entityManagerMock->flush()->shouldBeCalled();
+
+        $client = new Client(
+            new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
+            new PersonalName('Joe', 'Smith'),
+            new CardNumber('3da8b78de7732860e770d2a0a17b7b82'),
+            new Gender(Gender::MALE),
+            new ClientStatus(ClientStatus::ACTIVE),
+            new EmailAddress('test123@example.com'),
+            null
+        );
+
+        $this->repository->updateClient($client);
+    }
+
+    public function testUpdateClientWhenClientNotFound(): void
+    {
+        $entityRepository = $this->prophesize(EntityRepository::class);
+        $entityRepository->find('7d24cece-b0c6-4657-95d5-31180ebfc8e1')->willReturn(null);
+
+        $this->entityManagerMock
+            ->getRepository(Argument::type('string'))
+            ->willReturn($entityRepository->reveal());
+
+        $client = new Client(
+            new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
+            new PersonalName('Joe', 'Smith'),
+            new CardNumber('3da8b78de7732860e770d2a0a17b7b82'),
+            new Gender(Gender::MALE),
+            new ClientStatus(ClientStatus::ACTIVE),
+            new EmailAddress('test123@example.com'),
+            null
+        );
+
+        $this->expectException(ClientNotFoundException::class);
+        $this->repository->updateClient($client);
     }
 }

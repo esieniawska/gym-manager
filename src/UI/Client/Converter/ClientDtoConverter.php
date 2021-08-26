@@ -12,17 +12,14 @@ class ClientDtoConverter extends BaseDtoConverter
 {
     public function createHttpFromApplicationDto(ApplicationDto $client): ClientDto
     {
-        $httpClient = new ClientDto(
-            $client->getFirstName(),
-            $client->getLastName(),
-            $client->getGender(),
-            $client->getPhoneNumber(),
-            $client->getEmail(),
-        );
-
-        return $httpClient
+        return (new ClientDto())
             ->setCardNumber($client->getCardNumber())
             ->setId($client->getId())
-            ->setStatus($client->getStatus());
+            ->setStatus($client->getStatus())
+            ->setFirstName($client->getFirstName())
+            ->setLastName($client->getLastName())
+            ->setGender($client->getGender())
+            ->setPhoneNumber($client->getPhoneNumber())
+            ->setEmail($client->getEmail());
     }
 }

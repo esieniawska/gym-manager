@@ -25,17 +25,15 @@ class ClientDtoConverterTest extends TestCase
             'test@example.com'
         );
 
-        $httpDto = new HttpClientDto(
-            'Joe',
-            'Smith',
-            Gender::MALE,
-            '123456789',
-            'test@example.com'
-        );
-        $httpDto
+        $httpDto = (new HttpClientDto())
             ->setStatus(ClientStatus::ACTIVE)
             ->setId('7d24cece-b0c6-4657-95d5-31180ebfc8e1')
-            ->setCardNumber('3da8b78de7732860e770d2a0a17b7b82');
+            ->setCardNumber('3da8b78de7732860e770d2a0a17b7b82')
+            ->setFirstName('Joe')
+            ->setLastName('Smith')
+            ->setGender(Gender::MALE)
+            ->setPhoneNumber('123456789')
+            ->setEmail('test@example.com');
 
         $converter = new ClientDtoConverter();
         $result = $converter->createHttpFromApplicationDto($clientDto);
@@ -55,17 +53,15 @@ class ClientDtoConverterTest extends TestCase
             'test@example.com'
         );
 
-        $httpDto = new HttpClientDto(
-            'Joe',
-            'Smith',
-            Gender::MALE,
-            '123456789',
-            'test@example.com'
-        );
-        $httpDto
+        $httpDto = (new HttpClientDto())
             ->setStatus(ClientStatus::ACTIVE)
             ->setId('7d24cece-b0c6-4657-95d5-31180ebfc8e1')
-            ->setCardNumber('3da8b78de7732860e770d2a0a17b7b82');
+            ->setCardNumber('3da8b78de7732860e770d2a0a17b7b82')
+            ->setFirstName('Joe')
+            ->setLastName('Smith')
+            ->setGender(Gender::MALE)
+            ->setPhoneNumber('123456789')
+            ->setEmail('test@example.com');
 
         $converter = new ClientDtoConverter();
         $result = $converter->createHttpFromApplicationDtoCollection(new ArrayCollection([$clientDto]));

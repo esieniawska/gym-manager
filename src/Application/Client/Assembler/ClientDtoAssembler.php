@@ -17,10 +17,10 @@ class ClientDtoAssembler extends BaseDtoAssembler
             (string) $client->getCardNumber(),
             (string) $client->getClientStatus(),
             $client->getPersonalName()->getFirstName(),
-            $client->getPersonalName()->getFirstName(),
+            $client->getPersonalName()->getLastName(),
             (string) $client->getGender(),
-            $client->getEmailAddress()?->getValue(),
-            $client->getPhoneNumber()?->getValue()
+            $client->getPhoneNumber()?->getValue(),
+            $client->getEmailAddress()?->getValue()
         );
     }
 }

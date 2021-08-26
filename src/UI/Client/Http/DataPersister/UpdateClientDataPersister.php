@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace App\UI\Client\Http\DataPersister;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
-use App\Application\Client\Dto\CreateClientDto;
-use App\Application\Client\Service\CreateClientService;
+use App\Application\Client\Dto\UpdateClientDto;
+use App\Application\Client\Service\UpdateClientService;
 use App\UI\Client\Converter\ClientDtoConverter;
 use App\UI\Client\Http\Dto\ClientDto;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
-class CreateClientDataPersister implements ContextAwareDataPersisterInterface
+class UpdateClientDataPersister implements ContextAwareDataPersisterInterface
 {
-    public function __construct(private CreateClientService $clientService, private ClientDtoConverter $converter)
+    public function __construct(private UpdateClientService $clientService, private ClientDtoConverter $converter)
     {
     }
 
@@ -22,21 +22,24 @@ class CreateClientDataPersister implements ContextAwareDataPersisterInterface
      */
     public function supports($data, array $context = []): bool
     {
-        return $data instanceof ClientDto && isset($context['collection_operation_name']) && 'post' === $context['collection_operation_name'];
+        return $data instanceof ClientDto && 'put' === $context['item_operation_name'];
     }
 
     public function persist($data, array $context = [])
     {
-        $dto = new CreateClientDto(
+        $updateClientDto = new UpdateClientDto(
+            $data->getId(),
             $data->getFirstName(),
             $data->getLastName(),
             $data->getGender(),
+            $data->getStatus(),
             $data->getPhoneNumber(),
             $data->getEmail()
         );
-        $clientDto = $this->clientService->createClient($dto);
 
-        return $this->converter->createHttpFromApplicationDto($clientDto);
+        $updatedDto = $this->clientService->updateClient($updateClientDto);
+
+        return $this->converter->createHttpFromApplicationDto($updatedDto);
     }
 
     /**
@@ -44,6 +47,6 @@ class CreateClientDataPersister implements ContextAwareDataPersisterInterface
      */
     public function remove($data, array $context = [])
     {
-        throw new MethodNotAllowedHttpException(['POST'], 'Remove method is not supported.');
+        throw new MethodNotAllowedHttpException(['PUT'], 'Remove method is not supported.');
     }
 }
