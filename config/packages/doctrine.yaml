@@ -16,3 +16,9 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Infrastructure/User/Entity'
                 prefix: 'App\Infrastructure\User\Entity'
                 alias: User
+            Client:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Infrastructure/Client/Entity'
+                prefix: 'App\Infrastructure\Client\Entity'
+                alias: Client

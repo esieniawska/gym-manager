@@ -6,7 +6,6 @@ use App\Application\User\Dto\AuthToken;
 use App\Application\User\Dto\LoginData;
 use App\Application\User\Exception\InvalidUserPasswordException;
 use App\Application\User\Service\LoginService;
-use App\Domain\Shared\Exception\StringIsToLongException;
 use App\UI\User\Http\Controller\LoginController;
 use App\UI\User\Http\Dto\LoginForm;
 use App\UI\User\Http\Dto\LoginOutput;
@@ -15,7 +14,6 @@ use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class LoginControllerTest extends TestCase
@@ -56,19 +54,6 @@ class LoginControllerTest extends TestCase
         $controller = new LoginController();
         $data = new LoginForm('joe@example.com', 'password');
         $this->expectException(AccessDeniedHttpException::class);
-        $controller($data, $this->validatorMock->reveal(), $this->loginServiceMock->reveal());
-    }
-
-    public function testLoginWhenPasswordIsToLong(): void
-    {
-        $this->validatorMock->validate(Argument::type(LoginForm::class))->shouldBeCalled();
-        $this->loginServiceMock
-            ->login(Argument::type(LoginData::class))
-            ->willThrow(StringIsToLongException::class);
-
-        $controller = new LoginController();
-        $data = new LoginForm('joe@example.com', 'password');
-        $this->expectException(BadRequestHttpException::class);
         $controller($data, $this->validatorMock->reveal(), $this->loginServiceMock->reveal());
     }
 }

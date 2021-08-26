@@ -4,17 +4,25 @@ declare(strict_types=1);
 
 namespace App\Domain\User\Entity;
 
-use App\Domain\Shared\Model\StringValueObject;
+use App\Domain\Shared\Model\DomainModel;
+use App\Domain\Shared\Model\EmailAddress;
+use App\Domain\Shared\Model\PersonalName;
+use App\Domain\Shared\Model\Uuid;
 
-class User
+class User implements DomainModel
 {
     public function __construct(
-        private StringValueObject $firstName,
-        private StringValueObject $lastName,
+        private Uuid $uuid,
+        private PersonalName $personalName,
         private EmailAddress $email,
         private PasswordHash $passwordHash,
         private Roles $roles,
     ) {
+    }
+
+    public function getUuid(): Uuid
+    {
+        return $this->uuid;
     }
 
     public function getEmail(): EmailAddress
@@ -22,14 +30,9 @@ class User
         return $this->email;
     }
 
-    public function getFirstName(): StringValueObject
+    public function getPersonalName(): PersonalName
     {
-        return $this->firstName;
-    }
-
-    public function getLastName(): StringValueObject
-    {
-        return $this->lastName;
+        return $this->personalName;
     }
 
     public function getPasswordHash(): PasswordHash

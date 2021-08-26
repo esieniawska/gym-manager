@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Domain\User\Entity;
 
-use App\Domain\User\Entity\Enum\UserRole;
-use App\Domain\User\Exception\WrongRoleException;
+use App\Domain\User\Exception\InvalidRoleException;
 
 class Roles
 {
+    public const ROLE_USER = 'ROLE_USER';
+    public const ROLE_ADMIN = 'ROLE_ADMIN';
+
     public function __construct(private array $values)
     {
         $this->validateRoles($values);
@@ -16,14 +18,22 @@ class Roles
 
     private function validateRoles(array $values)
     {
-        $valuesOtherThanUserRoles = array_diff($values, UserRole::getRoles());
+        $valuesOtherThanUserRoles = array_diff($values, self::getRoles());
         if (!empty($valuesOtherThanUserRoles)) {
-            throw new WrongRoleException(sprintf('Wrong roles: %s', implode(', ', $valuesOtherThanUserRoles)));
+            throw new InvalidRoleException(sprintf('Wrong roles: %s', implode(', ', $valuesOtherThanUserRoles)));
         }
     }
 
     public function getValues(): array
     {
         return $this->values;
+    }
+
+    public static function getRoles(): array
+    {
+        return [
+            self::ROLE_USER,
+            self::ROLE_ADMIN,
+        ];
     }
 }
