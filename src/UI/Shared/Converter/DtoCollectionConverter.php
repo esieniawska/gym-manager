@@ -6,7 +6,7 @@ namespace App\UI\Shared\Converter;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
-abstract class BaseDtoConverter implements DtoConverter
+abstract class DtoCollectionConverter implements DtoConverter
 {
     public function createHttpFromApplicationDtoCollection(ArrayCollection $collection): ArrayCollection
     {

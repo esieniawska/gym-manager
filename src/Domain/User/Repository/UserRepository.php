@@ -2,8 +2,8 @@
 
 namespace App\Domain\User\Repository;
 
-use App\Domain\Shared\Model\Uuid;
-use App\Domain\User\Entity\User;
+use App\Domain\Shared\ValueObject\Uuid;
+use App\Domain\User\Model\User;
 
 interface UserRepository
 {

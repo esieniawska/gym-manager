@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\User\Entity;
+namespace App\Domain\User\Model;
 
 use App\Domain\User\Exception\InvalidRoleException;
 
@@ -13,10 +13,10 @@ class Roles
 
     public function __construct(private array $values)
     {
-        $this->validateRoles($values);
+        $this->checkAreValidRoles($values);
     }
 
-    private function validateRoles(array $values)
+    private function checkAreValidRoles(array $values): void
     {
         $valuesOtherThanUserRoles = array_diff($values, self::getRoles());
         if (!empty($valuesOtherThanUserRoles)) {

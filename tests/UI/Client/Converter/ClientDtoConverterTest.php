@@ -3,9 +3,9 @@
 namespace App\Tests\UI\Client\Converter;
 
 use App\Application\Client\Dto\ClientDto;
-use App\Domain\Client\Entity\ClientStatus;
-use App\Domain\Shared\Model\Gender;
-use App\UI\Client\Converter\ClientDtoConverter;
+use App\Domain\Client\Model\ClientStatus;
+use App\Domain\Shared\ValueObject\Gender;
+use App\UI\Client\Converter\ClientDtoCollectionConverter;
 use App\UI\Client\Http\Dto\ClientDto as HttpClientDto;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
@@ -35,7 +35,7 @@ class ClientDtoConverterTest extends TestCase
             ->setPhoneNumber('123456789')
             ->setEmail('test@example.com');
 
-        $converter = new ClientDtoConverter();
+        $converter = new ClientDtoCollectionConverter();
         $result = $converter->createHttpFromApplicationDto($clientDto);
         $this->assertEquals($httpDto, $result);
     }
@@ -63,7 +63,7 @@ class ClientDtoConverterTest extends TestCase
             ->setPhoneNumber('123456789')
             ->setEmail('test@example.com');
 
-        $converter = new ClientDtoConverter();
+        $converter = new ClientDtoCollectionConverter();
         $result = $converter->createHttpFromApplicationDtoCollection(new ArrayCollection([$clientDto]));
         $this->assertEquals(1, $result->count());
         $this->assertEquals($httpDto, $result->first());

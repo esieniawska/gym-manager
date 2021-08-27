@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\User\Repository;
 
-use App\Domain\User\Entity\User;
+use App\Domain\User\Model\User;
 use App\Domain\User\Repository\UserRepository;
 use App\Infrastructure\Shared\Repository\DoctrineRepository;
 use App\Infrastructure\User\Converter\UserDbConverter;

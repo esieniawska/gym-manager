@@ -5,9 +5,9 @@ namespace App\Tests\UI\Client\Http\DataPersister;
 use App\Application\Client\Dto\ClientDto;
 use App\Application\Client\Dto\UpdateClientDto;
 use App\Application\Client\Service\UpdateClientService;
-use App\Domain\Client\Entity\ClientStatus;
-use App\Domain\Shared\Model\Gender;
-use App\UI\Client\Converter\ClientDtoConverter;
+use App\Domain\Client\Model\ClientStatus;
+use App\Domain\Shared\ValueObject\Gender;
+use App\UI\Client\Converter\ClientDtoCollectionConverter;
 use App\UI\Client\Http\DataPersister\UpdateClientDataPersister;
 use App\UI\Client\Http\Dto\ClientDto as HttpClientDto;
 use PHPUnit\Framework\TestCase;
@@ -20,13 +20,13 @@ class UpdateClientDataPersisterTest extends TestCase
     use ProphecyTrait;
 
     private ObjectProphecy|UpdateClientService $clientServiceMock;
-    private ObjectProphecy|ClientDtoConverter $converterMock;
+    private ObjectProphecy|ClientDtoCollectionConverter $converterMock;
     private UpdateClientDataPersister $persister;
 
     protected function setUp(): void
     {
         $this->clientServiceMock = $this->prophesize(UpdateClientService::class);
-        $this->converterMock = $this->prophesize(ClientDtoConverter::class);
+        $this->converterMock = $this->prophesize(ClientDtoCollectionConverter::class);
         $this->persister = new UpdateClientDataPersister(
             $this->clientServiceMock->reveal(),
             $this->converterMock->reveal()

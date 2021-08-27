@@ -8,9 +8,9 @@ use App\Application\User\Dto\AuthToken;
 use App\Application\User\Dto\LoginData;
 use App\Application\User\Exception\InvalidUserPasswordException;
 use App\Application\User\Exception\UserNotFoundException;
-use App\Domain\User\Entity\Password;
-use App\Domain\User\Entity\PasswordHash;
-use App\Domain\User\Entity\User;
+use App\Domain\User\Model\Password;
+use App\Domain\User\Model\PasswordHash;
+use App\Domain\User\Model\User;
 use App\Domain\User\Repository\UserRepository;
 use DateTimeImmutable;
 
@@ -67,7 +67,7 @@ class LoginService
     private function createAccessToken(User $user): string
     {
         $payload = [
-            'sub' => $user->getUuid()->getValue(),
+            'sub' => $user->getId()->getValue(),
             'exp' => new DateTimeImmutable('+ '.$this->tokenLifetime.'minutes'),
             'username' => $user->getEmail()->getValue(),
         ];

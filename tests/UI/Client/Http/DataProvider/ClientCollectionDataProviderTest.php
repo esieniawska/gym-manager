@@ -4,9 +4,9 @@ namespace App\Tests\UI\Client\Http\DataProvider;
 
 use App\Application\Client\Dto\ClientDto;
 use App\Application\Client\Service\GetClientService;
-use App\Domain\Client\Entity\ClientStatus;
-use App\Domain\Shared\Model\Gender;
-use App\UI\Client\Converter\ClientDtoConverter;
+use App\Domain\Client\Model\ClientStatus;
+use App\Domain\Shared\ValueObject\Gender;
+use App\UI\Client\Converter\ClientDtoCollectionConverter;
 use App\UI\Client\Http\DataProvider\ClientCollectionDataProvider;
 use App\UI\Client\Http\Dto\ClientDto as HttpClientDto;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -20,13 +20,13 @@ class ClientCollectionDataProviderTest extends TestCase
     use ProphecyTrait;
 
     private ObjectProphecy|GetClientService $clientServiceMock;
-    private ObjectProphecy|ClientDtoConverter $converterMock;
+    private ObjectProphecy|ClientDtoCollectionConverter $converterMock;
     private ClientCollectionDataProvider $dataProvider;
 
     protected function setUp(): void
     {
         $this->clientServiceMock = $this->prophesize(GetClientService::class);
-        $this->converterMock = $this->prophesize(ClientDtoConverter::class);
+        $this->converterMock = $this->prophesize(ClientDtoCollectionConverter::class);
         $this->dataProvider = new ClientCollectionDataProvider(
             $this->clientServiceMock->reveal(),
             $this->converterMock->reveal()

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Shared\Repository;
 
 use App\Domain\Shared\Model\DomainModel;
-use App\Domain\Shared\Model\Uuid;
+use App\Domain\Shared\ValueObject\Uuid;
 use App\Infrastructure\Shared\Converter\DbConverter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;

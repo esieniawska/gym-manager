@@ -6,9 +6,9 @@ namespace App\UI\Client\Http\Dto;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Domain\Client\Entity\ClientStatus;
-use App\Domain\Client\Entity\PhoneNumber;
-use App\Domain\Shared\Model\Gender;
+use App\Domain\Client\Model\ClientStatus;
+use App\Domain\Client\Model\PhoneNumber;
+use App\Domain\Shared\ValueObject\Gender;
 use App\UI\Shared\Dto\BaseDto;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -154,12 +154,12 @@ class ClientDto implements BaseDto
         description: 'Client gender',
         example: Gender::MALE,
         openapiContext: [
-            'enum' => Gender::GENDERS,
+            'enum' => Gender::ALL,
             'type' => 'string',
         ]
     )]
     #[Assert\NotBlank]
-    #[Assert\Choice(Gender::GENDERS)]
+    #[Assert\Choice(Gender::ALL)]
     #[Groups([self::GROUP_WRITE, self::GROUP_UPDATE, self::GROUP_READ])]
     private string $gender;
 
@@ -167,12 +167,12 @@ class ClientDto implements BaseDto
         description: 'Client status',
         example: ClientStatus::ACTIVE,
         openapiContext: [
-            'enum' => ClientStatus::STATUSES,
+            'enum' => ClientStatus::ALL,
             'type' => 'string',
         ]
     )]
     #[Assert\NotBlank(groups: [self::GROUP_UPDATE])]
-    #[Assert\Choice(ClientStatus::STATUSES)]
+    #[Assert\Choice(ClientStatus::ALL)]
     #[Groups([self::GROUP_UPDATE, self::GROUP_READ])]
     private string $status;
 

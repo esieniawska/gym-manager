@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Shared\Model;
+namespace App\Domain\Shared\ValueObject;
 
 use App\Domain\Shared\Exception\InvalidEmailAddressException;
 

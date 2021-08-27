@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Client\Entity;
+namespace App\Domain\Client\Model;
 
 use App\Domain\Client\Exception\InvalidCardNumberException;
-use App\Domain\Shared\Model\StringValueObject;
+use App\Domain\Shared\ValueObject\StringValueObject;
 
 class CardNumber extends StringValueObject
 {
@@ -14,11 +14,11 @@ class CardNumber extends StringValueObject
 
     public function __construct(protected string $value)
     {
-        $this->validateCardNumber($value);
+        $this->checkIsValidCardNumber($value);
         parent::__construct($value);
     }
 
-    private function validateCardNumber(string $value): void
+    private function checkIsValidCardNumber(string $value): void
     {
         if (1 !== preg_match(self::NUMBER_PATTERN, $value)) {
             throw new InvalidCardNumberException('Invalid card number');

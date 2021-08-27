@@ -3,7 +3,7 @@
 namespace App\Tests\Domain\Shared\Model;
 
 use App\Domain\Shared\Exception\InvalidUuidException;
-use App\Domain\Shared\Model\Uuid;
+use App\Domain\Shared\ValueObject\Uuid;
 use PHPUnit\Framework\TestCase;
 
 class UuidTest extends TestCase

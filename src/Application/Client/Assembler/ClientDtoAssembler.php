@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Application\Client\Assembler;
 
 use App\Application\Client\Dto\ClientDto;
-use App\Application\Shared\Assembler\BaseDtoAssembler;
+use App\Application\Shared\Assembler\DtoCollectionAssembler;
 use App\Domain\Shared\Model\DomainModel;
 
-class ClientDtoAssembler extends BaseDtoAssembler
+class ClientDtoAssembler extends DtoCollectionAssembler
 {
     public function assembleDomainObjectToDto(DomainModel $client): ClientDto
     {

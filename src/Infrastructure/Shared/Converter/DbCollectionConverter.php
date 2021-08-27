@@ -6,7 +6,7 @@ namespace App\Infrastructure\Shared\Converter;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
-abstract class BaseDbConverter implements DbConverter
+abstract class DbCollectionConverter implements DbConverter
 {
     public function convertAllDbModelToDomainObject(array $collection): ArrayCollection
     {

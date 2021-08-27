@@ -5,10 +5,10 @@ namespace App\Tests\UI\Client\Http\DataProvider;
 use App\Application\Client\Dto\ClientDto;
 use App\Application\Client\Exception\ClientNotFoundException;
 use App\Application\Client\Service\GetClientService;
-use App\Domain\Client\Entity\ClientStatus;
+use App\Domain\Client\Model\ClientStatus;
 use App\Domain\Shared\Exception\InvalidUuidException;
-use App\Domain\Shared\Model\Gender;
-use App\UI\Client\Converter\ClientDtoConverter;
+use App\Domain\Shared\ValueObject\Gender;
+use App\UI\Client\Converter\ClientDtoCollectionConverter;
 use App\UI\Client\Http\DataProvider\ClientItemDataProvider;
 use App\UI\Client\Http\Dto\ClientDto as HttpClientDto;
 use PHPUnit\Framework\TestCase;
@@ -23,13 +23,13 @@ class ClientItemDataProviderTest extends TestCase
     use ProphecyTrait;
 
     private ObjectProphecy|GetClientService $clientServiceMock;
-    private ObjectProphecy|ClientDtoConverter $converterMock;
+    private ObjectProphecy|ClientDtoCollectionConverter $converterMock;
     private ClientItemDataProvider $dataProvider;
 
     protected function setUp(): void
     {
         $this->clientServiceMock = $this->prophesize(GetClientService::class);
-        $this->converterMock = $this->prophesize(ClientDtoConverter::class);
+        $this->converterMock = $this->prophesize(ClientDtoCollectionConverter::class);
         $this->dataProvider = new ClientItemDataProvider(
             $this->clientServiceMock->reveal(),
             $this->converterMock->reveal()
@@ -41,7 +41,7 @@ class ClientItemDataProviderTest extends TestCase
         $clientDto = new ClientDto(
             '7d24cece-b0c6-4657-95d5-31180ebfc8e1',
             '3da8b78de7732860e770d2a0a17b7b82',
-            ClientStatus::ACTIVE,
+            ClientStatus::ACTIVE(),
             'Joe',
             'Smith',
             Gender::MALE,

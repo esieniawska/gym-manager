@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Client\Repository;
 
-use App\Domain\Client\Entity\Client;
+use App\Domain\Client\Model\Client;
 use App\Domain\Client\Repository\ClientRepository;
-use App\Domain\Shared\Model\Uuid;
+use App\Domain\Shared\ValueObject\Uuid;
 use App\Infrastructure\Client\Converter\ClientDbConverter;
 use App\Infrastructure\Client\Entity\DbClient;
 use App\Infrastructure\Exception\ClientNotFoundException;

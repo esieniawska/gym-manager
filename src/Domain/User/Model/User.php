@@ -2,27 +2,23 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\User\Entity;
+namespace App\Domain\User\Model;
 
 use App\Domain\Shared\Model\DomainModel;
-use App\Domain\Shared\Model\EmailAddress;
-use App\Domain\Shared\Model\PersonalName;
-use App\Domain\Shared\Model\Uuid;
+use App\Domain\Shared\ValueObject\EmailAddress;
+use App\Domain\Shared\ValueObject\PersonalName;
+use App\Domain\Shared\ValueObject\Uuid;
 
-class User implements DomainModel
+class User extends DomainModel
 {
     public function __construct(
-        private Uuid $uuid,
+        private Uuid $id,
         private PersonalName $personalName,
         private EmailAddress $email,
         private PasswordHash $passwordHash,
         private Roles $roles,
     ) {
-    }
-
-    public function getUuid(): Uuid
-    {
-        return $this->uuid;
+        parent::__construct($id);
     }
 
     public function getEmail(): EmailAddress

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Client\Service;
 
 use App\Application\Client\Exception\CardNumberGenerationFailedException;
-use App\Domain\Client\Entity\CardNumber;
+use App\Domain\Client\Model\CardNumber;
 use App\Domain\Client\Repository\ClientRepository;
 
 class CardNumberGenerator

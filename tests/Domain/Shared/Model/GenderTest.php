@@ -3,7 +3,7 @@
 namespace App\Tests\Domain\Shared\Model;
 
 use App\Domain\Shared\Exception\InvalidGenderException;
-use App\Domain\Shared\Model\Gender;
+use App\Domain\Shared\ValueObject\Gender;
 use PHPUnit\Framework\TestCase;
 
 class GenderTest extends TestCase

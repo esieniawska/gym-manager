@@ -2,12 +2,12 @@
 
 namespace App\Tests\Infrastructure\User\Converter;
 
-use App\Domain\Shared\Model\EmailAddress;
-use App\Domain\Shared\Model\PersonalName;
-use App\Domain\Shared\Model\Uuid;
-use App\Domain\User\Entity\PasswordHash;
-use App\Domain\User\Entity\Roles;
-use App\Domain\User\Entity\User;
+use App\Domain\Shared\ValueObject\EmailAddress;
+use App\Domain\Shared\ValueObject\PersonalName;
+use App\Domain\Shared\ValueObject\Uuid;
+use App\Domain\User\Model\PasswordHash;
+use App\Domain\User\Model\Roles;
+use App\Domain\User\Model\User;
 use App\Infrastructure\User\Converter\UserDbConverter;
 use App\Infrastructure\User\Entity\DbUser;
 use PHPUnit\Framework\TestCase;

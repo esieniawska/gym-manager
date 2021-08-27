@@ -2,8 +2,8 @@
 
 namespace App\Domain\Client\Repository;
 
-use App\Domain\Client\Entity\Client;
-use App\Domain\Shared\Model\Uuid;
+use App\Domain\Client\Model\Client;
+use App\Domain\Shared\ValueObject\Uuid;
 use Doctrine\Common\Collections\ArrayCollection;
 
 interface ClientRepository

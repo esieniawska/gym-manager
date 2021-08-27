@@ -2,8 +2,8 @@
 
 namespace App\Tests\Domain\Client\Entity;
 
-use App\Domain\Client\Entity\CardNumber;
 use App\Domain\Client\Exception\InvalidCardNumberException;
+use App\Domain\Client\Model\CardNumber;
 use PHPUnit\Framework\TestCase;
 
 class CardNumberTest extends TestCase

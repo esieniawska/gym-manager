@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\User\Entity;
 
-use App\Domain\User\Entity\Roles;
+use App\Domain\User\Model\Roles;
 use App\Infrastructure\Shared\Entity\DbEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity(repositoryClass="App\Infrastructure\User\Repository\DoctrineUserRepository")
+ * @ORM\Model(repositoryClass="App\Infrastructure\User\Repository\DoctrineUserRepository")
  * @ORM\Table(name="`user`")
  * @codeCoverageIgnore
  */

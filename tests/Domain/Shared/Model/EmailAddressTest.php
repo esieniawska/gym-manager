@@ -3,7 +3,7 @@
 namespace App\Tests\Domain\Shared\Model;
 
 use App\Domain\Shared\Exception\InvalidEmailAddressException;
-use App\Domain\Shared\Model\EmailAddress;
+use App\Domain\Shared\ValueObject\EmailAddress;
 use PHPUnit\Framework\TestCase;
 
 class EmailAddressTest extends TestCase

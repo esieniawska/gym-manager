@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * @ORM\Entity(repositoryClass="App\Infrastructure\Client\Repository\DoctrineClientRepository")
+ * @ORM\Model(repositoryClass="App\Infrastructure\Client\Repository\DoctrineClientRepository")
  * @ORM\Table(name="client")
  * @codeCoverageIgnore
  */

@@ -9,14 +9,14 @@ use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use App\Application\Client\Exception\ClientNotFoundException;
 use App\Application\Client\Service\GetClientService;
 use App\Domain\Shared\Exception\InvalidUuidException;
-use App\UI\Client\Converter\ClientDtoConverter;
+use App\UI\Client\Converter\ClientDtoCollectionConverter;
 use App\UI\Client\Http\Dto\ClientDto;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ClientItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {
-    public function __construct(private GetClientService $clientService, private ClientDtoConverter $converter)
+    public function __construct(private GetClientService $clientService, private ClientDtoCollectionConverter $converter)
     {
     }
 

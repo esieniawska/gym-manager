@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Domain\User\Entity;
+namespace App\Tests\Domain\User\Model;
 
-use App\Domain\User\Entity\Roles;
+use App\Domain\User\Model\Roles;
 use PHPUnit\Framework\TestCase;
 
 class RolesTest extends TestCase

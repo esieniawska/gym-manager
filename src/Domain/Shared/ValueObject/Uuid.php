@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Shared\Model;
+namespace App\Domain\Shared\ValueObject;
 
 use App\Domain\Shared\Exception\InvalidUuidException;
 

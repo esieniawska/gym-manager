@@ -8,7 +8,7 @@ use App\Application\Client\Assembler\ClientDtoAssembler;
 use App\Application\Client\Dto\ClientDto;
 use App\Application\Client\Exception\ClientNotFoundException;
 use App\Domain\Client\Repository\ClientRepository;
-use App\Domain\Shared\Model\Uuid;
+use App\Domain\Shared\ValueObject\Uuid;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class GetClientService

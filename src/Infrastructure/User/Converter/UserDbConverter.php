@@ -6,23 +6,23 @@ namespace App\Infrastructure\User\Converter;
 
 use App\Domain\Shared\Exception\InvalidEmailAddressException;
 use App\Domain\Shared\Model\DomainModel;
-use App\Domain\Shared\Model\EmailAddress;
-use App\Domain\Shared\Model\PersonalName;
-use App\Domain\Shared\Model\Uuid;
-use App\Domain\User\Entity\PasswordHash;
-use App\Domain\User\Entity\Roles;
-use App\Domain\User\Entity\User;
-use App\Infrastructure\Shared\Converter\BaseDbConverter;
+use App\Domain\Shared\ValueObject\EmailAddress;
+use App\Domain\Shared\ValueObject\PersonalName;
+use App\Domain\Shared\ValueObject\Uuid;
+use App\Domain\User\Model\PasswordHash;
+use App\Domain\User\Model\Roles;
+use App\Domain\User\Model\User;
+use App\Infrastructure\Shared\Converter\DbCollectionConverter;
 use App\Infrastructure\Shared\Entity\DbEntity;
 use App\Infrastructure\User\Entity\DbUser;
 use Ramsey\Uuid\Uuid as RamseyUuid;
 
-class UserDbConverter extends BaseDbConverter
+class UserDbConverter extends DbCollectionConverter
 {
     public function convertDomainObjectToDbModel(DomainModel $user): DbUser
     {
         return new DbUser(
-            RamseyUuid::fromString((string) $user->getUuid()),
+            RamseyUuid::fromString((string) $user->getId()),
             (string) $user->getEmail(),
             (string) $user->getPasswordHash(),
             $user->getPersonalName()->getFirstName(),

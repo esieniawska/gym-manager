@@ -2,8 +2,8 @@
 
 namespace App\Application\User\Service;
 
-use App\Domain\User\Entity\Password;
-use App\Domain\User\Entity\PasswordHash;
+use App\Domain\User\Model\Password;
+use App\Domain\User\Model\PasswordHash;
 
 interface PasswordEncoder
 {

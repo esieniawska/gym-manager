@@ -2,7 +2,7 @@
 
 namespace App\Tests\Domain\User\Specification;
 
-use App\Domain\User\Entity\User;
+use App\Domain\User\Model\User;
 use App\Domain\User\Repository\UserRepository;
 use App\Domain\User\Specification\EmailIsUniqueSpecification;
 use PHPUnit\Framework\TestCase;

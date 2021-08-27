@@ -6,15 +6,15 @@ use App\Application\Client\Assembler\ClientDtoAssembler;
 use App\Application\Client\Dto\ClientDto;
 use App\Application\Client\Exception\ClientNotFoundException;
 use App\Application\Client\Service\GetClientService;
-use App\Domain\Client\Entity\CardNumber;
-use App\Domain\Client\Entity\Client;
-use App\Domain\Client\Entity\ClientStatus;
-use App\Domain\Client\Entity\PhoneNumber;
+use App\Domain\Client\Model\CardNumber;
+use App\Domain\Client\Model\Client;
+use App\Domain\Client\Model\ClientStatus;
+use App\Domain\Client\Model\PhoneNumber;
 use App\Domain\Client\Repository\ClientRepository;
-use App\Domain\Shared\Model\EmailAddress;
-use App\Domain\Shared\Model\Gender;
-use App\Domain\Shared\Model\PersonalName;
-use App\Domain\Shared\Model\Uuid;
+use App\Domain\Shared\ValueObject\EmailAddress;
+use App\Domain\Shared\ValueObject\Gender;
+use App\Domain\Shared\ValueObject\PersonalName;
+use App\Domain\Shared\ValueObject\Uuid;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -55,8 +55,8 @@ class GetClientServiceTest extends TestCase
             new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
             new PersonalName('Joe', 'Smith'),
             new CardNumber('3da8b78de7732860e770d2a0a17b7b82'),
-            new Gender(Gender::MALE),
-            new ClientStatus(ClientStatus::ACTIVE),
+            Gender::MALE(),
+            ClientStatus::ACTIVE(),
             new EmailAddress('test@example.com'),
             new PhoneNumber('123456789')
         );
@@ -86,8 +86,8 @@ class GetClientServiceTest extends TestCase
             new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
             new PersonalName('Joe', 'Smith'),
             new CardNumber('3da8b78de7732860e770d2a0a17b7b82'),
-            new Gender(Gender::MALE),
-            new ClientStatus(ClientStatus::ACTIVE),
+            Gender::MALE(),
+            ClientStatus::ACTIVE(),
             new EmailAddress('test@example.com'),
             new PhoneNumber('123456789')
         );

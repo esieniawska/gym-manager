@@ -6,7 +6,7 @@ namespace App\Application\Shared\Assembler;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
-abstract class BaseDtoAssembler implements DtoAssembler
+abstract class DtoCollectionAssembler implements DtoAssembler
 {
     public function assembleAll(ArrayCollection $collection): ArrayCollection
     {

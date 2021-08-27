@@ -7,13 +7,13 @@ namespace App\UI\Client\Http\DataPersister;
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\Application\Client\Dto\CreateClientDto;
 use App\Application\Client\Service\CreateClientService;
-use App\UI\Client\Converter\ClientDtoConverter;
+use App\UI\Client\Converter\ClientDtoCollectionConverter;
 use App\UI\Client\Http\Dto\ClientDto;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class CreateClientDataPersister implements ContextAwareDataPersisterInterface
 {
-    public function __construct(private CreateClientService $clientService, private ClientDtoConverter $converter)
+    public function __construct(private CreateClientService $clientService, private ClientDtoCollectionConverter $converter)
     {
     }
 

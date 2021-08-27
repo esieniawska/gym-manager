@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Client\Entity;
+namespace App\Domain\Client\Model;
 
 use App\Domain\Shared\Model\DomainModel;
-use App\Domain\Shared\Model\EmailAddress;
-use App\Domain\Shared\Model\Gender;
-use App\Domain\Shared\Model\PersonalName;
-use App\Domain\Shared\Model\Uuid;
+use App\Domain\Shared\ValueObject\EmailAddress;
+use App\Domain\Shared\ValueObject\Gender;
+use App\Domain\Shared\ValueObject\PersonalName;
+use App\Domain\Shared\ValueObject\Uuid;
 
-class Client implements DomainModel
+class Client extends DomainModel
 {
     public function __construct(
         private Uuid $id,
@@ -21,11 +21,7 @@ class Client implements DomainModel
         private ?EmailAddress $emailAddress,
         private ?PhoneNumber $phoneNumber,
     ) {
-    }
-
-    public function getId(): Uuid
-    {
-        return $this->id;
+        parent::__construct($id);
     }
 
     public function getPersonalName(): PersonalName
@@ -58,35 +54,35 @@ class Client implements DomainModel
         return $this->phoneNumber;
     }
 
-    public function setPersonalName(PersonalName $personalName): self
+    public function updatePersonalName(PersonalName $personalName): self
     {
         $this->personalName = $personalName;
 
         return $this;
     }
 
-    public function setGender(Gender $gender): self
+    public function updateGender(Gender $gender): self
     {
         $this->gender = $gender;
 
         return $this;
     }
 
-    public function setClientStatus(ClientStatus $clientStatus): Client
+    public function updateClientStatus(ClientStatus $clientStatus): Client
     {
         $this->clientStatus = $clientStatus;
 
         return $this;
     }
 
-    public function setEmailAddress(?EmailAddress $emailAddress): Client
+    public function updateEmailAddress(?EmailAddress $emailAddress): Client
     {
         $this->emailAddress = $emailAddress;
 
         return $this;
     }
 
-    public function setPhoneNumber(?PhoneNumber $phoneNumber): Client
+    public function updatePhoneNumber(?PhoneNumber $phoneNumber): Client
     {
         $this->phoneNumber = $phoneNumber;
 

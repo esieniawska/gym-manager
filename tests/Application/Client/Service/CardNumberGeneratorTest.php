@@ -4,7 +4,7 @@ namespace App\Tests\Application\Client\Service;
 
 use App\Application\Client\Exception\CardNumberGenerationFailedException;
 use App\Application\Client\Service\CardNumberGenerator;
-use App\Domain\Client\Entity\Client;
+use App\Domain\Client\Model\Client;
 use App\Domain\Client\Repository\ClientRepository;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;

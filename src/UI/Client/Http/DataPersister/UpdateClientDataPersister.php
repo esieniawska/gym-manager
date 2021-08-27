@@ -7,13 +7,13 @@ namespace App\UI\Client\Http\DataPersister;
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\Application\Client\Dto\UpdateClientDto;
 use App\Application\Client\Service\UpdateClientService;
-use App\UI\Client\Converter\ClientDtoConverter;
+use App\UI\Client\Converter\ClientDtoCollectionConverter;
 use App\UI\Client\Http\Dto\ClientDto;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class UpdateClientDataPersister implements ContextAwareDataPersisterInterface
 {
-    public function __construct(private UpdateClientService $clientService, private ClientDtoConverter $converter)
+    public function __construct(private UpdateClientService $clientService, private ClientDtoCollectionConverter $converter)
     {
     }
 

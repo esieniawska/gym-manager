@@ -6,9 +6,9 @@ namespace App\UI\Client\Converter;
 
 use App\Application\Shared\Dto\BaseDto as ApplicationDto;
 use App\UI\Client\Http\Dto\ClientDto;
-use App\UI\Shared\Converter\BaseDtoConverter;
+use App\UI\Shared\Converter\DtoCollectionConverter;
 
-class ClientDtoConverter extends BaseDtoConverter
+class ClientDtoCollectionConverter extends DtoCollectionConverter
 {
     public function createHttpFromApplicationDto(ApplicationDto $client): ClientDto
     {
