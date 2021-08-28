@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Domain\Shared\Model;
+namespace App\Tests\Domain\Shared\ValueObject;
 
-use App\Domain\Shared\Exception\InvalidEmailAddressException;
+use App\Domain\Shared\Exception\InvalidValueException;
 use App\Domain\Shared\ValueObject\EmailAddress;
 use PHPUnit\Framework\TestCase;
 
@@ -15,10 +15,10 @@ class EmailAddressTest extends TestCase
         $this->assertEquals($email, $emailObject->getValue());
     }
 
-    public function testWrongEmailAddress(): void
+    public function testInvalidEmailAddress(): void
     {
         $email = 'joeexample.com';
-        $this->expectException(InvalidEmailAddressException::class);
+        $this->expectException(InvalidValueException::class);
         new EmailAddress($email);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Tests\Application\User\Service;
 
 use App\Application\User\Dto\RegisterUserDto;
+use App\Application\User\Exception\RegistrationFailedException;
 use App\Application\User\Service\PasswordEncoder;
 use App\Application\User\Service\RegistrationService;
 use App\Domain\Shared\ValueObject\EmailAddress;
@@ -65,13 +66,17 @@ class RegistrationServiceTest extends TestCase
         $this->registrationService->registerAdmin($dto);
     }
 
-    public function testNotRegisterAdminWhenToShortPassword(): void
+    public function testNotRegisterAdminWhenTooShortPassword(): void
     {
         $this->passwordEncoderMock
-            ->encode(new Password('password'))
+            ->encode(Argument::type(Password::class))
             ->willReturn(new PasswordHash('hash'));
 
         $this->userRepositoryMock->getByEmail('joe.wilsh@example.com')->willReturn(null);
+        $this->userRepositoryMock
+            ->nextIdentity()
+            ->willReturn(new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'));
+
         $this->userRepositoryMock->addUser(Argument::type(User::class))->shouldNotBeCalled();
 
         $dto = new RegisterUserDto(
@@ -81,7 +86,7 @@ class RegistrationServiceTest extends TestCase
             'pass'
         );
 
-        $this->expectErrorMessage('Password must have at least 8 characters');
+        $this->expectException(RegistrationFailedException::class);
         $this->registrationService->registerAdmin($dto);
     }
 

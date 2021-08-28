@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Domain\Shared\Model;
+namespace App\Tests\Domain\Shared\ValueObject;
 
 use App\Domain\Shared\Exception\InvalidGenderException;
 use App\Domain\Shared\ValueObject\Gender;

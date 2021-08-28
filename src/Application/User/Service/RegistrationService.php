@@ -6,7 +6,7 @@ namespace App\Application\User\Service;
 
 use App\Application\User\Dto\RegisterUserDto;
 use App\Application\User\Exception\RegistrationFailedException;
-use App\Domain\Shared\Exception\InvalidEmailAddressException;
+use App\Domain\Shared\Exception\InvalidValueException;
 use App\Domain\Shared\ValueObject\EmailAddress;
 use App\Domain\Shared\ValueObject\PersonalName;
 use App\Domain\User\Model\Password;
@@ -14,12 +14,9 @@ use App\Domain\User\Model\Roles;
 use App\Domain\User\Model\User;
 use App\Domain\User\Repository\UserRepository;
 use App\Domain\User\Specification\EmailIsUniqueSpecification;
-use App\Domain\User\Specification\PasswordMinLengthSpecification;
 
 class RegistrationService
 {
-    private const MIN_LENGTH = 8;
-
     public function __construct(
         private UserRepository $userRepository,
         private PasswordEncoder $passwordEncoder
@@ -41,7 +38,7 @@ class RegistrationService
                 $this->passwordEncoder->encode(new Password($registerUserDto->getPassword())),
                 new Roles([Roles::ROLE_ADMIN, Roles::ROLE_USER]),
             );
-        } catch (InvalidEmailAddressException $exception) {
+        } catch (InvalidValueException $exception) {
             throw new RegistrationFailedException($exception->getMessage());
         }
 
@@ -54,7 +51,6 @@ class RegistrationService
     private function validateUserData(RegisterUserDto $registerUserDto): void
     {
         $this->emailMustBeUnique($registerUserDto->getEmail());
-        $this->passwordMustHaveMinCharacters($registerUserDto->getPassword());
     }
 
     /**
@@ -65,17 +61,6 @@ class RegistrationService
         $specification = new EmailIsUniqueSpecification($this->userRepository);
         if (!$specification->isSatisfiedBy($email)) {
             throw new RegistrationFailedException('Email is not unique');
-        }
-    }
-
-    /**
-     * @throws RegistrationFailedException
-     */
-    private function passwordMustHaveMinCharacters(string $password): void
-    {
-        $specification = new PasswordMinLengthSpecification(self::MIN_LENGTH);
-        if (!$specification->isSatisfiedBy($password)) {
-            throw new RegistrationFailedException(sprintf('Password must have at least %s characters', self::MIN_LENGTH));
         }
     }
 }

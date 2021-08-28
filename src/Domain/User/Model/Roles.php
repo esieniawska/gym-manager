@@ -4,24 +4,28 @@ declare(strict_types=1);
 
 namespace App\Domain\User\Model;
 
-use App\Domain\User\Exception\InvalidRoleException;
+use App\Domain\Shared\Specification\SpecificationValidator;
+use App\Domain\Shared\Specification\ValuesAreBetweenAcceptedValuesSpecification;
+use App\Domain\Shared\ValueObject\ValueObject;
 
-class Roles
+class Roles extends ValueObject
 {
     public const ROLE_USER = 'ROLE_USER';
     public const ROLE_ADMIN = 'ROLE_ADMIN';
 
     public function __construct(private array $values)
     {
-        $this->checkAreValidRoles($values);
+        $this->ensureIsSatisfiedValue($values, $this->getValidators());
     }
 
-    private function checkAreValidRoles(array $values): void
+    private function getValidators(): array
     {
-        $valuesOtherThanUserRoles = array_diff($values, self::getRoles());
-        if (!empty($valuesOtherThanUserRoles)) {
-            throw new InvalidRoleException(sprintf('Wrong roles: %s', implode(', ', $valuesOtherThanUserRoles)));
-        }
+        return [
+            new SpecificationValidator(
+                new ValuesAreBetweenAcceptedValuesSpecification($this->getRoles()),
+                'Invalid roles.'
+            ),
+        ];
     }
 
     public function getValues(): array
@@ -29,7 +33,7 @@ class Roles
         return $this->values;
     }
 
-    public static function getRoles(): array
+    public function getRoles(): array
     {
         return [
             self::ROLE_USER,

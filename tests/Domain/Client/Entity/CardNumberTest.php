@@ -2,8 +2,8 @@
 
 namespace App\Tests\Domain\Client\Entity;
 
-use App\Domain\Client\Exception\InvalidCardNumberException;
 use App\Domain\Client\Model\CardNumber;
+use App\Domain\Shared\Exception\InvalidValueException;
 use PHPUnit\Framework\TestCase;
 
 class CardNumberTest extends TestCase
@@ -16,7 +16,7 @@ class CardNumberTest extends TestCase
 
     public function testInvalidCardNumber(): void
     {
-        $this->expectException(InvalidCardNumberException::class);
+        $this->expectException(InvalidValueException::class);
         new CardNumber('3da8%!@#$%^&*()0e770d2a0a17b7b82');
     }
 }

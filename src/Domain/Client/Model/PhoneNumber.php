@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Client\Model;
 
-use App\Domain\Client\Exception\InvalidPhoneNumberException;
+use App\Domain\Shared\Specification\SpecificationValidator;
+use App\Domain\Shared\Specification\StringHasValidPatternSpecification;
 use App\Domain\Shared\ValueObject\StringValueObject;
 
 class PhoneNumber extends StringValueObject
@@ -13,14 +14,18 @@ class PhoneNumber extends StringValueObject
 
     public function __construct(protected string $value)
     {
-        $this->checkIsValidPhoneNumber($value);
+        $this->ensureIsSatisfiedValue($value, $this->getValidators());
+
         parent::__construct($value);
     }
 
-    private function checkIsValidPhoneNumber(string $value): void
+    private function getValidators(): array
     {
-        if (1 !== preg_match(self::PHONE_PATTERN, $value)) {
-            throw new InvalidPhoneNumberException('Invalid phone number');
-        }
+        return [
+            new SpecificationValidator(
+                new StringHasValidPatternSpecification(self::PHONE_PATTERN),
+                'Invalid phone number format.'
+            ),
+        ];
     }
 }

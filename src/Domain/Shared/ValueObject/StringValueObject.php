@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Shared\ValueObject;
 
-abstract class StringValueObject
+abstract class StringValueObject extends ValueObject
 {
     public function __construct(protected string $value)
     {

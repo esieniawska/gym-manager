@@ -2,7 +2,8 @@
 
 namespace App\Domain\Shared\ValueObject;
 
-use App\Domain\Shared\Exception\InvalidUuidException;
+use App\Domain\Shared\Specification\SpecificationValidator;
+use App\Domain\Shared\Specification\StringHasValidPatternSpecification;
 
 class Uuid extends StringValueObject
 {
@@ -10,15 +11,18 @@ class Uuid extends StringValueObject
 
     public function __construct(string $value)
     {
-        $this->validateUuid($value);
+        $this->ensureIsSatisfiedValue($value, $this->getValidators());
 
         parent::__construct($value);
     }
 
-    private function validateUuid(string $uuid): void
+    private function getValidators(): array
     {
-        if (1 !== preg_match(self::VALID_PATTERN, $uuid)) {
-            throw new InvalidUuidException('Invalid uuid');
-        }
+        return [
+            new SpecificationValidator(
+                new StringHasValidPatternSpecification(self::VALID_PATTERN),
+                'Invalid uuid.'
+            ),
+        ];
     }
 }

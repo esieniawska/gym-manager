@@ -4,19 +4,25 @@ declare(strict_types=1);
 
 namespace App\Domain\Shared\ValueObject;
 
-use App\Domain\Shared\Exception\InvalidEmailAddressException;
+use App\Domain\Shared\Specification\SpecificationValidator;
+use App\Domain\Shared\Specification\StringIsAnEmailAddressSpecification;
 
 class EmailAddress extends StringValueObject
 {
-    /**
-     * @throws InvalidEmailAddressException
-     */
     public function __construct(protected string $value)
     {
-        if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-            throw new InvalidEmailAddressException(sprintf('%s is not correct email', $value));
-        }
+        $this->ensureIsSatisfiedValue($value, $this->getValidators($this->value));
 
         parent::__construct($value);
+    }
+
+    private function getValidators(string $value): array
+    {
+        return [
+            new SpecificationValidator(
+                new StringIsAnEmailAddressSpecification(),
+                sprintf('%s is not correct email.', $value)
+            ),
+        ];
     }
 }

@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Client\Model;
 
-use App\Domain\Client\Exception\InvalidCardNumberException;
+use App\Domain\Shared\Specification\SpecificationValidator;
+use App\Domain\Shared\Specification\StringHasValidPatternSpecification;
 use App\Domain\Shared\ValueObject\StringValueObject;
 
 class CardNumber extends StringValueObject
@@ -14,14 +15,18 @@ class CardNumber extends StringValueObject
 
     public function __construct(protected string $value)
     {
-        $this->checkIsValidCardNumber($value);
+        $this->ensureIsSatisfiedValue($value, $this->getValidators());
+
         parent::__construct($value);
     }
 
-    private function checkIsValidCardNumber(string $value): void
+    private function getValidators(): array
     {
-        if (1 !== preg_match(self::NUMBER_PATTERN, $value)) {
-            throw new InvalidCardNumberException('Invalid card number');
-        }
+        return [
+            new SpecificationValidator(
+                new StringHasValidPatternSpecification(self::NUMBER_PATTERN),
+                'Invalid card number format.'
+            ),
+        ];
     }
 }

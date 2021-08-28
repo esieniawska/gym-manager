@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\User\Converter;
 
-use App\Domain\Shared\Exception\InvalidEmailAddressException;
 use App\Domain\Shared\Model\DomainModel;
 use App\Domain\Shared\ValueObject\EmailAddress;
 use App\Domain\Shared\ValueObject\PersonalName;
@@ -31,9 +30,6 @@ class UserDbConverter extends DbCollectionConverter
         );
     }
 
-    /**
-     * @throws InvalidEmailAddressException
-     */
     public function convertDbModelToDomainObject(DbEntity $dbUser): User
     {
         return new User(

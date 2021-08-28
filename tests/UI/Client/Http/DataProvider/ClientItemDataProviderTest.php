@@ -6,7 +6,7 @@ use App\Application\Client\Dto\ClientDto;
 use App\Application\Client\Exception\ClientNotFoundException;
 use App\Application\Client\Service\GetClientService;
 use App\Domain\Client\Model\ClientStatus;
-use App\Domain\Shared\Exception\InvalidUuidException;
+use App\Domain\Shared\Exception\InvalidValueException;
 use App\Domain\Shared\ValueObject\Gender;
 use App\UI\Client\Converter\ClientDtoCollectionConverter;
 use App\UI\Client\Http\DataProvider\ClientItemDataProvider;
@@ -73,7 +73,7 @@ class ClientItemDataProviderTest extends TestCase
     {
         $this->clientServiceMock
             ->getClientById('7d24cec')
-            ->willThrow(InvalidUuidException::class);
+            ->willThrow(InvalidValueException::class);
 
         $this->converterMock->createHttpFromApplicationDto(Argument::type(HttpClientDto::class))->shouldNotBeCalled();
 

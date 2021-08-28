@@ -48,28 +48,28 @@ class LoginServiceTest extends TestCase
     {
         $this->repositoryMock->getByEmail('joe@example.com')->willReturn(null);
         $this->expectException(UserNotFoundException::class);
-        $this->loginService->login(new LoginData('joe@example.com', 'pass'));
+        $this->loginService->login(new LoginData('joe@example.com', 'password'));
     }
 
     public function testLoginWhenUserHasInvalidPassword(): void
     {
         $this->repositoryMock->getByEmail('joe@example.com')->willReturn($this->getUser());
         $this->passwordEncoderMock
-            ->isValid(new Password('pass'), new PasswordHash('hash'))
+            ->isValid(new Password('password'), new PasswordHash('hash'))
             ->willReturn(false);
         $this->expectException(InvalidUserPasswordException::class);
-        $this->loginService->login(new LoginData('joe@example.com', 'pass'));
+        $this->loginService->login(new LoginData('joe@example.com', 'password'));
     }
 
     public function testSuccessfulLogin(): void
     {
         $this->repositoryMock->getByEmail('joe@example.com')->willReturn($this->getUser());
         $this->passwordEncoderMock
-            ->isValid(new Password('pass'), new PasswordHash('hash'))
+            ->isValid(new Password('password'), new PasswordHash('hash'))
             ->willReturn(true);
 
         $this->jtwEncoderMock->encode(Argument::type('array'))->willReturn('jwt-token');
-        $result = $this->loginService->login(new LoginData('joe@example.com', 'pass'));
+        $result = $this->loginService->login(new LoginData('joe@example.com', 'password'));
         $this->assertInstanceOf(AuthToken::class, $result);
         $this->assertEquals($result->getAccessToken(), 'jwt-token');
     }

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Domain\Shared\Model;
+namespace App\Tests\Domain\Shared\ValueObject;
 
-use App\Domain\Shared\Exception\InvalidUuidException;
+use App\Domain\Shared\Exception\InvalidValueException;
 use App\Domain\Shared\ValueObject\Uuid;
 use PHPUnit\Framework\TestCase;
 
@@ -16,7 +16,7 @@ class UuidTest extends TestCase
 
     public function testFailedCreate(): void
     {
-        $this->expectException(InvalidUuidException::class);
+        $this->expectException(InvalidValueException::class);
         new Uuid('0a536e85-6e8e-4aa');
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Tests\Domain\Client\Entity;
 
-use App\Domain\Client\Exception\InvalidPhoneNumberException;
 use App\Domain\Client\Model\PhoneNumber;
+use App\Domain\Shared\Exception\InvalidValueException;
 use PHPUnit\Framework\TestCase;
 
 class PhoneNumberTest extends TestCase
@@ -16,7 +16,7 @@ class PhoneNumberTest extends TestCase
 
     public function testInvalidPhoneNumber(): void
     {
-        $this->expectException(InvalidPhoneNumberException::class);
+        $this->expectException(InvalidValueException::class);
         new PhoneNumber('123a56789');
     }
 }

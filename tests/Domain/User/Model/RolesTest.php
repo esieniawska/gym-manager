@@ -17,7 +17,7 @@ class RolesTest extends TestCase
     public function testWrongRole(): void
     {
         $value = [Roles::ROLE_ADMIN, 'other-role'];
-        $this->expectErrorMessage('Wrong roles: other-role');
+        $this->expectErrorMessage('Invalid roles.');
         new Roles($value);
     }
 }
