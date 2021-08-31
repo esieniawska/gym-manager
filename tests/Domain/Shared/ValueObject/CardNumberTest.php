@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\Domain\Client\Entity;
+namespace App\Tests\Domain\Shared\ValueObject;
 
-use App\Domain\Client\Model\CardNumber;
 use App\Domain\Shared\Exception\InvalidValueException;
+use App\Domain\Shared\ValueObject\CardNumber;
 use PHPUnit\Framework\TestCase;
 
 class CardNumberTest extends TestCase

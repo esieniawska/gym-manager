@@ -4,10 +4,10 @@ namespace App\Tests\Application\Client\Assembler;
 
 use App\Application\Client\Assembler\ClientDtoAssembler;
 use App\Application\Client\Dto\ClientDto;
-use App\Domain\Client\Model\CardNumber;
 use App\Domain\Client\Model\Client;
 use App\Domain\Client\Model\ClientStatus;
 use App\Domain\Client\Model\PhoneNumber;
+use App\Domain\Shared\ValueObject\CardNumber;
 use App\Domain\Shared\ValueObject\EmailAddress;
 use App\Domain\Shared\ValueObject\Gender;
 use App\Domain\Shared\ValueObject\PersonalName;
