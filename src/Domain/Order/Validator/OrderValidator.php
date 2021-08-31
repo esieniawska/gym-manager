@@ -18,6 +18,10 @@ class OrderValidator
     ) {
     }
 
+    /**
+     * @throws InvalidOrderItemException
+     * @throws InvalidBuyerException
+     */
     public function ensureIsValidOrder(Order $order): void
     {
         $this->validateBuyer($order->getBuyer());
