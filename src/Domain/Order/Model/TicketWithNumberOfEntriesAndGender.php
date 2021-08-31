@@ -6,6 +6,7 @@ namespace App\Domain\Order\Model;
 
 use App\Domain\Shared\ValueObject\Gender;
 use App\Domain\Shared\ValueObject\Money;
+use App\Domain\Shared\ValueObject\NumberOfEntries;
 use App\Domain\Shared\ValueObject\Uuid;
 
 class TicketWithNumberOfEntriesAndGender extends TicketWithGender

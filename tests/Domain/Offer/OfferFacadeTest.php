@@ -3,13 +3,13 @@
 namespace App\Tests\Domain\Offer;
 
 use App\Domain\Offer\Exception\OfferNotFoundException;
-use App\Domain\Offer\Model\NumberOfDays;
 use App\Domain\Offer\Model\OfferName;
 use App\Domain\Offer\Model\OfferStatus;
 use App\Domain\Offer\Model\TicketOfferWithNumberOfDays;
 use App\Domain\Offer\OfferFacade;
 use App\Domain\Offer\Repository\OfferRepository;
 use App\Domain\Shared\ValueObject\Money;
+use App\Domain\Shared\ValueObject\NumberOfDays;
 use App\Domain\Shared\ValueObject\Uuid;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;

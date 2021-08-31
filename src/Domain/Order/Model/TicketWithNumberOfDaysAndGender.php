@@ -6,6 +6,7 @@ namespace App\Domain\Order\Model;
 
 use App\Domain\Shared\ValueObject\Gender;
 use App\Domain\Shared\ValueObject\Money;
+use App\Domain\Shared\ValueObject\NumberOfDays;
 use App\Domain\Shared\ValueObject\Uuid;
 
 class TicketWithNumberOfDaysAndGender extends TicketWithGender
@@ -14,7 +15,7 @@ class TicketWithNumberOfDaysAndGender extends TicketWithGender
         private Uuid $id,
         private Money $price,
         private TicketStatus $status,
-        private NumberOfDays $numberOfDays,
+        private NumberOfDays $numberOfEntries,
         private Gender $gender,
     ) {
         parent::__construct($id, $price, $status, $gender);
@@ -22,6 +23,6 @@ class TicketWithNumberOfDaysAndGender extends TicketWithGender
 
     public function getNumberOfDays(): NumberOfDays
     {
-        return $this->numberOfDays;
+        return $this->numberOfEntries;
     }
 }

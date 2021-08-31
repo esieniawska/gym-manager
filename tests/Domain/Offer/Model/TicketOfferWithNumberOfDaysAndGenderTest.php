@@ -3,12 +3,12 @@
 namespace App\Tests\Domain\Offer\Model;
 
 use App\Domain\Offer\Exception\OfferUpdateBlockedException;
-use App\Domain\Offer\Model\NumberOfDays;
 use App\Domain\Offer\Model\OfferName;
 use App\Domain\Offer\Model\OfferStatus;
 use App\Domain\Offer\Model\TicketOfferWithNumberOfDaysAndGender;
 use App\Domain\Shared\ValueObject\Gender;
 use App\Domain\Shared\ValueObject\Money;
+use App\Domain\Shared\ValueObject\NumberOfDays;
 use App\Domain\Shared\ValueObject\Uuid;
 use PHPUnit\Framework\TestCase;
 

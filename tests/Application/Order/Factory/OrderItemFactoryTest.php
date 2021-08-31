@@ -3,8 +3,6 @@
 namespace App\Tests\Application\Order\Factory;
 
 use App\Application\Order\Factory\OrderItemFactory;
-use App\Domain\Offer\Model\NumberOfDays;
-use App\Domain\Offer\Model\NumberOfEntries;
 use App\Domain\Offer\Model\OfferName;
 use App\Domain\Offer\Model\OfferStatus;
 use App\Domain\Offer\Model\OfferTicket;
@@ -20,6 +18,8 @@ use App\Domain\Order\Model\TicketWithNumberOfEntriesAndGender;
 use App\Domain\Shared\Exception\InvalidValueException;
 use App\Domain\Shared\ValueObject\Gender;
 use App\Domain\Shared\ValueObject\Money;
+use App\Domain\Shared\ValueObject\NumberOfDays;
+use App\Domain\Shared\ValueObject\NumberOfEntries;
 use App\Domain\Shared\ValueObject\Uuid;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;

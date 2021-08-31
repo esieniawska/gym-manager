@@ -11,7 +11,7 @@ use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Model(repositoryClass="App\Infrastructure\User\Repository\DoctrineUserRepository")
+ * @ORM\Entity(repositoryClass="App\Infrastructure\User\Repository\DoctrineUserRepository")
  * @ORM\Table(name="`user`")
  * @codeCoverageIgnore
  */

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Offer\Model;
 
 use App\Domain\Shared\ValueObject\Money;
+use App\Domain\Shared\ValueObject\NumberOfDays;
 use App\Domain\Shared\ValueObject\Uuid;
 
 class TicketOfferWithNumberOfDays extends OfferTicket

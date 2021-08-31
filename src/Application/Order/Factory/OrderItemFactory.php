@@ -9,8 +9,6 @@ use App\Domain\Offer\Model\TicketOfferWithNumberOfDaysAndGender;
 use App\Domain\Offer\Model\TicketOfferWithNumberOfEntries;
 use App\Domain\Offer\Model\TicketOfferWithNumberOfEntriesAndGender;
 use App\Domain\Offer\OfferFacade;
-use App\Domain\Order\Model\NumberOfDays;
-use App\Domain\Order\Model\NumberOfEntries;
 use App\Domain\Order\Model\OrderItem;
 use App\Domain\Order\Model\TicketStatus;
 use App\Domain\Order\Model\TicketWithNumberOfDays;
@@ -18,6 +16,8 @@ use App\Domain\Order\Model\TicketWithNumberOfDaysAndGender;
 use App\Domain\Order\Model\TicketWithNumberOfEntries;
 use App\Domain\Order\Model\TicketWithNumberOfEntriesAndGender;
 use App\Domain\Shared\Exception\InvalidValueException;
+use App\Domain\Shared\ValueObject\NumberOfDays;
+use App\Domain\Shared\ValueObject\NumberOfEntries;
 
 class OrderItemFactory
 {
