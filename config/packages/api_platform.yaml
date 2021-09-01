@@ -3,7 +3,6 @@ api_platform:
     version: 1.0.0
     mapping:
         paths: [
-                '%kernel.project_dir%/src/Infrastructure/User/Entity',
                 '%kernel.project_dir%/src/UI/User/Http/Dto',
                 '%kernel.project_dir%/src/UI/Client/Http/Dto'
         ]

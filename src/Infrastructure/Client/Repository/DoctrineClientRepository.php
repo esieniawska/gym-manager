@@ -9,7 +9,7 @@ use App\Domain\Client\Repository\ClientRepository;
 use App\Domain\Shared\ValueObject\Uuid;
 use App\Infrastructure\Client\Converter\ClientDbConverter;
 use App\Infrastructure\Client\Entity\DbClient;
-use App\Infrastructure\Exception\ClientNotFoundException;
+use App\Infrastructure\Client\Exception\ClientNotFoundException;
 use App\Infrastructure\Shared\Repository\DoctrineRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;

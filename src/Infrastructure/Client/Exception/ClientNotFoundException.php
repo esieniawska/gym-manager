@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Exception;
+namespace App\Infrastructure\Client\Exception;
 
 class ClientNotFoundException extends ClientException
 {
