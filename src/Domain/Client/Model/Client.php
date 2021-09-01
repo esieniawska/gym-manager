@@ -14,7 +14,7 @@ use App\Domain\Shared\ValueObject\Uuid;
 class Client extends DomainModel
 {
     public function __construct(
-        private Uuid $id,
+        protected Uuid $id,
         private PersonalName $personalName,
         private CardNumber $cardNumber,
         private Gender $gender,

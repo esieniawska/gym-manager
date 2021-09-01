@@ -12,10 +12,10 @@ use App\Domain\Shared\ValueObject\Uuid;
 abstract class OfferTicket extends DomainModel
 {
     public function __construct(
-        private Uuid $id,
-        private OfferName $name,
-        private Money $price,
-        private OfferStatus $status
+        protected Uuid $id,
+        protected OfferName $name,
+        protected Money $price,
+        protected OfferStatus $status
     ) {
         parent::__construct($id);
     }

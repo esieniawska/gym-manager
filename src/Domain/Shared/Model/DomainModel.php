@@ -8,7 +8,7 @@ use App\Domain\Shared\ValueObject\Uuid;
 
 abstract class DomainModel
 {
-    public function __construct(private Uuid $id)
+    public function __construct(protected Uuid $id)
     {
     }
 

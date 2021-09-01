@@ -11,10 +11,10 @@ use App\Domain\Shared\ValueObject\Uuid;
 class TicketOfferWithNumberOfDays extends OfferTicket
 {
     public function __construct(
-        private Uuid $id,
-        private OfferName $name,
-        private Money $price,
-        private OfferStatus $status,
+        protected Uuid $id,
+        protected OfferName $name,
+        protected Money $price,
+        protected OfferStatus $status,
         private NumberOfDays $numberOfEntries
     ) {
         parent::__construct($id, $name, $price, $status);

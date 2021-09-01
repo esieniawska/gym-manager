@@ -11,9 +11,9 @@ use App\Domain\Shared\ValueObject\Uuid;
 class TicketWithNumberOfEntries extends Ticket
 {
     public function __construct(
-        private Uuid $id,
-        private Money $price,
-        private TicketStatus $status,
+        protected Uuid $id,
+        protected Money $price,
+        protected TicketStatus $status,
         private NumberOfEntries $endDate,
     ) {
         parent::__construct($id, $price, $status);

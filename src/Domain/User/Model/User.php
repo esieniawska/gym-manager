@@ -12,7 +12,7 @@ use App\Domain\Shared\ValueObject\Uuid;
 class User extends DomainModel
 {
     public function __construct(
-        private Uuid $id,
+        protected Uuid $id,
         private PersonalName $personalName,
         private EmailAddress $email,
         private PasswordHash $passwordHash,

@@ -12,11 +12,11 @@ use App\Domain\Shared\ValueObject\Uuid;
 class TicketWithNumberOfEntriesAndGender extends TicketWithGender
 {
     public function __construct(
-        private Uuid $id,
-        private Money $price,
-        private TicketStatus $status,
+        protected Uuid $id,
+        protected Money $price,
+        protected TicketStatus $status,
         private NumberOfEntries $endDate,
-        private Gender $gender,
+        protected Gender $gender,
     ) {
         parent::__construct($id, $price, $status, $gender);
     }

@@ -11,9 +11,9 @@ use App\Domain\Shared\ValueObject\Uuid;
 abstract class Ticket extends DomainModel implements OrderItem
 {
     public function __construct(
-        private Uuid $id,
-        private Money $price,
-        private TicketStatus $status
+        protected Uuid $id,
+        protected Money $price,
+        protected TicketStatus $status
     ) {
         parent::__construct($id);
     }

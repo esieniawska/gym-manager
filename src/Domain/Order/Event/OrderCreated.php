@@ -9,9 +9,9 @@ use App\Domain\Shared\Event\DomainEvent;
 abstract class OrderCreated implements DomainEvent
 {
     public function __construct(
-        private string $id,
-        private string $buyerCardNumber,
-        private \DateTimeImmutable $startDate
+        protected string $id,
+        protected string $buyerCardNumber,
+        protected \DateTimeImmutable $startDate
     ) {
     }
 

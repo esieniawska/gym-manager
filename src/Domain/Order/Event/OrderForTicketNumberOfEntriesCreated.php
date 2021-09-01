@@ -7,9 +7,9 @@ namespace App\Domain\Order\Event;
 class OrderForTicketNumberOfEntriesCreated extends OrderCreated
 {
     public function __construct(
-        private string $id,
-        private string $buyerCardNumber,
-        private \DateTimeImmutable $startDate,
+        protected string $id,
+        protected string $buyerCardNumber,
+        protected \DateTimeImmutable $startDate,
         private int $numberOfEntries
     ) {
         parent::__construct($id, $buyerCardNumber, $startDate);

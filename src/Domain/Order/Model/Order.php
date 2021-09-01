@@ -10,7 +10,7 @@ use App\Domain\Shared\ValueObject\Uuid;
 class Order extends DomainModel
 {
     public function __construct(
-        private Uuid $id,
+        protected Uuid $id,
         private Buyer $buyer,
         private OrderItem $orderItem,
         private \DateTimeImmutable $startDate,

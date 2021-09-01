@@ -11,10 +11,10 @@ use App\Domain\Shared\ValueObject\Uuid;
 abstract class TicketWithGender extends Ticket
 {
     public function __construct(
-        private Uuid $id,
-        private Money $price,
-        private TicketStatus $status,
-        private Gender $gender,
+        protected Uuid $id,
+        protected Money $price,
+        protected TicketStatus $status,
+        protected Gender $gender,
     ) {
         parent::__construct($id, $price, $status);
     }
