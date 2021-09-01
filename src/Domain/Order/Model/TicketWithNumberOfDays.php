@@ -12,13 +12,13 @@ class TicketWithNumberOfDays extends Ticket
         private Uuid $id,
         private Money $price,
         private TicketStatus $status,
-        private NumberOfDays $numberOfEntries,
+        private NumberOfDays $endDate,
     ) {
         parent::__construct($id, $price, $status);
     }
 
     public function getNumberOfDays(): NumberOfDays
     {
-        return $this->numberOfEntries;
+        return $this->endDate;
     }
 }

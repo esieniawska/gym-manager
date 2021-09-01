@@ -14,4 +14,9 @@ class OrderForTicketNumberOfEntriesCreated extends OrderCreated
     ) {
         parent::__construct($id, $buyerCardNumber, $startDate);
     }
+
+    public function getNumberOfEntries(): int
+    {
+        return $this->numberOfEntries;
+    }
 }

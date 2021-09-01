@@ -15,7 +15,7 @@ class TicketWithNumberOfDaysAndGender extends TicketWithGender
         private Uuid $id,
         private Money $price,
         private TicketStatus $status,
-        private NumberOfDays $numberOfEntries,
+        private NumberOfDays $endDate,
         private Gender $gender,
     ) {
         parent::__construct($id, $price, $status, $gender);
@@ -23,6 +23,6 @@ class TicketWithNumberOfDaysAndGender extends TicketWithGender
 
     public function getNumberOfDays(): NumberOfDays
     {
-        return $this->numberOfEntries;
+        return $this->endDate;
     }
 }
