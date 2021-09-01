@@ -7,7 +7,7 @@ namespace App\Application\GymPass\Factory;
 use App\Application\GymPass\Exception\InvalidOrderCreatedEventException;
 use App\Domain\GymPass\Model\Client;
 use App\Domain\GymPass\Model\GymPass;
-use App\Domain\GymPass\Model\GymPassWithNumberOfDays;
+use App\Domain\GymPass\Model\GymPassWithEndDate;
 use App\Domain\GymPass\Model\GymPassWithNumberOfEntries;
 use App\Domain\GymPass\Repository\GymPassRepository;
 use App\Domain\Order\Event\OrderCreated;
@@ -39,12 +39,12 @@ class GymPassFactory
         }
     }
 
-    private function createGymPassWithNumberOfDays(OrderForTicketNumberOfDaysCreated $event): GymPassWithNumberOfDays
+    private function createGymPassWithNumberOfDays(OrderForTicketNumberOfDaysCreated $event): GymPassWithEndDate
     {
         $endDate = (new DateTimeImmutable($event->getStartDate()->format('Y-m-d')))
             ->add(new DateInterval(sprintf('P%sD', $event->getNumberOfDays())));
 
-        return new GymPassWithNumberOfDays(
+        return new GymPassWithEndDate(
             $this->repository->nextIdentity(),
             new Client(new CardNumber($event->getBuyerCardNumber())),
             $event->getStartDate(),

@@ -10,4 +10,10 @@ interface GymPassRepository
     public function nextIdentity(): Uuid;
 
     public function addGymPass(GymPass $gymPass): void;
+
+    public function getGymPass(Uuid $id): ?GymPass;
+
+    public function updateGymPassEntries(GymPass $gymPass): void;
+
+    public function updateGymPassDates(GymPass $gymPass): void;
 }

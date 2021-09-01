@@ -10,16 +10,22 @@ use App\Domain\Shared\ValueObject\Uuid;
 class GymPassWithNumberOfEntries extends GymPass
 {
     public function __construct(
-        private Uuid $id,
-        private Client $client,
-        private \DateTimeImmutable $startDate,
-        private NumberOfEntries $numberOfEntries
+        protected Uuid $id,
+        protected Client $client,
+        protected \DateTimeImmutable $startDate,
+        private NumberOfEntries $numberOfEntries,
+        protected array $gymEntering = []
     ) {
-        parent::__construct($id, $client, $startDate);
+        parent::__construct($id, $client, $startDate, $gymEntering);
     }
 
     public function getNumberOfEntries(): NumberOfEntries
     {
         return $this->numberOfEntries;
+    }
+
+    protected function isActive(\DateTimeImmutable $currentDate): bool
+    {
+        return $this->getNumberOfEntries()->getValue() > count($this->gymEntering);
     }
 }
