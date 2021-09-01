@@ -16,4 +16,9 @@ class Client
     {
         return $this->cardNumber;
     }
+
+    public function isTheSameClient(CardNumber $cardNumber): bool
+    {
+        return (string) $this->cardNumber === (string) $cardNumber;
+    }
 }

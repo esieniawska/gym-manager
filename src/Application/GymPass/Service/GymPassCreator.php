@@ -16,7 +16,7 @@ class GymPassCreator
     ) {
     }
 
-    public function create(OrderCreated $orderCreated)
+    public function create(OrderCreated $orderCreated): void
     {
         $gymPass = $this->gymPassFactory->createGymPassFromEvent($orderCreated);
         $this->gymPassRepository->addGymPass($gymPass);

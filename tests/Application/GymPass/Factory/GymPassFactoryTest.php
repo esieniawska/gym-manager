@@ -4,7 +4,7 @@ namespace App\Tests\Application\GymPass\Factory;
 
 use App\Application\GymPass\Exception\InvalidOrderCreatedEventException;
 use App\Application\GymPass\Factory\GymPassFactory;
-use App\Domain\GymPass\Model\GymPassWithNumberOfDays;
+use App\Domain\GymPass\Model\GymPassWithEndDate;
 use App\Domain\GymPass\Model\GymPassWithNumberOfEntries;
 use App\Domain\GymPass\Repository\GymPassRepository;
 use App\Domain\Order\Event\OrderCreated;
@@ -49,7 +49,7 @@ class GymPassFactoryTest extends TestCase
         $factory = new GymPassFactory($repository->reveal());
 
         $result = $factory->createGymPassFromEvent($event);
-        $this->assertInstanceOf(GymPassWithNumberOfDays::class, $result);
+        $this->assertInstanceOf(GymPassWithEndDate::class, $result);
         $this->assertEquals('23-11-2020', $result->getEndDate()->format('d-m-Y'));
     }
 

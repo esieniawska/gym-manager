@@ -4,27 +4,26 @@ declare(strict_types=1);
 
 namespace App\Domain\GymPass\Model;
 
-use App\Domain\Shared\ValueObject\NumberOfEntries;
 use App\Domain\Shared\ValueObject\Uuid;
 
-class GymPassWithNumberOfEntries extends GymPass
+class GymPassWithEndDate extends GymPass
 {
     public function __construct(
         private Uuid $id,
         private Client $client,
         private \DateTimeImmutable $startDate,
-        private NumberOfEntries $numberOfEntries
+        private \DateTimeImmutable $endDate
     ) {
         parent::__construct($id, $client, $startDate);
     }
 
-    public function getNumberOfEntries(): NumberOfEntries
+    public function getEndDate(): \DateTimeImmutable
     {
-        return $this->numberOfEntries;
+        return $this->endDate;
     }
 
     protected function isActive(\DateTimeImmutable $currentDate): bool
     {
-        return $this->getNumberOfEntries()->getValue() > count($this->gymEntering);
+        return $currentDate->getTimestamp() <= $this->endDate->getTimestamp();
     }
 }
