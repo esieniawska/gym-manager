@@ -14,4 +14,6 @@ interface GymPassRepository
     public function getGymPass(Uuid $id): ?GymPass;
 
     public function updateGymPassEntries(GymPass $gymPass): void;
+
+    public function updateGymPassDates(GymPass $gymPass): void;
 }

@@ -10,15 +10,11 @@ use App\Domain\Shared\ValueObject\Uuid;
 
 abstract class GymPass extends DomainModel
 {
-    /**
-     * @var GymEntering[]
-     */
-    protected array $gymEntering = [];
-
     public function __construct(
-        private Uuid $id,
-        private Client $client,
-        private \DateTimeImmutable $startDate
+        protected Uuid $id,
+        protected Client $client,
+        protected \DateTimeImmutable $startDate,
+        protected array $gymEntering = []
     ) {
         parent::__construct($id);
     }
