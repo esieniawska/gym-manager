@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Client\Model;
+namespace App\Domain\Shared\ValueObject;
 
 use App\Domain\Shared\Specification\SpecificationValidator;
 use App\Domain\Shared\Specification\StringHasValidPatternSpecification;
-use App\Domain\Shared\ValueObject\StringValueObject;
 
 class CardNumber extends StringValueObject
 {

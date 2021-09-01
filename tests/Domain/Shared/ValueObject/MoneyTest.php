@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Tests\Domain\Package\Entity;
+namespace App\Tests\Domain\Shared\ValueObject;
 
-use App\Domain\Package\Entity\Money;
-use App\Domain\Package\Exception\InvalidPriceException;
+use App\Domain\Shared\Exception\InvalidValueException;
+use App\Domain\Shared\ValueObject\Money;
 use PHPUnit\Framework\TestCase;
 
-class PriceTest extends TestCase
+class MoneyTest extends TestCase
 {
     public function testSuccessfulCreatePrice(): void
     {
@@ -18,13 +18,13 @@ class PriceTest extends TestCase
 
     public function testFailedCreatePriceWhenNegativeNumber(): void
     {
-        $this->expectException(InvalidPriceException::class);
+        $this->expectException(InvalidValueException::class);
         new Money(-1.12);
     }
 
     public function testFailedCreatePriceWhenWrongValue(): void
     {
-        $this->expectException(InvalidPriceException::class);
+        $this->expectException(InvalidValueException::class);
         new Money(0.1234);
     }
 }

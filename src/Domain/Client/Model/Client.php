@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Client\Model;
 
 use App\Domain\Shared\Model\DomainModel;
+use App\Domain\Shared\ValueObject\CardNumber;
 use App\Domain\Shared\ValueObject\EmailAddress;
 use App\Domain\Shared\ValueObject\Gender;
 use App\Domain\Shared\ValueObject\PersonalName;
@@ -87,5 +88,10 @@ class Client extends DomainModel
         $this->phoneNumber = $phoneNumber;
 
         return $this;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->clientStatus->isTheSameType(ClientStatus::ACTIVE());
     }
 }

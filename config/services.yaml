@@ -39,3 +39,11 @@ services:
     App\Application\User\Service\LoginService:
         arguments:
             $tokenLifetime: '%jtw_access_token_lifetime%'
+
+    App\Application\GymPass\EventListener\CreateGymPassOnOrderForTicketNumberOfDaysCreated:
+        tags:
+            - { name: kernel.event_listener, event: App\Domain\Order\Event\OrderForTicketNumberOfDaysCreated }
+
+    App\Application\GymPass\EventListener\CreateGymPassOnOrderForTicketNumberOfEntriesCreated:
+        tags:
+            - { name: kernel.event_listener, event: App\Domain\Order\Event\OrderForTicketNumberOfEntriesCreated }

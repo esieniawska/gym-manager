@@ -53,4 +53,9 @@ abstract class Enum implements Stringable
 
         return $constants;
     }
+
+    public function isTheSameType(Enum $other): bool
+    {
+        return $other->value === $this->value;
+    }
 }
