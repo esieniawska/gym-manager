@@ -8,4 +8,8 @@ use App\Domain\Shared\ValueObject\Uuid;
 interface OfferRepository
 {
     public function getOfferById(Uuid $id): ?OfferTicket;
+
+    public function addOffer(OfferTicket $offerTicket): void;
+
+    public function nextIdentity(): Uuid;
 }

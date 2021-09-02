@@ -23,4 +23,9 @@ class DoctrineOfferRepository extends DoctrineRepository implements OfferReposit
     {
         // TODO: Implement getOfferById() method.
     }
+
+    public function addOffer(OfferTicket $offerTicket): void
+    {
+        // TODO: Implement addOffer() method.
+    }
 }
