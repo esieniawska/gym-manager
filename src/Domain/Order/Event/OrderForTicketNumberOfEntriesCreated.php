@@ -10,13 +10,8 @@ class OrderForTicketNumberOfEntriesCreated extends OrderCreated
         protected string $id,
         protected string $buyerCardNumber,
         protected \DateTimeImmutable $startDate,
-        private int $numberOfEntries
+        protected int $numberOfEntries
     ) {
-        parent::__construct($id, $buyerCardNumber, $startDate);
-    }
-
-    public function getNumberOfEntries(): int
-    {
-        return $this->numberOfEntries;
+        parent::__construct($id, $buyerCardNumber, $startDate, $numberOfEntries);
     }
 }

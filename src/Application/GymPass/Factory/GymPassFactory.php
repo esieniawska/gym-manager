@@ -42,7 +42,7 @@ class GymPassFactory
     private function createGymPassWithNumberOfDays(OrderForTicketNumberOfDaysCreated $event): GymPassWithEndDate
     {
         $endDate = (new DateTimeImmutable($event->getStartDate()->format('Y-m-d')))
-            ->add(new DateInterval(sprintf('P%sD', $event->getNumberOfDays())));
+            ->add(new DateInterval(sprintf('P%sD', $event->getQuantity())));
 
         return new GymPassWithEndDate(
             $this->repository->nextIdentity(),
@@ -58,7 +58,7 @@ class GymPassFactory
             $this->repository->nextIdentity(),
             new Client(new CardNumber($event->getBuyerCardNumber())),
             $event->getStartDate(),
-            new NumberOfEntries($event->getNumberOfEntries())
+            new NumberOfEntries($event->getQuantity())
         );
     }
 }

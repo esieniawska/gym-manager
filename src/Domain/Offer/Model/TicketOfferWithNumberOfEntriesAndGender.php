@@ -16,14 +16,9 @@ class TicketOfferWithNumberOfEntriesAndGender extends GenderOfferTicket
         protected OfferName $name,
         protected Money $price,
         protected OfferStatus $status,
-        private NumberOfEntries $numberOfEntries,
+        protected NumberOfEntries $numberOfEntries,
         protected Gender $gender,
     ) {
-        parent::__construct($id, $name, $price, $status, $gender);
-    }
-
-    public function getNumberOfEntries(): NumberOfEntries
-    {
-        return $this->numberOfEntries;
+        parent::__construct($id, $name, $price, $status, $numberOfEntries, $gender);
     }
 }

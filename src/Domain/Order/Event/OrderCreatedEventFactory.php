@@ -34,7 +34,7 @@ class OrderCreatedEventFactory
             (string) $order->getId(),
             (string) $order->getBuyer()->getCardNumber(),
             $order->getStartDate(),
-            (int) $order->getOrderItem()->getNumberOfEntries()->getValue()
+            (int) $order->getOrderItem()->getQuantity()->getValue()
         );
     }
 
@@ -44,7 +44,7 @@ class OrderCreatedEventFactory
             (string) $order->getId(),
             (string) $order->getBuyer()->getCardNumber(),
             $order->getStartDate(),
-            $order->getOrderItem()->getNumberOfDays()->getValue()
+            $order->getOrderItem()->getQuantity()->getValue()
         );
     }
 }

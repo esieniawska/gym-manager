@@ -6,6 +6,7 @@ namespace App\Domain\Order\Model;
 
 use App\Domain\Shared\Model\DomainModel;
 use App\Domain\Shared\ValueObject\Money;
+use App\Domain\Shared\ValueObject\PositiveValue;
 use App\Domain\Shared\ValueObject\Uuid;
 
 abstract class Ticket extends DomainModel implements OrderItem
@@ -13,7 +14,8 @@ abstract class Ticket extends DomainModel implements OrderItem
     public function __construct(
         protected Uuid $id,
         protected Money $price,
-        protected TicketStatus $status
+        protected TicketStatus $status,
+        protected PositiveValue $quantity
     ) {
         parent::__construct($id);
     }
@@ -21,5 +23,10 @@ abstract class Ticket extends DomainModel implements OrderItem
     public function isActive(): bool
     {
         return $this->status->isTheSameType(TicketStatus::ACTIVE());
+    }
+
+    public function getQuantity(): PositiveValue
+    {
+        return $this->quantity;
     }
 }

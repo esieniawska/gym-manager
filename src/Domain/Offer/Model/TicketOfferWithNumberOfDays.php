@@ -15,13 +15,8 @@ class TicketOfferWithNumberOfDays extends OfferTicket
         protected OfferName $name,
         protected Money $price,
         protected OfferStatus $status,
-        private NumberOfDays $numberOfEntries
+        protected NumberOfDays $numberOfEntries
     ) {
-        parent::__construct($id, $name, $price, $status);
-    }
-
-    public function getNumberOfDays(): NumberOfDays
-    {
-        return $this->numberOfEntries;
+        parent::__construct($id, $name, $price, $status, $numberOfEntries);
     }
 }

@@ -15,14 +15,9 @@ class TicketWithNumberOfEntriesAndGender extends TicketWithGender
         protected Uuid $id,
         protected Money $price,
         protected TicketStatus $status,
-        private NumberOfEntries $endDate,
+        protected NumberOfEntries $numberOfEntries,
         protected Gender $gender,
     ) {
-        parent::__construct($id, $price, $status, $gender);
-    }
-
-    public function getNumberOfEntries(): NumberOfEntries
-    {
-        return $this->endDate;
+        parent::__construct($id, $price, $status, $numberOfEntries, $gender);
     }
 }

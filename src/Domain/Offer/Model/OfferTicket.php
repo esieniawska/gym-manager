@@ -7,6 +7,7 @@ namespace App\Domain\Offer\Model;
 use App\Domain\Offer\Exception\OfferUpdateBlockedException;
 use App\Domain\Shared\Model\DomainModel;
 use App\Domain\Shared\ValueObject\Money;
+use App\Domain\Shared\ValueObject\PositiveValue;
 use App\Domain\Shared\ValueObject\Uuid;
 
 abstract class OfferTicket extends DomainModel
@@ -15,9 +16,15 @@ abstract class OfferTicket extends DomainModel
         protected Uuid $id,
         protected OfferName $name,
         protected Money $price,
-        protected OfferStatus $status
+        protected OfferStatus $status,
+        protected PositiveValue $quantity
     ) {
         parent::__construct($id);
+    }
+
+    public function getQuantity(): PositiveValue
+    {
+        return $this->quantity;
     }
 
     public function getId(): Uuid

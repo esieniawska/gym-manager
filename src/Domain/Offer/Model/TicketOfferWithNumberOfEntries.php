@@ -15,13 +15,8 @@ class TicketOfferWithNumberOfEntries extends OfferTicket
         protected OfferName $name,
         protected Money $price,
         protected OfferStatus $status,
-        private NumberOfEntries $numberOfEntries
+        protected NumberOfEntries $numberOfEntries
     ) {
-        parent::__construct($id, $name, $price, $status);
-    }
-
-    public function getNumberOfEntries(): NumberOfEntries
-    {
-        return $this->numberOfEntries;
+        parent::__construct($id, $name, $price, $status, $numberOfEntries);
     }
 }

@@ -10,13 +10,8 @@ class OrderForTicketNumberOfDaysCreated extends OrderCreated
         protected string $id,
         protected string $buyerCardNumber,
         protected \DateTimeImmutable $startDate,
-        private int $numberOfDays
+        protected int $numberOfDays
     ) {
-        parent::__construct($id, $buyerCardNumber, $startDate);
-    }
-
-    public function getNumberOfDays(): int
-    {
-        return $this->numberOfDays;
+        parent::__construct($id, $buyerCardNumber, $startDate, $numberOfDays);
     }
 }

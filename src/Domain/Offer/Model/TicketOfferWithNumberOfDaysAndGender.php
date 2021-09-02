@@ -16,14 +16,9 @@ class TicketOfferWithNumberOfDaysAndGender extends GenderOfferTicket
         protected OfferName $name,
         protected Money $price,
         protected OfferStatus $status,
-        private NumberOfDays $numberOfEntries,
+        protected NumberOfDays $numberOfEntries,
         protected Gender $gender,
     ) {
-        parent::__construct($id, $name, $price, $status, $gender);
-    }
-
-    public function getNumberOfDays(): NumberOfDays
-    {
-        return $this->numberOfEntries;
+        parent::__construct($id, $name, $price, $status, $numberOfEntries, $gender);
     }
 }

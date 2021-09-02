@@ -11,7 +11,8 @@ abstract class OrderCreated implements DomainEvent
     public function __construct(
         protected string $id,
         protected string $buyerCardNumber,
-        protected \DateTimeImmutable $startDate
+        protected \DateTimeImmutable $startDate,
+        protected int $quantity
     ) {
     }
 
@@ -28,5 +29,10 @@ abstract class OrderCreated implements DomainEvent
     public function getStartDate(): \DateTimeImmutable
     {
         return $this->startDate;
+    }
+
+    public function getQuantity(): int
+    {
+        return $this->quantity;
     }
 }

@@ -14,13 +14,8 @@ class TicketWithNumberOfEntries extends Ticket
         protected Uuid $id,
         protected Money $price,
         protected TicketStatus $status,
-        private NumberOfEntries $endDate,
+        protected NumberOfEntries $numberOfEntries,
     ) {
-        parent::__construct($id, $price, $status);
-    }
-
-    public function getNumberOfEntries(): NumberOfEntries
-    {
-        return $this->endDate;
+        parent::__construct($id, $price, $status, $numberOfEntries);
     }
 }

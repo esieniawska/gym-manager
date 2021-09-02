@@ -15,14 +15,9 @@ class TicketWithNumberOfDaysAndGender extends TicketWithGender
         protected Uuid $id,
         protected Money $price,
         protected TicketStatus $status,
-        private NumberOfDays $endDate,
+        protected NumberOfDays $numberOfDays,
         protected Gender $gender,
     ) {
-        parent::__construct($id, $price, $status, $gender);
-    }
-
-    public function getNumberOfDays(): NumberOfDays
-    {
-        return $this->endDate;
+        parent::__construct($id, $price, $status, $numberOfDays, $gender);
     }
 }

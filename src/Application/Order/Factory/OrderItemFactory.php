@@ -49,7 +49,7 @@ class OrderItemFactory
             $offerTicket->getId(),
             $offerTicket->getPrice(),
             new TicketStatus((string) $offerTicket->getStatus()),
-            new NumberOfDays($offerTicket->getNumberOfDays()->getValue())
+            new NumberOfDays($offerTicket->getQuantity()->getValue())
         );
     }
 
@@ -59,7 +59,7 @@ class OrderItemFactory
             $offerTicket->getId(),
             $offerTicket->getPrice(),
             new TicketStatus((string) $offerTicket->getStatus()),
-            new NumberOfEntries($offerTicket->getNumberOfEntries()->getValue())
+            new NumberOfEntries($offerTicket->getQuantity()->getValue())
         );
     }
 
@@ -69,7 +69,7 @@ class OrderItemFactory
             $offerTicket->getId(),
             $offerTicket->getPrice(),
             new TicketStatus((string) $offerTicket->getStatus()),
-            new NumberOfDays($offerTicket->getNumberOfDays()->getValue()),
+            new NumberOfDays($offerTicket->getQuantity()->getValue()),
             $offerTicket->getGender()
         );
     }
@@ -80,7 +80,7 @@ class OrderItemFactory
             $offerTicket->getId(),
             $offerTicket->getPrice(),
             new TicketStatus((string) $offerTicket->getStatus()),
-            new NumberOfEntries($offerTicket->getNumberOfEntries()->getValue()),
+            new NumberOfEntries($offerTicket->getQuantity()->getValue()),
             $offerTicket->getGender()
         );
     }
