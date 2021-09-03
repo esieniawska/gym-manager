@@ -15,4 +15,6 @@ interface OfferRepository
     public function nextIdentity(): Uuid;
 
     public function getAll(): ArrayCollection;
+
+    public function updateOffer(OfferTicket $offerTicket): void;
 }

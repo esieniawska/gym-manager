@@ -106,4 +106,24 @@ class DbOffer implements DbEntity
     {
         return $this->gender;
     }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function setStatus(OfferStatus $status): void
+    {
+        $this->status = $status;
+    }
+
+    public function setPrice(float $price): void
+    {
+        $this->price = $price;
+    }
+
+    public function setQuantity(int $quantity): void
+    {
+        $this->quantity = $quantity;
+    }
 }

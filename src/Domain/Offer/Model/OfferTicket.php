@@ -74,6 +74,12 @@ abstract class OfferTicket extends DomainModel
         $this->price = $price;
     }
 
+    public function updateQuantity(PositiveValue $value): void
+    {
+        $this->ensureIsEnabledEditing();
+        $this->quantity = $value;
+    }
+
     protected function ensureIsEnabledEditing(): void
     {
         if ($this->editingDisabled()) {

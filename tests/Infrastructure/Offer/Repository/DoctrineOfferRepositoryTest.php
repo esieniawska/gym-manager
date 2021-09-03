@@ -12,6 +12,7 @@ use App\Domain\Shared\ValueObject\Uuid;
 use App\Infrastructure\Offer\Converter\DbOfferConverter;
 use App\Infrastructure\Offer\Entity\DbOffer;
 use App\Infrastructure\Offer\Enum\OfferTypeEnum;
+use App\Infrastructure\Offer\Exception\OfferNotFoundException;
 use App\Infrastructure\Offer\Repository\DoctrineOfferRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -146,5 +147,50 @@ class DoctrineOfferRepositoryTest extends TestCase
 
         $result = $this->repository->getAll();
         $this->assertInstanceOf(TicketOfferWithNumberOfEntriesAndGender::class, $result->first());
+    }
+
+    public function testUpdateOfferWhenEntityExist(): void
+    {
+        $entityRepository = $this->prophesize(EntityRepository::class);
+        $dbOffer = new DbOffer(
+            RamseyUuid::fromString('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
+            'offer-name',
+            OfferStatus::ACTIVE(),
+            OfferTypeEnum::TYPE_NUMBER_OF_ENTRIES(),
+            1.02,
+            3,
+            Gender::MALE(),
+        );
+        $entityRepository->find('7d24cece-b0c6-4657-95d5-31180ebfc8e1')->willReturn($dbOffer);
+        $this->entityManagerMock->getRepository(Argument::type('string'))->willReturn($entityRepository->reveal());
+
+        $offer = new TicketOfferWithNumberOfEntriesAndGender(
+            new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
+            new OfferName('new-offer-name'),
+            new Money(50),
+            OfferStatus::ACTIVE(),
+            new NumberOfEntries(10),
+            Gender::MALE()
+        );
+        $this->entityManagerMock->flush()->shouldBeCalled();
+        $this->repository->updateOffer($offer);
+    }
+
+    public function testTryUpdateOfferWhenEntityNotFound(): void
+    {
+        $entityRepository = $this->prophesize(EntityRepository::class);
+        $entityRepository->find('7d24cece-b0c6-4657-95d5-31180ebfc8e1')->willReturn(null);
+        $this->entityManagerMock->getRepository(Argument::type('string'))->willReturn($entityRepository->reveal());
+
+        $offer = new TicketOfferWithNumberOfEntriesAndGender(
+            new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
+            new OfferName('new-offer-name'),
+            new Money(50),
+            OfferStatus::ACTIVE(),
+            new NumberOfEntries(10),
+            Gender::MALE()
+        );
+        $this->expectException(OfferNotFoundException::class);
+        $this->repository->updateOffer($offer);
     }
 }

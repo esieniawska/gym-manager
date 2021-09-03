@@ -82,6 +82,30 @@ use Symfony\Component\Validator\Constraints as Assert;
                 ],
             ],
         ],
+        'put' => [
+            'method' => 'PUT',
+            'path' => '/offers/{id}',
+            'denormalization_context' => ['groups' => self::GROUP_UPDATE],
+            'security' => "is_granted('ROLE_ADMIN')",
+            'openapi_context' => [
+                'tags' => ['Offer'],
+                'summary' => 'Update offer',
+                'responses' => [
+                    '400' => [
+                        'description' => 'Invalid input.',
+                    ],
+                    '401' => [
+                        'description' => 'Missing authentication parameters.',
+                    ],
+                    '403' => [
+                        'description' => 'Access Denied.',
+                    ],
+                    '404' => [
+                        'description' => 'Offer not found.',
+                    ],
+                ],
+            ],
+        ],
     ],
 )]
 class OfferDto implements BaseDto
@@ -149,7 +173,7 @@ class OfferDto implements BaseDto
     )]
     #[Assert\NotBlank(groups: [self::GROUP_UPDATE])]
     #[Assert\Choice(ClientStatus::ALL)]
-    #[Groups([self::GROUP_UPDATE, self::GROUP_READ])]
+    #[Groups([self::GROUP_READ])]
     private string $status;
 
     #[ApiProperty(
