@@ -11,6 +11,7 @@ use App\Domain\Offer\Repository\OfferRepository;
 use App\Domain\Shared\ValueObject\Money;
 use App\Domain\Shared\ValueObject\NumberOfDays;
 use App\Domain\Shared\ValueObject\Uuid;
+use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -50,5 +51,22 @@ class OfferFacadeTest extends TestCase
 
         $result = $this->facade->getOfferById('7d24cece-b0c6-4657-95d5-31180ebfc8e1');
         $this->assertEquals($offerTicket, $result);
+    }
+
+    public function testGetAllOffers(): void
+    {
+        $offerTicket = new TicketOfferWithNumberOfDays(
+            new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
+            new OfferName('name'),
+            new Money(5),
+            OfferStatus::ACTIVE(),
+            new NumberOfDays(4)
+        );
+        $this->offerRepositoryMock
+            ->getAll()
+            ->willReturn(new ArrayCollection([$offerTicket]));
+
+        $result = $this->facade->getAllOffers();
+        $this->assertInstanceOf(TicketOfferWithNumberOfDays::class, $result->first());
     }
 }

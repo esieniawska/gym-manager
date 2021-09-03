@@ -38,6 +38,24 @@ use Symfony\Component\Validator\Constraints as Assert;
                 ],
             ],
         ],
+        'get' => [
+            'method' => 'GET',
+            'path' => '/offers',
+            'normalization_context' => ['groups' => self::GROUP_READ],
+            'security' => "is_granted('ROLE_ADMIN') or is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'tags' => ['Offer'],
+                'summary' => 'Get offer collection',
+                'responses' => [
+                    '401' => [
+                        'description' => 'Missing authentication parameters.',
+                    ],
+                    '403' => [
+                        'description' => 'Access Denied.',
+                    ],
+                ],
+            ],
+        ],
     ],
     itemOperations: [
         'get' => [

@@ -46,9 +46,6 @@ use Symfony\Component\Validator\Constraints as Assert;
                 'tags' => ['Client'],
                 'summary' => 'Get client collection',
                 'responses' => [
-                    '400' => [
-                        'description' => 'Invalid input.',
-                    ],
                     '401' => [
                         'description' => 'Missing authentication parameters.',
                     ],

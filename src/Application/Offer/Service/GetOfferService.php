@@ -8,6 +8,7 @@ use App\Application\Offer\Assembler\OfferDtoAssembler;
 use App\Application\Offer\Dto\OfferDto;
 use App\Domain\Offer\Exception\OfferNotFoundException;
 use App\Domain\Offer\OfferFacade;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class GetOfferService
 {
@@ -23,5 +24,12 @@ class GetOfferService
         $offer = $this->offerFacade->getOfferById($id);
 
         return $this->offerDtoAssembler->assembleDomainObjectToDto($offer);
+    }
+
+    public function getAllOffer(): ArrayCollection
+    {
+        $clients = $this->offerFacade->getAllOffers();
+
+        return $this->offerDtoAssembler->assembleAll($clients);
     }
 }

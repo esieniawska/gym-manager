@@ -13,7 +13,9 @@ use App\Domain\Shared\ValueObject\Gender;
 use App\Domain\Shared\ValueObject\Money;
 use App\Domain\Shared\ValueObject\NumberOfEntries;
 use App\Domain\Shared\ValueObject\Uuid;
+use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
@@ -59,5 +61,34 @@ class GetOfferServiceTest extends TestCase
 
         $result = $this->service->getOfferById('7d24cece-b0c6-4657-95d5-31180ebfc8e1');
         $this->assertEquals($dto, $result);
+    }
+
+    public function testGetAllOffers(): void
+    {
+        $offer = new TicketOfferWithNumberOfEntriesAndGender(
+            new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
+            new OfferName('offer-name'),
+            new Money(1.02),
+            OfferStatus::ACTIVE(),
+            new NumberOfEntries(3),
+            Gender::MALE()
+        );
+        $dto = new OfferDto(
+            '7d24cece-b0c6-4657-95d5-31180ebfc8e1',
+            OfferDto::TYPE_NUMBER_OF_ENTRIES,
+            'offer-name',
+            1.02,
+            OfferStatus::ACTIVE,
+            3,
+            Gender::MALE
+        );
+        $this->offerFacadeMock->getAllOffers()->willReturn(new ArrayCollection([$offer]));
+        $this->offerDtoAssemblerMock
+            ->assembleAll(Argument::type(ArrayCollection::class))
+            ->willReturn(new ArrayCollection([$dto]));
+
+        $result = $this->service->getAllOffer();
+        $this->assertEquals(1, $result->count());
+        $this->assertInstanceOf(OfferDto::class, $result->first());
     }
 }
