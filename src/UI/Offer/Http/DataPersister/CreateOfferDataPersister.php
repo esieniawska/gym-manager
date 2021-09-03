@@ -6,14 +6,18 @@ namespace App\UI\Offer\Http\DataPersister;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\Application\Offer\Service\CreateOfferService;
+use App\UI\Offer\Converter\OfferDtoConverter;
 use App\UI\Offer\Http\Dto\OfferDto;
 use App\UI\Offer\Http\Factory\CreateOfferDtoFactory;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class CreateOfferDataPersister implements ContextAwareDataPersisterInterface
 {
-    public function __construct(private CreateOfferService $createOfferService, private CreateOfferDtoFactory $createOfferDtoFactory)
-    {
+    public function __construct(
+        private CreateOfferService $createOfferService,
+        private CreateOfferDtoFactory $createOfferDtoFactory,
+        private OfferDtoConverter $offerDtoConverter
+    ) {
     }
 
     /**
@@ -27,7 +31,9 @@ class CreateOfferDataPersister implements ContextAwareDataPersisterInterface
     public function persist($data, array $context = [])
     {
         $offer = $this->createOfferDtoFactory->createDtoFromHttp($data);
-        $this->createOfferService->create($offer);
+        $dto = $this->createOfferService->create($offer);
+
+        return $this->offerDtoConverter->createHttpFromApplicationDto($dto);
     }
 
     /**

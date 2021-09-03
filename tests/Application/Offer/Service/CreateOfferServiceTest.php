@@ -2,7 +2,9 @@
 
 namespace App\Tests\Application\Offer\Service;
 
+use App\Application\Offer\Assembler\OfferDtoAssembler;
 use App\Application\Offer\Dto\CreateNumberOfDaysOfferDto;
+use App\Application\Offer\Dto\OfferDto;
 use App\Application\Offer\Factory\OfferFactory;
 use App\Application\Offer\Service\CreateOfferService;
 use App\Domain\Offer\Model\OfferName;
@@ -22,15 +24,18 @@ class CreateOfferServiceTest extends TestCase
 
     private ObjectProphecy|OfferRepository $offerRepository;
     private ObjectProphecy|OfferFactory $offerFactory;
+    private ObjectProphecy|OfferDtoAssembler $assemblerMock;
     private CreateOfferService $service;
 
     protected function setUp(): void
     {
         $this->offerRepository = $this->prophesize(OfferRepository::class);
         $this->offerFactory = $this->prophesize(OfferFactory::class);
+        $this->assemblerMock = $this->prophesize(OfferDtoAssembler::class);
         $this->service = new CreateOfferService(
             $this->offerRepository->reveal(),
-            $this->offerFactory->reveal()
+            $this->offerFactory->reveal(),
+            $this->assemblerMock->reveal()
         );
     }
 
@@ -47,6 +52,18 @@ class CreateOfferServiceTest extends TestCase
 
         $this->offerFactory->createOfferTicket($dto)->willReturn($offer)->shouldBeCalled();
         $this->offerRepository->addOffer($offer)->shouldBeCalled();
-        $this->service->create($dto);
+
+        $offerDto = new OfferDto(
+            'ce871a0b-567d-475d-ac7e-33210e314152',
+            OfferDto::TYPE_NUMBER_OF_DAYS,
+            'new-offer',
+            1,
+            OfferStatus::ACTIVE,
+            1,
+            null
+        );
+        $this->assemblerMock->assembleDomainObjectToDto($offer)->willReturn($offerDto);
+        $result = $this->service->create($dto);
+        $this->assertInstanceOf(OfferDto::class, $result);
     }
 }
