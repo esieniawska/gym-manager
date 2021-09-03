@@ -1,6 +1,10 @@
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
+        types:
+            gender_type: App\Infrastructure\Shared\Type\GenderType
+            offer_type: App\Infrastructure\Offer\Type\OfferType
+            offer_status: App\Infrastructure\Offer\Type\OfferStatusType
 
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
@@ -22,3 +26,9 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Infrastructure/Client/Entity'
                 prefix: 'App\Infrastructure\Client\Entity'
                 alias: Client
+            Offer:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Infrastructure/Offer/Entity'
+                prefix: 'App\Infrastructure\Offer\Entity'
+                alias: Offer

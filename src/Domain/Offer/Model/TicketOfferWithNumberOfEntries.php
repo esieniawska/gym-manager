@@ -8,7 +8,7 @@ use App\Domain\Shared\ValueObject\Money;
 use App\Domain\Shared\ValueObject\NumberOfEntries;
 use App\Domain\Shared\ValueObject\Uuid;
 
-class TicketOfferWithNumberOfEntries extends OfferTicket
+class TicketOfferWithNumberOfEntries extends OfferTicket implements OfferWithNumberOfEntries
 {
     public function __construct(
         protected Uuid $id,

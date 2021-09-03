@@ -21,11 +21,6 @@ class Gender extends Enum
         self::MALE,
     ];
 
-    public function __construct(protected string $gender)
-    {
-        parent::__construct($gender);
-    }
-
     protected static function throwExceptionForInvalidValue(string $value): void
     {
         throw new InvalidGenderException("Invalid gender: $value");

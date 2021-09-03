@@ -9,6 +9,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Domain\Client\Model\ClientStatus;
 use App\Domain\Offer\Model\OfferStatus;
 use App\Domain\Shared\ValueObject\Gender;
+use App\Domain\Shared\ValueObject\Money;
 use App\UI\Shared\Dto\BaseDto;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -60,7 +61,7 @@ class OfferDto implements BaseDto
         example: 'Special offer'
     )]
     #[Assert\NotBlank]
-    #[Assert\Length(max: 255)]
+    #[Assert\Length(min: 3, max: 255)]
     #[Groups([self::GROUP_WRITE, self::GROUP_UPDATE, self::GROUP_READ])]
     private string $name;
 
@@ -70,6 +71,7 @@ class OfferDto implements BaseDto
     )]
     #[Assert\NotBlank]
     #[Assert\Positive]
+    #[Assert\Regex(pattern: Money::PATTERN)]
     #[Groups([self::GROUP_WRITE, self::GROUP_UPDATE, self::GROUP_READ])]
     private float $price;
 
@@ -90,7 +92,6 @@ class OfferDto implements BaseDto
             'type' => 'string',
         ]
     )]
-    #[Assert\NotBlank]
     #[Assert\Choice(Gender::ALL)]
     #[Groups([self::GROUP_WRITE, self::GROUP_READ])]
     private ?string $gender = null;

@@ -9,7 +9,7 @@ use App\Domain\Shared\ValueObject\Money;
 use App\Domain\Shared\ValueObject\NumberOfDays;
 use App\Domain\Shared\ValueObject\Uuid;
 
-class TicketOfferWithNumberOfDaysAndGender extends GenderOfferTicket
+class TicketOfferWithNumberOfDaysAndGender extends GenderOfferTicket implements OfferWithNumberOfDays
 {
     public function __construct(
         protected Uuid $id,

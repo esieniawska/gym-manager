@@ -22,11 +22,6 @@ class OfferStatus extends Enum
         self::NOT_ACTIVE,
     ];
 
-    public function __construct(protected string $status)
-    {
-        parent::__construct($status);
-    }
-
     protected static function throwExceptionForInvalidValue(string $value): void
     {
         throw new InvalidValueException("Invalid status: $value");

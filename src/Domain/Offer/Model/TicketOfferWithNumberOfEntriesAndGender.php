@@ -9,7 +9,7 @@ use App\Domain\Shared\ValueObject\Money;
 use App\Domain\Shared\ValueObject\NumberOfEntries;
 use App\Domain\Shared\ValueObject\Uuid;
 
-class TicketOfferWithNumberOfEntriesAndGender extends GenderOfferTicket
+class TicketOfferWithNumberOfEntriesAndGender extends GenderOfferTicket implements OfferWithNumberOfEntries
 {
     public function __construct(
         protected Uuid $id,
