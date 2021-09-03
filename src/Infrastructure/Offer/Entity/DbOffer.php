@@ -102,7 +102,7 @@ class DbOffer implements DbEntity
         return $this->quantity;
     }
 
-    public function getGender(): ?string
+    public function getGender(): ?Gender
     {
         return $this->gender;
     }

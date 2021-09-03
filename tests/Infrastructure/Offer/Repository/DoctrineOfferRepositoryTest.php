@@ -14,6 +14,7 @@ use App\Infrastructure\Offer\Entity\DbOffer;
 use App\Infrastructure\Offer\Enum\OfferTypeEnum;
 use App\Infrastructure\Offer\Repository\DoctrineOfferRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -75,5 +76,44 @@ class DoctrineOfferRepositoryTest extends TestCase
         $this->entityManagerMock->persist(Argument::type(DbOffer::class))->shouldBeCalled();
         $this->entityManagerMock->flush()->shouldBeCalled();
         $this->repository->addOffer($offer);
+    }
+
+    public function testGetOfferByIdWhenEntityNotFound(): void
+    {
+        $entityRepository = $this->prophesize(EntityRepository::class);
+        $entityRepository->find('7d24cece-b0c6-4657-95d5-31180ebfc8e1')->willReturn(null);
+        $this->entityManagerMock->getRepository(Argument::type('string'))->willReturn($entityRepository->reveal());
+        $this->converterMock->convertDbModelToDomainObject(Argument::type(DbOffer::class))->shouldNotBeCalled();
+
+        $this->assertEmpty($this->repository->getOfferById(new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1')));
+    }
+
+    public function testGetOfferByIdWhenEntityExist(): void
+    {
+        $entityRepository = $this->prophesize(EntityRepository::class);
+        $dbOffer = new DbOffer(
+            RamseyUuid::fromString('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
+            'offer-name',
+            OfferStatus::ACTIVE(),
+            OfferTypeEnum::TYPE_NUMBER_OF_ENTRIES(),
+            1.02,
+            3,
+            Gender::MALE(),
+        );
+        $entityRepository->find('7d24cece-b0c6-4657-95d5-31180ebfc8e1')->willReturn($dbOffer);
+        $this->entityManagerMock->getRepository(Argument::type('string'))->willReturn($entityRepository->reveal());
+
+        $offer = new TicketOfferWithNumberOfEntriesAndGender(
+            new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
+            new OfferName('offer-name'),
+            new Money(1.02),
+            OfferStatus::ACTIVE(),
+            new NumberOfEntries(3),
+            Gender::MALE()
+        );
+        $this->converterMock->convertDbModelToDomainObject(Argument::type(DbOffer::class))->willReturn($offer);
+
+        $result = $this->repository->getOfferById(new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'));
+        $this->assertInstanceOf(TicketOfferWithNumberOfEntriesAndGender::class, $result);
     }
 }

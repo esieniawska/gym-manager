@@ -21,7 +21,9 @@ class DoctrineOfferRepository extends DoctrineRepository implements OfferReposit
 
     public function getOfferById(Uuid $id): ?OfferTicket
     {
-        // TODO: Implement getOfferById() method.
+        $dbOffer = $this->getRepository()->find((string) $id);
+
+        return null === $dbOffer ? null : $this->converter->convertDbModelToDomainObject($dbOffer);
     }
 
     public function addOffer(OfferTicket $offerTicket): void

@@ -13,12 +13,20 @@ use App\Domain\Shared\ValueObject\Gender;
 use App\Infrastructure\Offer\Entity\DbOffer;
 use App\Infrastructure\Offer\Enum\OfferTypeEnum;
 use App\Infrastructure\Offer\Exception\InvalidOfferTypeException;
+use App\Infrastructure\Offer\Factory\OfferFactory;
+use App\Infrastructure\Offer\Factory\OfferWithGenderFactory;
 use App\Infrastructure\Shared\Converter\DbCollectionConverter;
 use App\Infrastructure\Shared\Entity\DbEntity;
 use Ramsey\Uuid\Uuid as RamseyUuid;
 
 class DbOfferConverter extends DbCollectionConverter
 {
+    public function __construct(
+        private OfferWithGenderFactory $offerWithGenderFactory,
+        private OfferFactory $offerFactory
+    ) {
+    }
+
     public function convertDomainObjectToDbModel(DomainModel $offerTicket): DbOffer
     {
         /* @var $offerTicket OfferTicket */
@@ -54,6 +62,8 @@ class DbOfferConverter extends DbCollectionConverter
 
     public function convertDbModelToDomainObject(DbEntity $dbEntity): OfferTicket
     {
-        // TODO: Implement convertDbModelToDomainObject() method.
+        return null === $dbEntity->getGender()
+            ? $this->offerFactory->createOfferTicket($dbEntity)
+            : $this->offerWithGenderFactory->createOfferTicket($dbEntity);
     }
 }

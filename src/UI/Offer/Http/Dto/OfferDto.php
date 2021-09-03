@@ -39,7 +39,32 @@ use Symfony\Component\Validator\Constraints as Assert;
             ],
         ],
     ],
-    itemOperations: [],
+    itemOperations: [
+        'get' => [
+            'method' => 'GET',
+            'path' => '/offers/{id}',
+            'normalization_context' => ['groups' => self::GROUP_READ],
+            'security' => "is_granted('ROLE_ADMIN') or is_granted('ROLE_USER')",
+            'openapi_context' => [
+                'tags' => ['Offer'],
+                'summary' => 'Get offer',
+                'responses' => [
+                    '400' => [
+                        'description' => 'Invalid input.',
+                    ],
+                    '401' => [
+                        'description' => 'Missing authentication parameters.',
+                    ],
+                    '403' => [
+                        'description' => 'Access Denied.',
+                    ],
+                    '404' => [
+                        'description' => 'Offer not found.',
+                    ],
+                ],
+            ],
+        ],
+    ],
 )]
 class OfferDto implements BaseDto
 {
