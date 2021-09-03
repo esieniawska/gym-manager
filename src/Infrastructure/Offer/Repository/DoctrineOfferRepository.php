@@ -42,15 +42,21 @@ class DoctrineOfferRepository extends DoctrineRepository implements OfferReposit
 
     public function updateOffer(OfferTicket $offerTicket): void
     {
+        $dbOffer = $this->getDbOffer($offerTicket);
+        $this->updateDbOfferFields($offerTicket, $dbOffer);
+        $entityManager = $this->getEntityManager();
+        $entityManager->flush();
+    }
+
+    private function getDbOffer(OfferTicket $offerTicket): DbOffer
+    {
         $dbOffer = $this->getRepository()->find((string) $offerTicket->getId());
 
         if (null === $dbOffer) {
             throw new OfferNotFoundException();
         }
 
-        $this->updateDbOfferFields($offerTicket, $dbOffer);
-        $entityManager = $this->getEntityManager();
-        $entityManager->flush();
+        return $dbOffer;
     }
 
     private function updateDbOfferFields(OfferTicket $offerTicket, DbOffer $dbOffer)
@@ -58,5 +64,13 @@ class DoctrineOfferRepository extends DoctrineRepository implements OfferReposit
         $dbOffer->setPrice($offerTicket->getPrice()->getPrice());
         $dbOffer->setName((string) $offerTicket->getName());
         $dbOffer->setQuantity($offerTicket->getQuantity()->getValue());
+    }
+
+    public function updateOfferStatus(OfferTicket $offerTicket): void
+    {
+        $dbOffer = $this->getDbOffer($offerTicket);
+        $dbOffer->setStatus($offerTicket->getStatus());
+        $entityManager = $this->getEntityManager();
+        $entityManager->flush();
     }
 }

@@ -128,4 +128,54 @@ class UpdateOfferServiceTest extends TestCase
         $this->expectException(InvalidOfferTypeException::class);
         $this->updateOfferService->updateOffer($updateDto);
     }
+
+    public function testDisableEditing(): void
+    {
+        $offer = $this->prophesize(TicketOfferWithNumberOfEntries::class);
+        $offer->disableEditing()->shouldBeCalled();
+        $this->offerFacadeMock->getOfferById('7d24cece-b0c6-4657-95d5-31180ebfc8e1')->willReturn($offer->reveal());
+        $this->offerRepositoryMock
+            ->updateOfferStatus(Argument::type(TicketOfferWithNumberOfEntries::class))
+            ->shouldBeCalled();
+
+        $dto = new OfferDto(
+            '7d24cece-b0c6-4657-95d5-31180ebfc8e1',
+            OfferDto::TYPE_NUMBER_OF_ENTRIES,
+            'offer',
+            2,
+            OfferStatus::NOT_ACTIVE,
+            10
+        );
+        $this->offerDtoAssemblerMock
+            ->assembleDomainObjectToDto(Argument::type(TicketOfferWithNumberOfEntries::class))
+            ->willReturn($dto);
+
+        $result = $this->updateOfferService->disableEditing('7d24cece-b0c6-4657-95d5-31180ebfc8e1');
+        $this->assertInstanceOf(OfferDto::class, $result);
+    }
+
+    public function testEnableEditing(): void
+    {
+        $offer = $this->prophesize(TicketOfferWithNumberOfEntries::class);
+        $offer->enableEditing()->shouldBeCalled();
+        $this->offerFacadeMock->getOfferById('7d24cece-b0c6-4657-95d5-31180ebfc8e1')->willReturn($offer->reveal());
+        $this->offerRepositoryMock
+            ->updateOfferStatus(Argument::type(TicketOfferWithNumberOfEntries::class))
+            ->shouldBeCalled();
+
+        $dto = new OfferDto(
+            '7d24cece-b0c6-4657-95d5-31180ebfc8e1',
+            OfferDto::TYPE_NUMBER_OF_ENTRIES,
+            'offer',
+            2,
+            OfferStatus::ACTIVE,
+            10
+        );
+        $this->offerDtoAssemblerMock
+            ->assembleDomainObjectToDto(Argument::type(TicketOfferWithNumberOfEntries::class))
+            ->willReturn($dto);
+
+        $result = $this->updateOfferService->enableEditing('7d24cece-b0c6-4657-95d5-31180ebfc8e1');
+        $this->assertInstanceOf(OfferDto::class, $result);
+    }
 }

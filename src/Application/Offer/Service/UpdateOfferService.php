@@ -8,6 +8,9 @@ use App\Application\Offer\Assembler\OfferDtoAssembler;
 use App\Application\Offer\Dto\OfferDto;
 use App\Application\Offer\Dto\UpdateOfferDto;
 use App\Application\Offer\Exception\InvalidOfferTypeException;
+use App\Domain\Offer\Exception\InvalidOfferStatusException;
+use App\Domain\Offer\Exception\OfferNotFoundException;
+use App\Domain\Offer\Exception\OfferUpdateBlockedException;
 use App\Domain\Offer\Model\OfferName;
 use App\Domain\Offer\Model\OfferTicket;
 use App\Domain\Offer\Model\OfferWithNumberOfDays;
@@ -28,6 +31,11 @@ class UpdateOfferService
     ) {
     }
 
+    /**
+     * @throws InvalidOfferTypeException
+     * @throws OfferNotFoundException
+     * @throws OfferUpdateBlockedException
+     */
     public function updateOffer(UpdateOfferDto $dto): OfferDto
     {
         $offer = $this->offerFacade->getOfferById($dto->getId());
@@ -37,6 +45,10 @@ class UpdateOfferService
         return $this->offerDtoAssembler->assembleDomainObjectToDto($offer);
     }
 
+    /**
+     * @throws InvalidOfferTypeException
+     * @throws OfferUpdateBlockedException
+     */
     private function updateFields(OfferTicket $offer, UpdateOfferDto $dto): void
     {
         $offer->updatePrice(new Money($dto->getPrice()));
@@ -54,5 +66,31 @@ class UpdateOfferService
             default:
                 throw new InvalidOfferTypeException('Invalid offer type');
         }
+    }
+
+    /**
+     * @throws OfferNotFoundException
+     * @throws InvalidOfferStatusException
+     */
+    public function disableEditing(string $id): OfferDto
+    {
+        $offer = $this->offerFacade->getOfferById($id);
+        $offer->disableEditing();
+        $this->offerRepository->updateOfferStatus($offer);
+
+        return $this->offerDtoAssembler->assembleDomainObjectToDto($offer);
+    }
+
+    /**
+     * @throws OfferNotFoundException
+     * @throws InvalidOfferStatusException
+     */
+    public function enableEditing(string $id): OfferDto
+    {
+        $offer = $this->offerFacade->getOfferById($id);
+        $offer->enableEditing();
+        $this->offerRepository->updateOfferStatus($offer);
+
+        return $this->offerDtoAssembler->assembleDomainObjectToDto($offer);
     }
 }

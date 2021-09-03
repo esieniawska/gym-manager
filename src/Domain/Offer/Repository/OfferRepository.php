@@ -17,4 +17,6 @@ interface OfferRepository
     public function getAll(): ArrayCollection;
 
     public function updateOffer(OfferTicket $offerTicket): void;
+
+    public function updateOfferStatus(OfferTicket $offerTicket): void;
 }

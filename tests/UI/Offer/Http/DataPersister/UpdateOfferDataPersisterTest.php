@@ -5,6 +5,7 @@ namespace App\Tests\UI\Offer\Http\DataPersister;
 use App\Application\Offer\Dto\OfferDto as ApplicationDto;
 use App\Application\Offer\Dto\UpdateOfferDto;
 use App\Application\Offer\Service\UpdateOfferService;
+use App\Domain\Offer\Exception\InvalidOfferStatusException;
 use App\Domain\Offer\Exception\OfferUpdateBlockedException;
 use App\Domain\Offer\Model\OfferStatus;
 use App\Infrastructure\Offer\Enum\OfferTypeEnum;
@@ -34,7 +35,7 @@ class UpdateOfferDataPersisterTest extends TestCase
         );
     }
 
-    public function testPersist(): void
+    public function testPersistUpdateOffer(): void
     {
         $data = (new OfferDto())
             ->setId('7d24cece-b0c6-4657-95d5-31180ebfc8e1')
@@ -65,7 +66,7 @@ class UpdateOfferDataPersisterTest extends TestCase
         $this->offerDtoConverterMock->createHttpFromApplicationDto($applicationDto)
             ->willReturn($httpDto);
 
-        $result = $this->persister->persist($data);
+        $result = $this->persister->persist($data, ['item_operation_name' => OfferDto::OPERATION_UPDATE]);
         $this->assertInstanceOf(OfferDto::class, $result);
     }
 
@@ -82,6 +83,98 @@ class UpdateOfferDataPersisterTest extends TestCase
             ->willThrow(OfferUpdateBlockedException::class);
 
         $this->expectException(AccessDeniedHttpException::class);
-        $this->persister->persist($data);
+        $this->persister->persist($data, ['item_operation_name' => OfferDto::OPERATION_UPDATE]);
+    }
+
+    public function testPersistDisableOffer(): void
+    {
+        $data = (new OfferDto())->setId('7d24cece-b0c6-4657-95d5-31180ebfc8e1');
+
+        $applicationDto = new ApplicationDto(
+            '7d24cece-b0c6-4657-95d5-31180ebfc8e1',
+            ApplicationDto::TYPE_NUMBER_OF_DAYS,
+            'offer-name',
+            1.3,
+            OfferStatus::NOT_ACTIVE,
+            11,
+            null
+        );
+        $this->updateOfferService
+            ->disableEditing('7d24cece-b0c6-4657-95d5-31180ebfc8e1')
+            ->willReturn($applicationDto)
+            ->shouldBeCalled();
+
+        $httpDto = (new OfferDto())
+            ->setId('7d24cece-b0c6-4657-95d5-31180ebfc8e1')
+            ->setType(OfferTypeEnum::TYPE_NUMBER_OF_DAYS)
+            ->setQuantity(1)
+            ->setPrice(1.3)
+            ->setName('offer-name')
+            ->setStatus(OfferStatus::NOT_ACTIVE);
+
+        $this->offerDtoConverterMock->createHttpFromApplicationDto($applicationDto)
+            ->willReturn($httpDto);
+
+        $result = $this->persister->persist($data, ['item_operation_name' => OfferDto::OPERATION_DISABLE]);
+        $this->assertInstanceOf(OfferDto::class, $result);
+    }
+
+    public function testPersistDisableOfferWhenOfferIsNotActive(): void
+    {
+        $data = (new OfferDto())->setId('7d24cece-b0c6-4657-95d5-31180ebfc8e1');
+
+        $this->updateOfferService
+            ->disableEditing('7d24cece-b0c6-4657-95d5-31180ebfc8e1')
+            ->willThrow(InvalidOfferStatusException::class)
+            ->shouldBeCalled();
+
+        $this->expectException(AccessDeniedHttpException::class);
+        $this->persister->persist($data, ['item_operation_name' => OfferDto::OPERATION_DISABLE]);
+    }
+
+    public function testPersistEnableOffer(): void
+    {
+        $data = (new OfferDto())->setId('7d24cece-b0c6-4657-95d5-31180ebfc8e1');
+
+        $applicationDto = new ApplicationDto(
+            '7d24cece-b0c6-4657-95d5-31180ebfc8e1',
+            ApplicationDto::TYPE_NUMBER_OF_DAYS,
+            'offer-name',
+            1.3,
+            OfferStatus::ACTIVE,
+            11,
+            null
+        );
+        $this->updateOfferService
+            ->enableEditing('7d24cece-b0c6-4657-95d5-31180ebfc8e1')
+            ->willReturn($applicationDto)
+            ->shouldBeCalled();
+
+        $httpDto = (new OfferDto())
+            ->setId('7d24cece-b0c6-4657-95d5-31180ebfc8e1')
+            ->setType(OfferTypeEnum::TYPE_NUMBER_OF_DAYS)
+            ->setQuantity(1)
+            ->setPrice(1.3)
+            ->setName('offer-name')
+            ->setStatus(OfferStatus::ACTIVE);
+
+        $this->offerDtoConverterMock->createHttpFromApplicationDto($applicationDto)
+            ->willReturn($httpDto);
+
+        $result = $this->persister->persist($data, ['item_operation_name' => OfferDto::OPERATION_ENABLE]);
+        $this->assertInstanceOf(OfferDto::class, $result);
+    }
+
+    public function testPersistEnableOfferWhenOfferIsActive(): void
+    {
+        $data = (new OfferDto())->setId('7d24cece-b0c6-4657-95d5-31180ebfc8e1');
+
+        $this->updateOfferService
+            ->enableEditing('7d24cece-b0c6-4657-95d5-31180ebfc8e1')
+            ->willThrow(InvalidOfferStatusException::class)
+            ->shouldBeCalled();
+
+        $this->expectException(AccessDeniedHttpException::class);
+        $this->persister->persist($data, ['item_operation_name' => OfferDto::OPERATION_ENABLE]);
     }
 }

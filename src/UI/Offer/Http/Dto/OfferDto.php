@@ -82,7 +82,7 @@ use Symfony\Component\Validator\Constraints as Assert;
                 ],
             ],
         ],
-        'put' => [
+        self::OPERATION_UPDATE => [
             'method' => 'PUT',
             'path' => '/offers/{id}',
             'denormalization_context' => ['groups' => self::GROUP_UPDATE],
@@ -106,6 +106,54 @@ use Symfony\Component\Validator\Constraints as Assert;
                 ],
             ],
         ],
+        self::OPERATION_DISABLE => [
+            'method' => 'PUT',
+            'path' => '/offers/{id}/disable',
+            'denormalization_context' => ['groups' => self::GROUP_DISABLE],
+            'security' => "is_granted('ROLE_ADMIN')",
+            'openapi_context' => [
+                'tags' => ['Offer'],
+                'summary' => 'Disable offer',
+                'responses' => [
+                    '400' => [
+                        'description' => 'Invalid input.',
+                    ],
+                    '401' => [
+                        'description' => 'Missing authentication parameters.',
+                    ],
+                    '403' => [
+                        'description' => 'Access Denied.',
+                    ],
+                    '404' => [
+                        'description' => 'Offer not found.',
+                    ],
+                ],
+            ],
+        ],
+        self::OPERATION_ENABLE => [
+            'method' => 'PUT',
+            'path' => '/offers/{id}/enable',
+            'denormalization_context' => ['groups' => self::GROUP_ENABLE],
+            'security' => "is_granted('ROLE_ADMIN')",
+            'openapi_context' => [
+                'tags' => ['Offer'],
+                'summary' => 'Enable offer',
+                'responses' => [
+                    '400' => [
+                        'description' => 'Invalid input.',
+                    ],
+                    '401' => [
+                        'description' => 'Missing authentication parameters.',
+                    ],
+                    '403' => [
+                        'description' => 'Access Denied.',
+                    ],
+                    '404' => [
+                        'description' => 'Offer not found.',
+                    ],
+                ],
+            ],
+        ],
     ],
 )]
 class OfferDto implements BaseDto
@@ -113,6 +161,12 @@ class OfferDto implements BaseDto
     public const GROUP_WRITE = __CLASS__.'.write';
     public const GROUP_UPDATE = __CLASS__.'.put';
     public const GROUP_READ = __CLASS__.'.read';
+    public const GROUP_DISABLE = __CLASS__.'.disable';
+    public const GROUP_ENABLE = __CLASS__.'.enable';
+
+    public const OPERATION_UPDATE = 'update';
+    public const OPERATION_DISABLE = 'disable';
+    public const OPERATION_ENABLE = 'enable';
 
     #[ApiProperty(
         description: 'Offer ID',
@@ -171,7 +225,6 @@ class OfferDto implements BaseDto
             'type' => 'string',
         ]
     )]
-    #[Assert\NotBlank(groups: [self::GROUP_UPDATE])]
     #[Assert\Choice(ClientStatus::ALL)]
     #[Groups([self::GROUP_READ])]
     private string $status;

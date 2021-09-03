@@ -176,6 +176,33 @@ class DoctrineOfferRepositoryTest extends TestCase
         $this->repository->updateOffer($offer);
     }
 
+    public function testUpdateOfferStatus(): void
+    {
+        $entityRepository = $this->prophesize(EntityRepository::class);
+        $dbOffer = new DbOffer(
+            RamseyUuid::fromString('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
+            'offer-name',
+            OfferStatus::NOT_ACTIVE(),
+            OfferTypeEnum::TYPE_NUMBER_OF_ENTRIES(),
+            1.02,
+            3,
+            Gender::MALE(),
+        );
+        $entityRepository->find('7d24cece-b0c6-4657-95d5-31180ebfc8e1')->willReturn($dbOffer);
+        $this->entityManagerMock->getRepository(Argument::type('string'))->willReturn($entityRepository->reveal());
+
+        $offer = new TicketOfferWithNumberOfEntriesAndGender(
+            new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
+            new OfferName('new-offer-name'),
+            new Money(50),
+            OfferStatus::ACTIVE(),
+            new NumberOfEntries(10),
+            Gender::MALE()
+        );
+        $this->entityManagerMock->flush()->shouldBeCalled();
+        $this->repository->updateOfferStatus($offer);
+    }
+
     public function testTryUpdateOfferWhenEntityNotFound(): void
     {
         $entityRepository = $this->prophesize(EntityRepository::class);
