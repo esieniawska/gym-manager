@@ -3,6 +3,7 @@
 namespace App\Tests\UI\Client\Http\DataProvider;
 
 use App\Application\Client\Dto\ClientDto;
+use App\Application\Client\Dto\Filter;
 use App\Application\Client\Service\GetClientService;
 use App\Domain\Client\Model\ClientStatus;
 use App\Domain\Shared\ValueObject\Gender;
@@ -46,15 +47,9 @@ class ClientCollectionDataProviderTest extends TestCase
             'test@example.com'
         );
 
-        $this->clientServiceMock->getAllClients()->willReturn(new ArrayCollection([$clientDto]));
+        $this->clientServiceMock->getAllClients(new Filter())->willReturn(new ArrayCollection([$clientDto]));
 
-        $httpDto = new HttpClientDto(
-            'Joe',
-            'Smith',
-            Gender::MALE,
-            '123456789',
-            'test@example.com'
-        );
+        $httpDto = new HttpClientDto();
         $httpDto
             ->setStatus(ClientStatus::ACTIVE)
             ->setId('7d24cece-b0c6-4657-95d5-31180ebfc8e1')

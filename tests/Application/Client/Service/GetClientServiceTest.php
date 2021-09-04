@@ -4,10 +4,12 @@ namespace App\Tests\Application\Client\Service;
 
 use App\Application\Client\Assembler\ClientDtoAssembler;
 use App\Application\Client\Dto\ClientDto;
+use App\Application\Client\Dto\Filter;
 use App\Application\Client\Exception\ClientNotFoundException;
 use App\Application\Client\Service\GetClientService;
 use App\Domain\Client\Model\Client;
 use App\Domain\Client\Model\ClientStatus;
+use App\Domain\Client\Model\Filter as DomainFilter;
 use App\Domain\Client\Model\PhoneNumber;
 use App\Domain\Client\Repository\ClientRepository;
 use App\Domain\Shared\ValueObject\CardNumber;
@@ -92,7 +94,7 @@ class GetClientServiceTest extends TestCase
             new PhoneNumber('123456789')
         );
         $this->clientRepositoryMock
-            ->getAll()
+            ->getAll(new DomainFilter('9b045fee101aa548c276fe5f7f907799'))
             ->willReturn(new ArrayCollection([$client]));
 
         $dto = new ClientDto(
@@ -109,7 +111,7 @@ class GetClientServiceTest extends TestCase
             ->assembleAll(Argument::type(ArrayCollection::class))
             ->willReturn(new ArrayCollection([$dto]));
 
-        $result = $this->clientService->getAllClients();
+        $result = $this->clientService->getAllClients(new Filter('9b045fee101aa548c276fe5f7f907799'));
         $this->assertEquals(1, $result->count());
         $this->assertEquals($dto, $result->first());
     }

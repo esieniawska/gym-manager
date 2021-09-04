@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\UI\Client\Http\Dto;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Domain\Client\Model\ClientStatus;
 use App\Domain\Client\Model\PhoneNumber;
 use App\Domain\Shared\ValueObject\Gender;
+use App\UI\Client\Http\Filter\ClientFilter;
 use App\UI\Shared\Dto\BaseDto;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -106,7 +108,11 @@ use Symfony\Component\Validator\Constraints as Assert;
             ],
         ],
     ],
+    attributes: [
+        'pagination_enabled' => false,
+    ],
 )]
+#[ApiFilter(ClientFilter::class, properties: ['firstName', 'lastName', 'cardNumber', 'status'])]
 class ClientDto implements BaseDto
 {
     public const GROUP_WRITE = __CLASS__.'.write';

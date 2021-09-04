@@ -51,12 +51,13 @@ class DoctrineOfferRepository extends DoctrineRepository implements OfferReposit
 
         if (null !== $filter->getName()) {
             $queryBuilder
-                ->where($queryBuilder->expr()->like('offer.name', ':name'))
-                ->setParameter(':name', '%'.addslashes($filter->getName()).'%');
+                ->andWhere($queryBuilder->expr()->like('LOWER(offer.name)', ':name'))
+                ->setParameter(':name', '%'.strtolower($filter->getName()).'%');
         }
+
         if (null !== $filter->getStatus()) {
             $queryBuilder
-                ->where('offer.status = :status')
+                ->andWhere('offer.status = :status')
                 ->setParameter(':status', $filter->getStatus());
         }
 
