@@ -7,7 +7,7 @@ use App\Domain\Order\Event\OrderCreatedEventFactory;
 use App\Domain\Order\Event\OrderForTicketNumberOfDaysCreated;
 use App\Domain\Order\Model\Buyer;
 use App\Domain\Order\Model\Order;
-use App\Domain\Order\Model\TicketWithNumberOfDaysAndGender;
+use App\Domain\Order\Model\TicketWithNumberOfDays;
 use App\Domain\Shared\Event\DomainEvent;
 use App\Domain\Shared\Event\DomainEventDispatcher;
 use App\Domain\Shared\ValueObject\Uuid;
@@ -51,7 +51,7 @@ class DomainEventPublisherTest extends TestCase
             ->willReturn($event)
             ->shouldBeCalled();
 
-        $orderItem = $this->prophesize(TicketWithNumberOfDaysAndGender::class);
+        $orderItem = $this->prophesize(TicketWithNumberOfDays::class);
         $buyer = $this->prophesize(Buyer::class);
         $order = new Order(
             new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),

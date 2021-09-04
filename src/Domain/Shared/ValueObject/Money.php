@@ -11,14 +11,14 @@ class Money extends ValueObject
 {
     public const PATTERN = '/^[0-9]+(\.[0-9]{2})?$/';
 
-    public function __construct(private float $price)
+    public function __construct(private float $value)
     {
-        $this->ensureIsSatisfiedValue((string) $price, $this->getValidators());
+        $this->ensureIsSatisfiedValue((string) $value, $this->getValidators());
     }
 
-    public function getPrice(): float
+    public function getValue(): float
     {
-        return $this->price;
+        return $this->value;
     }
 
     private function getValidators(): array

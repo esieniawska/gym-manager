@@ -90,7 +90,7 @@ class Client extends DomainModel
         return $this;
     }
 
-    public function isActive(): bool
+    public function canCreateOrder(): bool
     {
         return $this->clientStatus->isTheSameType(ClientStatus::ACTIVE());
     }

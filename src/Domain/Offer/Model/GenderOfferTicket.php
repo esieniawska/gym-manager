@@ -26,4 +26,9 @@ abstract class GenderOfferTicket extends OfferTicket
     {
         return $this->gender;
     }
+
+    public function isAcceptedGender(Gender $gender): bool
+    {
+        return $this->gender->isTheSameType($gender);
+    }
 }

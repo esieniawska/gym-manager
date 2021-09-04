@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 
 class TicketOfferWithNumberOfDaysAndGenderTest extends TestCase
 {
-    public function testIsActiveOfferTicketWhenOtherStatus(): void
+    public function testCanBeOrderedWhenOfferHasNotActiveStatus(): void
     {
         $offer = new TicketOfferWithNumberOfDaysAndGender(
             new Uuid('0a536e85-6e8e-4aa4-ab6c-dffb48abd9e2'),
@@ -26,7 +26,7 @@ class TicketOfferWithNumberOfDaysAndGenderTest extends TestCase
             Gender::FEMALE(),
         );
 
-        $this->assertFalse($offer->isActive());
+        $this->assertFalse($offer->canBeOrdered());
     }
 
     public function testTryEditOfferNameWhenDisabledEditing(): void
@@ -75,7 +75,7 @@ class TicketOfferWithNumberOfDaysAndGenderTest extends TestCase
         $offer->enableEditing();
         $offer->updatePrice(new Money(5));
 
-        $this->assertEquals(5, $offer->getPrice()->getPrice());
+        $this->assertEquals(5, $offer->getPrice()->getValue());
     }
 
     public function testFailedEnableEditingWhenOfferIsActive(): void
@@ -122,5 +122,33 @@ class TicketOfferWithNumberOfDaysAndGenderTest extends TestCase
         $offer->updateQuantity(new NumberOfDays(10));
 
         $this->assertEquals(10, $offer->getQuantity()->getValue());
+    }
+
+    public function testIsAcceptedGenderWhenCompareOtherGender(): void
+    {
+        $offer = new TicketOfferWithNumberOfDaysAndGender(
+            new Uuid('0a536e85-6e8e-4aa4-ab6c-dffb48abd9e2'),
+            new OfferName('test'),
+            new Money(0),
+            OfferStatus::ACTIVE(),
+            new NumberOfDays(5),
+            Gender::FEMALE()
+        );
+
+        $this->assertFalse($offer->isAcceptedGender(Gender::MALE()));
+    }
+
+    public function testIsAcceptedGenderWhenCompareTheSameGender(): void
+    {
+        $offer = new TicketOfferWithNumberOfDaysAndGender(
+            new Uuid('0a536e85-6e8e-4aa4-ab6c-dffb48abd9e2'),
+            new OfferName('test'),
+            new Money(0),
+            OfferStatus::ACTIVE(),
+            new NumberOfDays(5),
+            Gender::FEMALE()
+        );
+
+        $this->assertTrue($offer->isAcceptedGender(Gender::FEMALE()));
     }
 }

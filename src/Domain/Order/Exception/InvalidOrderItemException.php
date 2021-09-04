@@ -2,6 +2,6 @@
 
 namespace App\Domain\Order\Exception;
 
-class InvalidOrderItemException extends \Exception
+class InvalidOrderItemException extends OrderException
 {
 }

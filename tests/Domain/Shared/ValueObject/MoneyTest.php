@@ -11,9 +11,9 @@ class MoneyTest extends TestCase
     public function testSuccessfulCreatePrice(): void
     {
         $price = new Money(1.12);
-        $this->assertEquals(1.12, $price->getPrice());
+        $this->assertEquals(1.12, $price->getValue());
         $price = new Money(0);
-        $this->assertEquals(0, $price->getPrice());
+        $this->assertEquals(0, $price->getValue());
     }
 
     public function testFailedCreatePriceWhenNegativeNumber(): void

@@ -85,7 +85,7 @@ class DoctrineOfferRepository extends DoctrineRepository implements OfferReposit
 
     private function updateDbOfferFields(OfferTicket $offerTicket, DbOffer $dbOffer)
     {
-        $dbOffer->setPrice($offerTicket->getPrice()->getPrice());
+        $dbOffer->setPrice($offerTicket->getPrice()->getValue());
         $dbOffer->setName((string) $offerTicket->getName());
         $dbOffer->setQuantity($offerTicket->getQuantity()->getValue());
     }

@@ -48,7 +48,7 @@ abstract class OfferTicket extends DomainModel
         return $this->status;
     }
 
-    public function isActive(): bool
+    public function canBeOrdered(): bool
     {
         return $this->status->isTheSameType(OfferStatus::ACTIVE());
     }
