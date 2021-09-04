@@ -2,6 +2,7 @@
 
 namespace App\Tests\UI\Offer\Http\DataProvider;
 
+use App\Application\Offer\Dto\Filter;
 use App\Application\Offer\Dto\OfferDto as ApplicationDto;
 use App\Application\Offer\Service\GetOfferService;
 use App\Domain\Offer\Model\OfferStatus;
@@ -34,7 +35,7 @@ class OfferCollectionDataProviderTest extends TestCase
         );
     }
 
-    public function testGetItemWhenOfferExist(): void
+    public function testGetCollection(): void
     {
         $dto = new ApplicationDto(
             '7d24cece-b0c6-4657-95d5-31180ebfc8e1',
@@ -45,7 +46,7 @@ class OfferCollectionDataProviderTest extends TestCase
             3,
             Gender::MALE
         );
-        $this->getOfferServiceMock->getAllOffer()
+        $this->getOfferServiceMock->getAllOffer(Argument::type(Filter::class))
             ->willReturn(new ArrayCollection([$dto]));
 
         $httpDto = (new OfferDto())
@@ -59,7 +60,7 @@ class OfferCollectionDataProviderTest extends TestCase
         $this->offerDtoConverterMock->createHttpFromApplicationDtoCollection(Argument::type(ArrayCollection::class))
             ->willReturn(new ArrayCollection([$httpDto]));
 
-        $result = $this->dataProvider->getCollection(OfferDto::class);
+        $result = $this->dataProvider->getCollection(OfferDto::class, 'get', ['search_filter' => ['name' => 'offer']]);
         $this->assertInstanceOf(OfferDto::class, $result->first());
     }
 }

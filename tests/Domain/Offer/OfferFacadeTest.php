@@ -3,6 +3,7 @@
 namespace App\Tests\Domain\Offer;
 
 use App\Domain\Offer\Exception\OfferNotFoundException;
+use App\Domain\Offer\Model\Filter;
 use App\Domain\Offer\Model\OfferName;
 use App\Domain\Offer\Model\OfferStatus;
 use App\Domain\Offer\Model\TicketOfferWithNumberOfDays;
@@ -63,10 +64,10 @@ class OfferFacadeTest extends TestCase
             new NumberOfDays(4)
         );
         $this->offerRepositoryMock
-            ->getAll()
+            ->getAll(new Filter())
             ->willReturn(new ArrayCollection([$offerTicket]));
 
-        $result = $this->facade->getAllOffers();
+        $result = $this->facade->getAllOffers(new Filter());
         $this->assertInstanceOf(TicketOfferWithNumberOfDays::class, $result->first());
     }
 }

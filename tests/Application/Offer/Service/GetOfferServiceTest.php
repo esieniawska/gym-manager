@@ -3,8 +3,10 @@
 namespace App\Tests\Application\Offer\Service;
 
 use App\Application\Offer\Assembler\OfferDtoAssembler;
+use App\Application\Offer\Dto\Filter;
 use App\Application\Offer\Dto\OfferDto;
 use App\Application\Offer\Service\GetOfferService;
+use App\Domain\Offer\Model\Filter as DomainFilter;
 use App\Domain\Offer\Model\OfferName;
 use App\Domain\Offer\Model\OfferStatus;
 use App\Domain\Offer\Model\TicketOfferWithNumberOfEntriesAndGender;
@@ -82,12 +84,14 @@ class GetOfferServiceTest extends TestCase
             3,
             Gender::MALE
         );
-        $this->offerFacadeMock->getAllOffers()->willReturn(new ArrayCollection([$offer]));
+        $this->offerFacadeMock
+            ->getAllOffers(new DomainFilter('test'))
+            ->willReturn(new ArrayCollection([$offer]));
         $this->offerDtoAssemblerMock
             ->assembleAll(Argument::type(ArrayCollection::class))
             ->willReturn(new ArrayCollection([$dto]));
 
-        $result = $this->service->getAllOffer();
+        $result = $this->service->getAllOffer(new Filter('test'));
         $this->assertEquals(1, $result->count());
         $this->assertInstanceOf(OfferDto::class, $result->first());
     }

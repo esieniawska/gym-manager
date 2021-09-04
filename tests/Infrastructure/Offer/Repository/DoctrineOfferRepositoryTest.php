@@ -14,7 +14,6 @@ use App\Infrastructure\Offer\Entity\DbOffer;
 use App\Infrastructure\Offer\Enum\OfferTypeEnum;
 use App\Infrastructure\Offer\Exception\OfferNotFoundException;
 use App\Infrastructure\Offer\Repository\DoctrineOfferRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
@@ -117,36 +116,6 @@ class DoctrineOfferRepositoryTest extends TestCase
 
         $result = $this->repository->getOfferById(new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'));
         $this->assertInstanceOf(TicketOfferWithNumberOfEntriesAndGender::class, $result);
-    }
-
-    public function testGetAllOffers(): void
-    {
-        $entityRepository = $this->prophesize(EntityRepository::class);
-        $dbOffer = new DbOffer(
-            RamseyUuid::fromString('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
-            'offer-name',
-            OfferStatus::ACTIVE(),
-            OfferTypeEnum::TYPE_NUMBER_OF_ENTRIES(),
-            1.02,
-            3,
-            Gender::MALE(),
-        );
-        $entityRepository->findAll()->willReturn([$dbOffer]);
-        $this->entityManagerMock->getRepository(Argument::type('string'))->willReturn($entityRepository->reveal());
-
-        $offer = new TicketOfferWithNumberOfEntriesAndGender(
-            new Uuid('7d24cece-b0c6-4657-95d5-31180ebfc8e1'),
-            new OfferName('offer-name'),
-            new Money(1.02),
-            OfferStatus::ACTIVE(),
-            new NumberOfEntries(3),
-            Gender::MALE()
-        );
-        $this->converterMock->convertAllDbModelToDomainObject(Argument::type('array'))
-            ->willReturn(new ArrayCollection([$offer]));
-
-        $result = $this->repository->getAll();
-        $this->assertInstanceOf(TicketOfferWithNumberOfEntriesAndGender::class, $result->first());
     }
 
     public function testUpdateOfferWhenEntityExist(): void

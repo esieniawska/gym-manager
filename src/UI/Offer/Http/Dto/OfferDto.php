@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\UI\Offer\Http\Dto;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Domain\Client\Model\ClientStatus;
 use App\Domain\Offer\Model\OfferStatus;
 use App\Domain\Shared\ValueObject\Gender;
 use App\Domain\Shared\ValueObject\Money;
+use App\UI\Offer\Http\Filter\OfferFilter;
 use App\UI\Shared\Dto\BaseDto;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -155,7 +157,11 @@ use Symfony\Component\Validator\Constraints as Assert;
             ],
         ],
     ],
+    attributes: [
+        'pagination_enabled' => false,
+    ],
 )]
+#[ApiFilter(OfferFilter::class, properties: ['name', 'status'])]
 class OfferDto implements BaseDto
 {
     public const GROUP_WRITE = __CLASS__.'.write';
