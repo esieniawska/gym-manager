@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Offer\Model;
 
+use App\Domain\Offer\Exception\InvalidOfferStatusException;
 use App\Domain\Offer\Exception\OfferUpdateBlockedException;
 use App\Domain\Shared\Model\DomainModel;
 use App\Domain\Shared\ValueObject\Money;
@@ -54,30 +55,53 @@ abstract class OfferTicket extends DomainModel
 
     public function disableEditing(): void
     {
+        if ($this->editingDisabled()) {
+            throw new InvalidOfferStatusException('Offer is already blocked.');
+        }
+
         $this->status = OfferStatus::NOT_ACTIVE();
     }
 
     public function enableEditing(): void
     {
+        if (!$this->editingDisabled()) {
+            throw new InvalidOfferStatusException('Offer is already active.');
+        }
+
         $this->status = OfferStatus::ACTIVE();
     }
 
+    /**
+     * @throws OfferUpdateBlockedException
+     */
     public function updateOfferName(OfferName $name): void
     {
         $this->ensureIsEnabledEditing();
         $this->name = $name;
     }
 
+    /**
+     * @throws OfferUpdateBlockedException
+     */
     public function updatePrice(Money $price): void
     {
         $this->ensureIsEnabledEditing();
         $this->price = $price;
     }
 
+    /**
+     * @throws OfferUpdateBlockedException
+     */
+    public function updateQuantity(PositiveValue $value): void
+    {
+        $this->ensureIsEnabledEditing();
+        $this->quantity = $value;
+    }
+
     protected function ensureIsEnabledEditing(): void
     {
         if ($this->editingDisabled()) {
-            throw new OfferUpdateBlockedException('Offer update blocked');
+            throw new OfferUpdateBlockedException('Offer update blocked.');
         }
     }
 

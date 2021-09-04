@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Domain\Offer;
 
 use App\Domain\Offer\Exception\OfferNotFoundException;
+use App\Domain\Offer\Model\Filter;
 use App\Domain\Offer\Model\OfferTicket;
 use App\Domain\Offer\Repository\OfferRepository;
 use App\Domain\Shared\ValueObject\Uuid;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class OfferFacade
 {
@@ -27,5 +29,10 @@ class OfferFacade
         }
 
         return $offer;
+    }
+
+    public function getAllOffers(Filter $filter): ArrayCollection
+    {
+        return $this->offerRepository->getAll($filter);
     }
 }

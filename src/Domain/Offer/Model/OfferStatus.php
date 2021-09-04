@@ -17,15 +17,10 @@ class OfferStatus extends Enum
     public const ACTIVE = 'ACTIVE';
     public const NOT_ACTIVE = 'NOT_ACTIVE';
 
-    public const STATUSES = [
+    public const ALL = [
         self::ACTIVE,
         self::NOT_ACTIVE,
     ];
-
-    public function __construct(protected string $status)
-    {
-        parent::__construct($status);
-    }
 
     protected static function throwExceptionForInvalidValue(string $value): void
     {
