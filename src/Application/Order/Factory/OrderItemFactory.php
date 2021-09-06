@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Application\Order\Factory;
 
 use App\Domain\Offer\Model\OfferTicket;
-use App\Domain\Offer\Model\TicketOfferWithNumberOfDays;
-use App\Domain\Offer\Model\TicketOfferWithNumberOfEntries;
+use App\Domain\Offer\Model\OfferWithNumberOfDays;
+use App\Domain\Offer\Model\OfferWithNumberOfEntries;
 use App\Domain\Order\Model\OrderItem;
 use App\Domain\Order\Model\TicketWithNumberOfDays;
 use App\Domain\Order\Model\TicketWithNumberOfEntries;
@@ -19,16 +19,16 @@ class OrderItemFactory
     public function createOrderItem(OfferTicket $offerTicket): OrderItem
     {
         switch ($offerTicket) {
-            case $offerTicket instanceof TicketOfferWithNumberOfDays:
+            case $offerTicket instanceof OfferWithNumberOfDays:
               return $this->createTicketWithNumberOfDays($offerTicket);
-            case $offerTicket instanceof TicketOfferWithNumberOfEntries:
+            case $offerTicket instanceof OfferWithNumberOfEntries:
                 return $this->createTicketWithNumberOfEntries($offerTicket);
             default:
                 throw new InvalidValueException('Invalid class');
         }
     }
 
-    private function createTicketWithNumberOfDays(TicketOfferWithNumberOfDays $offerTicket): TicketWithNumberOfDays
+    private function createTicketWithNumberOfDays(OfferWithNumberOfDays $offerTicket): TicketWithNumberOfDays
     {
         return new TicketWithNumberOfDays(
             $offerTicket->getId(),
@@ -37,7 +37,7 @@ class OrderItemFactory
         );
     }
 
-    private function createTicketWithNumberOfEntries(TicketOfferWithNumberOfEntries $offerTicket): TicketWithNumberOfEntries
+    private function createTicketWithNumberOfEntries(OfferWithNumberOfEntries $offerTicket): TicketWithNumberOfEntries
     {
         return new TicketWithNumberOfEntries(
             $offerTicket->getId(),
