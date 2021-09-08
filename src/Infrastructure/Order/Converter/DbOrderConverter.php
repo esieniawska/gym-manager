@@ -26,7 +26,7 @@ class DbOrderConverter extends DbCollectionConverter
             RamseyUuid::fromString((string) $order->getOrderItem()->getOfferId()),
             (string) $order->getBuyer()->getCardNumber(),
             $this->getDbType($order->getOrderItem()),
-            $order->getOrderItem()->getPrice()->getValue(),
+            $order->getOrderItem()->getPrice()->getIntValue(),
             $order->getOrderItem()->getQuantity()->getValue(),
             $order->getStartDate(),
             $order->getCreatedAt()

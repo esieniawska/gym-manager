@@ -75,7 +75,7 @@ class TicketOfferWithNumberOfDaysAndGenderTest extends TestCase
         $offer->enableEditing();
         $offer->updatePrice(new Money(5));
 
-        $this->assertEquals(5, $offer->getPrice()->getValue());
+        $this->assertEquals(0.05, $offer->getPrice()->getFloatValue());
     }
 
     public function testFailedEnableEditingWhenOfferIsActive(): void

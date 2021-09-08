@@ -39,9 +39,9 @@ class DbOrder implements DbEntity
     private OrderTypeEnum $type;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="integer")
      */
-    private float $price;
+    private int $price;
 
     /**
      * @ORM\Column(type="integer")
@@ -63,7 +63,7 @@ class DbOrder implements DbEntity
         UuidInterface $orderItemId,
         string $buyerCardNumber,
         OrderTypeEnum $type,
-        float $price,
+        int $price,
         int $quantity,
         DateTimeImmutable $startDate,
         DateTimeImmutable $createdAt
@@ -88,7 +88,7 @@ class DbOrder implements DbEntity
         return $this->type;
     }
 
-    public function getPrice(): float
+    public function getPrice(): int
     {
         return $this->price;
     }

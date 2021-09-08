@@ -20,7 +20,7 @@ class OfferFactoryTest extends TestCase
             'offer-name',
             OfferStatus::ACTIVE(),
             OfferTypeEnum::TYPE_NUMBER_OF_DAYS(),
-            1.02,
+            102,
             3,
             null
         );
@@ -37,7 +37,7 @@ class OfferFactoryTest extends TestCase
             'offer-name',
             OfferStatus::ACTIVE(),
             OfferTypeEnum::TYPE_NUMBER_OF_ENTRIES(),
-            1.02,
+            102,
             3,
             null
         );

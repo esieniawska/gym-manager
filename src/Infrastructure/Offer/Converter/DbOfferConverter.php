@@ -35,7 +35,7 @@ class DbOfferConverter extends DbCollectionConverter
             (string) $offerTicket->getName(),
             $offerTicket->getStatus(),
             $this->getDbType($offerTicket),
-            $offerTicket->getPrice()->getValue(),
+            $offerTicket->getPrice()->getIntValue(),
             $offerTicket->getQuantity()->getValue(),
             $this->getGenderFromDomainModel($offerTicket)
         );
