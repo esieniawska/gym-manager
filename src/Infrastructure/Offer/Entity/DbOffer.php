@@ -40,9 +40,9 @@ class DbOffer implements DbEntity
     private OfferTypeEnum $type;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="integer")
      */
-    private float $price;
+    private int $price;
 
     /**
      * @ORM\Column(type="integer")
@@ -59,7 +59,7 @@ class DbOffer implements DbEntity
         string $name,
         OfferStatus $status,
         OfferTypeEnum $type,
-        float $price,
+        int $price,
         int $quantity,
         ?Gender $gender
     ) {
@@ -92,7 +92,7 @@ class DbOffer implements DbEntity
         return $this->type;
     }
 
-    public function getPrice(): float
+    public function getPrice(): int
     {
         return $this->price;
     }
@@ -117,7 +117,7 @@ class DbOffer implements DbEntity
         $this->status = $status;
     }
 
-    public function setPrice(float $price): void
+    public function setPrice(int $price): void
     {
         $this->price = $price;
     }

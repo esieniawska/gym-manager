@@ -22,7 +22,7 @@ class OfferDtoAssembler extends DtoCollectionAssembler
             (string) $domainModel->getId(),
             $this->getType($domainModel),
             (string) $domainModel->getName(),
-            $domainModel->getPrice()->getValue(),
+            $domainModel->getPrice()->getFloatValue(),
             (string) $domainModel->getStatus(),
             $domainModel->getQuantity()->getValue(),
             $this->getGender($domainModel)

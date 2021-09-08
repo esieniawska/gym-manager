@@ -2,11 +2,10 @@
 
 namespace App\Tests\Application\Order\Specification;
 
+use App\Application\Offer\Dto\OfferDto;
 use App\Application\Order\Exception\OrderFailedException;
 use App\Application\Order\Specification\OfferSpecification;
 use App\Application\Order\Specification\OfferSpecificationValidator;
-use App\Domain\Offer\Model\OfferTicket;
-use App\Domain\Offer\Model\TicketOfferWithNumberOfEntries;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -28,23 +27,23 @@ class OfferSpecificationValidatorTest extends TestCase
     public function testCheckIsValidOfferWhenOfferIsNotValid(): void
     {
         $this->specificationMock
-            ->isSatisfiedBy(Argument::type(OfferTicket::class))
+            ->isSatisfiedBy(Argument::type(OfferDto::class))
             ->shouldBeCalled()
             ->willReturn(false);
 
         $this->expectException(OrderFailedException::class);
-        $orderItem = $this->prophesize(TicketOfferWithNumberOfEntries::class);
+        $orderItem = $this->prophesize(OfferDto::class);
         $this->validator->checkIsValidOffer($orderItem->reveal());
     }
 
     public function testCheckIsValidOfferWhenOfferIsValid(): void
     {
         $this->specificationMock
-            ->isSatisfiedBy(Argument::type(OfferTicket::class))
+            ->isSatisfiedBy(Argument::type(OfferDto::class))
             ->shouldBeCalled()
             ->willReturn(true);
 
-        $orderItem = $this->prophesize(TicketOfferWithNumberOfEntries::class);
+        $orderItem = $this->prophesize(OfferDto::class);
         $this->validator->checkIsValidOffer($orderItem->reveal());
     }
 }

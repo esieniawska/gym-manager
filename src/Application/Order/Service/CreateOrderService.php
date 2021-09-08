@@ -4,19 +4,24 @@ declare(strict_types=1);
 
 namespace App\Application\Order\Service;
 
+use App\Application\Client\ClientFacade;
+use App\Application\Client\Dto\ClientDto;
+use App\Application\Client\Exception\ClientCanNotCreateOrderException;
+use App\Application\Client\Exception\ClientNotFoundException;
+use App\Application\Offer\Dto\OfferDto;
+use App\Application\Offer\Exception\OfferCanNotBeOrderedException;
+use App\Application\Offer\Exception\OfferNotFoundException;
+use App\Application\Offer\OfferFacade;
 use App\Application\Order\Dto\CreateOrderDto;
 use App\Application\Order\Exception\OrderFailedException;
 use App\Application\Order\Factory\OrderItemFactory;
 use App\Application\Order\Validator\OrderValidator;
-use App\Domain\Client\ClientFacade;
-use App\Domain\Client\Model\Client;
-use App\Domain\Offer\Model\OfferTicket;
-use App\Domain\Offer\OfferFacade;
 use App\Domain\Order\Event\DomainEventPublisher;
 use App\Domain\Order\Model\Buyer;
 use App\Domain\Order\Model\Order;
 use App\Domain\Order\Repository\OrderRepository;
 use App\Domain\Shared\Exception\InvalidValueException;
+use App\Domain\Shared\ValueObject\CardNumber;
 
 class CreateOrderService
 {
@@ -31,8 +36,12 @@ class CreateOrderService
     }
 
     /**
-     * @throws OrderFailedException
+     * @throws ClientCanNotCreateOrderException
+     * @throws ClientNotFoundException
      * @throws InvalidValueException
+     * @throws OfferCanNotBeOrderedException
+     * @throws OfferNotFoundException
+     * @throws OrderFailedException
      */
     public function create(CreateOrderDto $orderDto): void
     {
@@ -55,30 +64,26 @@ class CreateOrderService
         $this->eventPublisher->publishOrderCreatedEvent($order);
     }
 
-    private function getClientThatCanOrder(string $cardNumber): Client
+    /**
+     * @throws ClientNotFoundException
+     * @throws ClientCanNotCreateOrderException
+     */
+    private function getClientThatCanOrder(string $cardNumber): ClientDto
     {
-        $client = $this->clientFacade->getClientByCardNumber($cardNumber);
-
-        if (!$client->canCreateOrder()) {
-            throw new OrderFailedException('Client can\'t create order.');
-        }
-
-        return $client;
+        return $this->clientFacade->getClientByCardNumberThatCanOrder($cardNumber);
     }
 
-    private function getOfferThatCanBeOrdered(string $offerId): OfferTicket
+    /**
+     * @throws OfferCanNotBeOrderedException
+     * @throws OfferNotFoundException
+     */
+    private function getOfferThatCanBeOrdered(string $offerId): OfferDto
     {
-        $offerTicket = $this->offerFacade->getOfferById($offerId);
-
-        if (!$offerTicket->canBeOrdered()) {
-            throw new OrderFailedException('Offer can\'t be ordered.');
-        }
-
-        return $offerTicket;
+        return $this->offerFacade->getOfferByIdThatCanBeOrdered($offerId);
     }
 
-    private function createBuyer(Client $client): Buyer
+    private function createBuyer(ClientDto $client): Buyer
     {
-        return new Buyer($client->getCardNumber());
+        return new Buyer(new CardNumber($client->getCardNumber()));
     }
 }

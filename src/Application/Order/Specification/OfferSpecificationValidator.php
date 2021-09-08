@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Application\Order\Specification;
 
+use App\Application\Offer\Dto\OfferDto;
 use App\Application\Order\Exception\OrderFailedException;
-use App\Domain\Offer\Model\OfferTicket;
 
 class OfferSpecificationValidator
 {
@@ -13,7 +13,7 @@ class OfferSpecificationValidator
     {
     }
 
-    public function checkIsValidOffer(OfferTicket $offerTicket): void
+    public function checkIsValidOffer(OfferDto $offerTicket): void
     {
         if (!$this->specification->isSatisfiedBy($offerTicket)) {
             throw new OrderFailedException($this->errorMessage);

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Offer\Exception;
+namespace App\Application\Offer\Exception;
 
 class OfferNotFoundException extends OfferException
 {
