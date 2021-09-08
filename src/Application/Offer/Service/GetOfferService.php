@@ -7,9 +7,9 @@ namespace App\Application\Offer\Service;
 use App\Application\Offer\Assembler\OfferDtoAssembler;
 use App\Application\Offer\Dto\Filter;
 use App\Application\Offer\Dto\OfferDto;
-use App\Domain\Offer\Exception\OfferNotFoundException;
+use App\Application\Offer\Exception\OfferNotFoundException;
+use App\Application\Offer\OfferFacade;
 use App\Domain\Offer\Model\Filter as DomainFilter;
-use App\Domain\Offer\OfferFacade;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class GetOfferService

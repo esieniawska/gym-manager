@@ -6,8 +6,8 @@ namespace App\UI\Offer\Http\DataProvider;
 
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
+use App\Application\Offer\Exception\OfferNotFoundException;
 use App\Application\Offer\Service\GetOfferService;
-use App\Domain\Offer\Exception\OfferNotFoundException;
 use App\Domain\Shared\Exception\InvalidValueException;
 use App\UI\Offer\Converter\OfferDtoConverter;
 use App\UI\Offer\Http\Dto\OfferDto;

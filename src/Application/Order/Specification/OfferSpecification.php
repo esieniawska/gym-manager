@@ -2,9 +2,9 @@
 
 namespace App\Application\Order\Specification;
 
-use App\Domain\Offer\Model\OfferTicket;
+use App\Application\Offer\Dto\OfferDto;
 
 interface OfferSpecification
 {
-    public function isSatisfiedBy(OfferTicket $offerTicket): bool;
+    public function isSatisfiedBy(OfferDto $offerTicket): bool;
 }

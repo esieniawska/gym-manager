@@ -3,8 +3,8 @@
 namespace App\Tests\UI\Offer\Http\DataProvider;
 
 use App\Application\Offer\Dto\OfferDto as ApplicationDto;
+use App\Application\Offer\Exception\OfferNotFoundException;
 use App\Application\Offer\Service\GetOfferService;
-use App\Domain\Offer\Exception\OfferNotFoundException;
 use App\Domain\Offer\Model\OfferStatus;
 use App\Domain\Shared\Exception\InvalidValueException;
 use App\Domain\Shared\ValueObject\Gender;

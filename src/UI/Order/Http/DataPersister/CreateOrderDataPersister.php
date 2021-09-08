@@ -5,12 +5,17 @@ declare(strict_types=1);
 namespace App\UI\Order\Http\DataPersister;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
+use App\Application\Client\Exception\ClientCanNotCreateOrderException;
+use App\Application\Client\Exception\ClientNotFoundException;
+use App\Application\Offer\Exception\OfferCanNotBeOrderedException;
+use App\Application\Offer\Exception\OfferNotFoundException;
 use App\Application\Order\Dto\CreateOrderDto;
 use App\Application\Order\Exception\OrderFailedException;
 use App\Application\Order\Service\CreateOrderService;
 use App\UI\Order\Http\Dto\CreateOrderForm;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CreateOrderDataPersister implements ContextAwareDataPersisterInterface
 {
@@ -36,8 +41,10 @@ class CreateOrderDataPersister implements ContextAwareDataPersisterInterface
         );
         try {
             $this->createOrderService->create($dto);
-        } catch (OrderFailedException $e) {
+        } catch (OrderFailedException | ClientCanNotCreateOrderException | OfferCanNotBeOrderedException $e) {
             throw new BadRequestHttpException($e->getMessage());
+        } catch (ClientNotFoundException | OfferNotFoundException  $e) {
+            throw new NotFoundHttpException($e->getMessage());
         }
 
         return null;
