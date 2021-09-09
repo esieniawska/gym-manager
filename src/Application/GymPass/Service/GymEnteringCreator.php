@@ -37,6 +37,6 @@ class GymEnteringCreator
         }
 
         $gymPass->addGymEntering(new GymEntering(new \DateTimeImmutable()));
-        $this->repository->updateGymPassEntries($gymPass);
+        $this->repository->addLastGymPassEntering($gymPass);
     }
 }

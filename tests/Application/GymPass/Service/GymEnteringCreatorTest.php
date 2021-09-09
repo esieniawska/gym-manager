@@ -80,7 +80,7 @@ class GymEnteringCreatorTest extends TestCase
             '0760bc37-30a5-446a-b129-90403382827b'
         );
 
-        $this->repositoryMock->updateGymPassEntries(Argument::type(GymPass::class))->shouldBeCalled();
+        $this->repositoryMock->addLastGymPassEntering(Argument::type(GymPass::class))->shouldBeCalled();
         $this->creator->create($dto);
     }
 }

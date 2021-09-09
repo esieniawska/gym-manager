@@ -6,7 +6,8 @@ api_platform:
                 '%kernel.project_dir%/src/UI/User/Http/Dto',
                 '%kernel.project_dir%/src/UI/Client/Http/Dto',
                 '%kernel.project_dir%/src/UI/Offer/Http/Dto',
-                '%kernel.project_dir%/src/UI/Order/Http/Dto'
+                '%kernel.project_dir%/src/UI/Order/Http/Dto',
+                '%kernel.project_dir%/src/UI/GymPass/Http/Dto'
         ]
     patch_formats:
         json: ['application/merge-patch+json']
