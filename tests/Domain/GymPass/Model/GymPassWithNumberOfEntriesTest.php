@@ -18,7 +18,7 @@ class GymPassWithNumberOfEntriesTest extends TestCase
         $gymPass = new GymPassWithNumberOfEntries(
             new Uuid('136a74eb-0468-466b-8dd4-c5149f284223'),
             new Client(new CardNumber('3da8b78de7732860e770d2a0a17b7b82')),
-            new \DateTimeImmutable(),
+            (new \DateTimeImmutable())->setTime(0, 0),
             new NumberOfEntries(3)
         );
 
@@ -27,7 +27,9 @@ class GymPassWithNumberOfEntriesTest extends TestCase
 
     public function testCanUsePassBeforeStart(): void
     {
-        $startDate = (new \DateTimeImmutable())->add(new \DateInterval('P2D'));
+        $startDate = (new \DateTimeImmutable())
+            ->setTime(0, 0)
+            ->add(new \DateInterval('P2D'));
 
         $gymPass = new GymPassWithNumberOfEntries(
             new Uuid('136a74eb-0468-466b-8dd4-c5149f284223'),
@@ -41,7 +43,9 @@ class GymPassWithNumberOfEntriesTest extends TestCase
 
     public function testAddGymEnteringBeforeStart(): void
     {
-        $startDate = (new \DateTimeImmutable())->add(new \DateInterval('P2D'));
+        $startDate = (new \DateTimeImmutable())
+            ->setTime(0, 0)
+            ->add(new \DateInterval('P2D'));
 
         $gymPass = new GymPassWithNumberOfEntries(
             new Uuid('136a74eb-0468-466b-8dd4-c5149f284223'),
@@ -59,7 +63,7 @@ class GymPassWithNumberOfEntriesTest extends TestCase
         $gymPass = new GymPassWithNumberOfEntries(
             new Uuid('136a74eb-0468-466b-8dd4-c5149f284223'),
             new Client(new CardNumber('3da8b78de7732860e770d2a0a17b7b82')),
-            new \DateTimeImmutable(),
+            (new \DateTimeImmutable())->setTime(0, 0),
             new NumberOfEntries(3)
         );
 
@@ -75,7 +79,7 @@ class GymPassWithNumberOfEntriesTest extends TestCase
         $gymPass = new GymPassWithNumberOfEntries(
             new Uuid('136a74eb-0468-466b-8dd4-c5149f284223'),
             new Client(new CardNumber('3da8b78de7732860e770d2a0a17b7b82')),
-            new \DateTimeImmutable(),
+            (new \DateTimeImmutable())->setTime(0, 0),
             new NumberOfEntries(3)
         );
 

@@ -50,7 +50,25 @@ class GymPassFactoryTest extends TestCase
 
         $result = $factory->createGymPassFromEvent($event);
         $this->assertInstanceOf(GymPassWithEndDate::class, $result);
-        $this->assertEquals('23-11-2020', $result->getEndDate()->format('d-m-Y'));
+        $this->assertEquals('22-11-2020', $result->getEndDate()->format('d-m-Y'));
+    }
+
+    public function testCreateGymPassWithEndDateAndOneDay(): void
+    {
+        $event = new OrderForTicketNumberOfDaysCreated(
+            '7d24cece-b0c6-4657-95d5-31180ebfc8e1',
+            '3da8b78de7732860e770d2a0a17b7b82',
+            new \DateTimeImmutable('20-11-2020'),
+            1
+        );
+
+        $repository = $this->prophesize(GymPassRepository::class);
+        $repository->nextIdentity()->willReturn(new Uuid('77c9e11a-74a6-4d02-8ae5-3d41c54dac98'));
+        $factory = new GymPassFactory($repository->reveal());
+
+        $result = $factory->createGymPassFromEvent($event);
+        $this->assertInstanceOf(GymPassWithEndDate::class, $result);
+        $this->assertEquals('20-11-2020', $result->getEndDate()->format('d-m-Y'));
     }
 
     public function testTryCreateGymPassWhenInvalidEvent(): void

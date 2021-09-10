@@ -2,6 +2,6 @@
 
 namespace App\Infrastructure\GymPass\Exception;
 
-class InvalidGymPassTypeException extends GymPassException
+class GymPassNotFoundException extends GymPassException
 {
 }

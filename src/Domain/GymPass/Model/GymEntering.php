@@ -7,7 +7,7 @@ namespace App\Domain\GymPass\Model;
 class GymEntering
 {
     public function __construct(
-       private \DateTimeImmutable $date
+        private \DateTimeImmutable $date
     ) {
     }
 

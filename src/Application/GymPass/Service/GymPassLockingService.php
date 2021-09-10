@@ -34,7 +34,7 @@ class GymPassLockingService
         }
 
         if (!$gymPass instanceof GymPassWithEndDate) {
-            throw new InvalidGymPassTypeException();
+            throw new InvalidGymPassTypeException('Invalid gym pass type.');
         }
 
         $gymPass->lockGymPass(new NumberOfDays($dto->getNumberOfDays()));

@@ -70,7 +70,7 @@ class GymEnteringCreatorTest extends TestCase
         $gymPass = new GymPassWithNumberOfEntries(
             new Uuid('0760bc37-30a5-446a-b129-90403382827b'),
             new Client(new CardNumber('f9e33d75d79bf46e4873b4f920626888')),
-            new \DateTimeImmutable(),
+            (new \DateTimeImmutable())->setTime(0, 0),
             new NumberOfEntries(4)
         );
         $this->repositoryMock->getGymPass(Argument::type(Uuid::class))->willReturn($gymPass);
@@ -80,7 +80,7 @@ class GymEnteringCreatorTest extends TestCase
             '0760bc37-30a5-446a-b129-90403382827b'
         );
 
-        $this->repositoryMock->updateGymPassEntries(Argument::type(GymPass::class))->shouldBeCalled();
+        $this->repositoryMock->addLastGymPassEntering(Argument::type(GymPass::class))->shouldBeCalled();
         $this->creator->create($dto);
     }
 }

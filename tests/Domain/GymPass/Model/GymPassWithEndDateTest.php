@@ -14,11 +14,12 @@ class GymPassWithEndDateTest extends TestCase
 {
     public function testCanUsePassWhenThisSameDateAsStartDate(): void
     {
-        $endDate = (new \DateTimeImmutable())->add(new \DateInterval('P2D'));
+        $baseDate = (new \DateTimeImmutable())->setTime(0, 0);
+        $endDate = $baseDate->add(new \DateInterval('P2D'));
         $gymPass = new GymPassWithEndDate(
             new Uuid('136a74eb-0468-466b-8dd4-c5149f284223'),
             new Client(new CardNumber('3da8b78de7732860e770d2a0a17b7b82')),
-            new \DateTimeImmutable(),
+            $baseDate,
             $endDate
         );
 
@@ -86,7 +87,9 @@ class GymPassWithEndDateTest extends TestCase
     public function testSuccessfulLockGymPass(): void
     {
         $startDate = (new \DateTimeImmutable())->modify('-1 day');
-        $endDate = (new \DateTimeImmutable())->add(new \DateInterval('P2D'));
+        $endDate = (new \DateTimeImmutable())
+            ->setTime(0, 0)
+            ->add(new \DateInterval('P2D'));
         $gymPass = new GymPassWithEndDate(
             new Uuid('136a74eb-0468-466b-8dd4-c5149f284223'),
             new Client(new CardNumber('3da8b78de7732860e770d2a0a17b7b82')),
@@ -95,7 +98,7 @@ class GymPassWithEndDateTest extends TestCase
         );
 
         $gymPass->lockGymPass(new NumberOfDays(5));
-        $newEndDate = $endDate->add(new \DateInterval('P4D'));
+        $newEndDate = $endDate->add(new \DateInterval('P5D'));
         $endLockDate = (new \DateTimeImmutable())->add(new \DateInterval('P4D'));
 
         $this->assertEquals($newEndDate->format('Y-m-d'), $gymPass->getEndDate()->format('Y-m-d'));
