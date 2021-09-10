@@ -3,6 +3,7 @@
 namespace App\Domain\GymPass\Repository;
 
 use App\Domain\GymPass\Model\GymPass;
+use App\Domain\GymPass\Model\GymPassWithEndDate;
 use App\Domain\Shared\ValueObject\Uuid;
 
 interface GymPassRepository
@@ -15,5 +16,5 @@ interface GymPassRepository
 
     public function addLastGymPassEntering(GymPass $gymPass): void;
 
-    public function updateGymPassDates(GymPass $gymPass): void;
+    public function updateGymPassDates(GymPassWithEndDate $gymPass): void;
 }

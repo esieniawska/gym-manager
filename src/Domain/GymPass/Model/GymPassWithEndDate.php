@@ -57,15 +57,11 @@ class GymPassWithEndDate extends GymPass
             throw new InactiveGymPassException('Inactive gym pass');
         }
 
-        $this->lockStartDate = new \DateTimeImmutable();
-        $this->lockEndDate = (new \DateTimeImmutable())
+        $this->lockStartDate = (new \DateTimeImmutable())->setTime(0, 0);
+        $this->lockEndDate = $this->lockStartDate
             ->add(new DateInterval(sprintf('P%dD', $days->getValue() - 1)));
 
-        $numberOfDaysAreLeft = $this->endDate->diff($this->lockStartDate)->days;
-
-        if (1 === $days->getValue()) {
-            ++$numberOfDaysAreLeft;
-        }
+        $numberOfDaysAreLeft = $this->endDate->diff($this->lockStartDate)->days + 1;
 
         $this->updateEndDate($numberOfDaysAreLeft);
     }

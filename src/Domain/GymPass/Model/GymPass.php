@@ -33,7 +33,7 @@ abstract class GymPass extends DomainModel
 
     public function canUsePass(): bool
     {
-        $currentDate = new \DateTimeImmutable();
+        $currentDate = (new \DateTimeImmutable())->setTime(0, 0);
         $isGreaterOrEqualsDateThanStartDate = $currentDate->getTimestamp() >= $this->startDate->getTimestamp();
 
         return $isGreaterOrEqualsDateThanStartDate && $this->isActive($currentDate);

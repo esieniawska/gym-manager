@@ -55,4 +55,19 @@ class DbGymPassWithEndDate extends DbGymPass
     {
         return $this->lockEndDate;
     }
+
+    public function setEndDate(DateTimeImmutable $endDate): void
+    {
+        $this->endDate = $endDate;
+    }
+
+    public function setLockStartDate(?DateTimeImmutable $lockStartDate): void
+    {
+        $this->lockStartDate = $lockStartDate;
+    }
+
+    public function setLockEndDate(?DateTimeImmutable $lockEndDate): void
+    {
+        $this->lockEndDate = $lockEndDate;
+    }
 }
